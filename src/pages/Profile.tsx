@@ -12,18 +12,19 @@ const AREA_LABEL: Record<CampusArea, string> = {
 
 export default function Profile() {
   const prefs = usePreferences();
-  const [dietary, setDietary] = useState<DietaryTag[]>(prefs.dietary);
+  // Dietary chips update the global context immediately so Home re-ranks live.
+  const dietary = prefs.dietary;
   const [area, setArea] = useState<CampusArea | null>(prefs.area);
   const [mealPlan, setMealPlan] = useState(prefs.mealPlan);
 
   const toggleDiet = (t: DietaryTag) => {
-    setDietary(d => (d.includes(t) ? d.filter(x => x !== t) : [...d, t]));
+    const next = dietary.includes(t) ? dietary.filter(x => x !== t) : [...dietary, t];
+    prefs.setDietary(next);
   };
 
   const noneSelected = dietary.length === 0;
 
   const save = () => {
-    prefs.setDietary(dietary);
     prefs.setArea(area);
     prefs.setMealPlan(mealPlan);
     toast.success("Preferences saved");
@@ -40,11 +41,14 @@ export default function Profile() {
       <section className="px-5 mt-6">
         <h2 className="font-semibold text-sm text-muted-foreground uppercase tracking-wider mb-3">Dietary preferences</h2>
         <div className="flex flex-wrap gap-2">
-          <Pill active={noneSelected} onClick={() => setDietary([])}>None</Pill>
+          <Pill active={noneSelected} onClick={() => prefs.setDietary([])}>None</Pill>
           {ALL_DIETARY.map(t => (
             <Pill key={t} active={dietary.includes(t)} onClick={() => toggleDiet(t)}>{t}</Pill>
           ))}
         </div>
+        <p className="text-[11px] text-muted-foreground mt-2">
+          Recommendations update instantly as you tap.
+        </p>
       </section>
 
       {/* Campus area */}
