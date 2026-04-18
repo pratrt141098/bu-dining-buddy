@@ -25,12 +25,17 @@ export const ALL_DIETARY: DietaryTag[] = ["Vegetarian", "Vegan", "Halal", "Glute
 export const ALL_AREAS: CampusArea[] = ["East", "West", "Central"];
 
 export function rankHalls(halls: Hall[], dietary: DietaryTag[]): Hall[] {
-  const filtered = dietary.length === 0
-    ? halls
-    : halls.filter(h => dietary.every(d => h.tags.includes(d)));
-  // Fallback: if filter empties the list, fall back to unfiltered ranking
-  const list = filtered.length > 0 ? filtered : halls;
-  return [...list].filter(h => h.status !== "Closed").sort((a, b) => a.waitMin - b.waitMin);
+  const open = halls.filter(h => h.status !== "Closed");
+  if (dietary.length === 0) {
+    return [...open].sort((a, b) => a.waitMin - b.waitMin);
+  }
+  // Score = number of selected dietary tags the hall satisfies.
+  // Higher score first; tie-break by shorter wait time.
+  const score = (h: Hall) => dietary.reduce((n, d) => n + (h.tags.includes(d) ? 1 : 0), 0);
+  return [...open].sort((a, b) => {
+    const diff = score(b) - score(a);
+    return diff !== 0 ? diff : a.waitMin - b.waitMin;
+  });
 }
 
 export function occupancyColor(pct: number): "good" | "warn" | "bad" {
