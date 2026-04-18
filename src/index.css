@@ -1,42 +1,52 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+/* BU Dining Optimizer — iOS-inspired design system. All colors HSL. */
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    --background: 40 20% 98%;
+    --foreground: 220 25% 12%;
 
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 220 25% 12%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: 220 25% 12%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    /* Teal #01696F = hsl(184 98% 22%) */
+    --primary: 184 98% 22%;
+    --primary-foreground: 0 0% 100%;
+    --primary-soft: 184 60% 94%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 210 20% 96%;
+    --secondary-foreground: 220 25% 12%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 210 20% 96%;
+    --muted-foreground: 220 10% 45%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 184 60% 94%;
+    --accent-foreground: 184 98% 22%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 220 15% 91%;
+    --input: 220 15% 91%;
+    --ring: 184 98% 22%;
 
-    --radius: 0.5rem;
+    --radius: 1rem;
+
+    /* Status colors */
+    --status-good: 142 71% 45%;     /* #22C55E */
+    --status-warn: 38 92% 50%;      /* #F59E0B */
+    --status-bad: 0 84% 60%;        /* #EF4444 */
+
+    --shadow-card: 0 1px 3px 0 hsl(220 25% 12% / 0.04), 0 4px 16px -2px hsl(220 25% 12% / 0.06);
+    --shadow-cta: 0 4px 14px -2px hsl(184 98% 22% / 0.35);
 
     --sidebar-background: 0 0% 98%;
 
@@ -99,7 +109,26 @@ All colors MUST be HSL.
     @apply border-border;
   }
 
+  html, body, #root {
+    @apply bg-muted;
+  }
+
   body {
-    @apply bg-background text-foreground;
+    @apply text-foreground antialiased;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-feature-settings: 'cv11', 'ss01';
+  }
+}
+
+@layer components {
+  .ios-card {
+    @apply bg-card rounded-2xl;
+    box-shadow: var(--shadow-card);
+  }
+  .cta-shadow {
+    box-shadow: var(--shadow-cta);
+  }
+  .no-tap-highlight {
+    -webkit-tap-highlight-color: transparent;
   }
 }

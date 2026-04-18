@@ -13,6 +13,9 @@ export default {
       },
     },
     extend: {
+      fontFamily: {
+        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -22,6 +25,12 @@ export default {
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
+          soft: "hsl(var(--primary-soft))",
+        },
+        status: {
+          good: "hsl(var(--status-good))",
+          warn: "hsl(var(--status-warn))",
+          bad: "hsl(var(--status-bad))",
         },
         secondary: {
           DEFAULT: "hsl(var(--secondary))",
