@@ -22,7 +22,7 @@ export function OccupancyBar({ pct }: { pct: number }) {
   return (
     <div className="w-full">
       <div
-        className="h-2 w-full rounded-full bg-muted overflow-hidden"
+        className="h-2 w-full rounded-full bg-white/10 overflow-hidden"
         role="progressbar"
         aria-valuenow={pct}
         aria-valuemin={0}

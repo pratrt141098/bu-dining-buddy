@@ -92,7 +92,7 @@ export default function Home() {
 
               <div className="mt-3 flex flex-wrap gap-1.5">
                 {hall.tags.map(t => (
-                  <span key={t} className="inline-flex items-center gap-1 bg-status-good/12 text-status-good text-[11px] font-semibold px-2 py-0.5 rounded-full">
+                  <span key={t} className="inline-flex items-center gap-1 bg-primary/15 text-primary text-[11px] font-semibold px-2 py-0.5 rounded-full">
                     {t} <Check className="w-3 h-3" strokeWidth={3} />
                   </span>
                 ))}
