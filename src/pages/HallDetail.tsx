@@ -75,7 +75,7 @@ export default function HallDetail() {
               <span className="font-medium text-sm text-foreground">{item.name}</span>
               <div className="flex flex-wrap gap-1 justify-end">
                 {item.tags.map(t => (
-                  <span key={t} className="inline-flex items-center gap-1 bg-status-good/12 text-status-good text-[10px] font-semibold px-1.5 py-0.5 rounded-full whitespace-nowrap">
+                  <span key={t} className="inline-flex items-center gap-1 bg-primary/15 text-primary text-[10px] font-semibold px-1.5 py-0.5 rounded-full whitespace-nowrap">
                     {t} <Check className="w-2.5 h-2.5" strokeWidth={3} />
                   </span>
                 ))}

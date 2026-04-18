@@ -16,7 +16,7 @@ export function OccupancyRing({ pct, size = 180 }: { pct: number; size?: number 
           cy={size / 2}
           r={r}
           fill="none"
-          stroke="hsl(var(--muted))"
+          stroke="hsl(0 0% 100% / 0.08)"
           strokeWidth={14}
         />
         <circle

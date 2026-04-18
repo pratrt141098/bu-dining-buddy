@@ -14,8 +14,8 @@ export function MobileShell({ children, hideTabBar = false }: { children: ReactN
   const hide = hideTabBar || pathname.startsWith("/halls/") || pathname === "/confirmed";
 
   return (
-    <div className="min-h-screen w-full flex justify-center bg-muted">
-      <div className="relative w-full max-w-[430px] min-h-screen bg-background flex flex-col shadow-xl">
+    <div className="min-h-screen w-full flex justify-center bg-background">
+      <div className="premium-shell relative w-full max-w-[430px] min-h-screen flex flex-col shadow-2xl">
         <main className={`flex-1 flex flex-col ${hide ? "pb-6" : "pb-24"}`}>
           {children}
         </main>
@@ -27,7 +27,7 @@ export function MobileShell({ children, hideTabBar = false }: { children: ReactN
 
 function BottomTabBar() {
   return (
-    <nav className="fixed bottom-0 inset-x-0 mx-auto max-w-[430px] z-40 border-t border-border bg-card/95 backdrop-blur-md">
+    <nav className="fixed bottom-0 inset-x-0 mx-auto max-w-[430px] z-40 border-t border-tabbar-border bg-tabbar/95 backdrop-blur-md">
       <div className="grid grid-cols-3 px-2 pt-2 pb-[max(0.5rem,env(safe-area-inset-bottom))]">
         {TABS.map(({ to, label, icon: Icon }) => (
           <NavLink
@@ -36,7 +36,7 @@ function BottomTabBar() {
             end={to === "/"}
             className={({ isActive }) =>
               `flex flex-col items-center justify-center gap-1 py-1.5 no-tap-highlight transition-colors ${
-                isActive ? "text-primary" : "text-muted-foreground"
+                isActive ? "text-primary" : "text-tabbar-inactive"
               }`
             }
           >
