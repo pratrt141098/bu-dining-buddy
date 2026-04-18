@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { ArrowLeft, Check, Clock } from "lucide-react";
+import { toast } from "sonner";
 import { MobileShell } from "@/components/MobileShell";
 import { OccupancyRing } from "@/components/OccupancyRing";
 import { StatusBadge } from "@/components/StatusBadge";
@@ -35,6 +36,7 @@ export default function HallDetail() {
 
   const handleHeading = () => {
     logAdoption();
+    toast("Visit logged ✓", { duration: 3000, position: "bottom-center" });
     navigate("/confirmed");
   };
 
