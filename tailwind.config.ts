@@ -32,6 +32,11 @@ export default {
           warn: "hsl(var(--status-warn))",
           bad: "hsl(var(--status-bad))",
         },
+        tabbar: {
+          DEFAULT: "hsl(var(--tabbar))",
+          border: "hsl(var(--tabbar-border))",
+          inactive: "hsl(var(--tabbar-inactive))",
+        },
         secondary: {
           DEFAULT: "hsl(var(--secondary))",
           foreground: "hsl(var(--secondary-foreground))",
