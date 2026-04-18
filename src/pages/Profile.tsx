@@ -118,6 +118,8 @@ export default function Profile() {
           </p>
         </div>
       </section>
+
+      <div className="px-5 mt-10 mb-4">
         <button
           onClick={save}
           className="cta-shadow w-full bg-primary text-primary-foreground rounded-xl py-3.5 font-semibold text-base no-tap-highlight active:scale-[0.98] transition-transform"
