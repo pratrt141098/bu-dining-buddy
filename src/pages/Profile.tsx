@@ -96,7 +96,28 @@ export default function Profile() {
         </div>
       </section>
 
-      <div className="px-5 mt-10 mb-4">
+      {/* Meal plan usage */}
+      <section className="px-5 mt-7">
+        <h2 className="font-semibold text-sm text-muted-foreground uppercase tracking-wider mb-3">Meal Plan Usage</h2>
+        <div className="ios-card px-4 py-4">
+          <div className="h-2 w-full rounded-full bg-white/10 overflow-hidden">
+            <div
+              className="h-full bg-primary rounded-full transition-[width] duration-700 ease-out"
+              style={{ width: `${Math.min(100, (prefs.mealPlanData.swipesUsedThisWeek / prefs.mealPlanData.weeklyAllowance) * 100)}%` }}
+            />
+          </div>
+          <p className="mt-2.5 text-sm font-medium text-foreground">
+            {prefs.mealPlanData.swipesUsedThisWeek} of {prefs.mealPlanData.weeklyAllowance} swipes used this week
+          </p>
+          <p className="mt-1 text-sm text-muted-foreground">
+            Dining dollars remaining: <span className="text-foreground font-semibold">${prefs.mealPlanData.dollarBalance.toFixed(2)}</span>
+          </p>
+          <p className="mt-2 text-xs font-semibold text-status-warn flex items-center gap-1.5">
+            <span aria-hidden>⚠</span>
+            At this pace, swipes run out by {prefs.mealPlanData.projectedRunOutDay}
+          </p>
+        </div>
+      </section>
         <button
           onClick={save}
           className="cta-shadow w-full bg-primary text-primary-foreground rounded-xl py-3.5 font-semibold text-base no-tap-highlight active:scale-[0.98] transition-transform"
