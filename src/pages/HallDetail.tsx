@@ -5,6 +5,7 @@ import { toast } from "sonner";
 import { MobileShell } from "@/components/MobileShell";
 import { OccupancyRing } from "@/components/OccupancyRing";
 import { StatusBadge } from "@/components/StatusBadge";
+import { FoodAvailability } from "@/components/FoodAvailability";
 import { HALLS, HALL_MENUS, rankHalls } from "@/lib/dining";
 import { usePreferences } from "@/context/PreferencesContext";
 
@@ -64,6 +65,9 @@ export default function HallDetail() {
           </span>
         </div>
         <p className="text-[11px] text-muted-foreground mt-2">Updated 4 min ago • 15-min refresh</p>
+        <div className="w-full mt-2">
+          <FoodAvailability level={hall.foodLevel} />
+        </div>
       </section>
 
       {/* Menu */}

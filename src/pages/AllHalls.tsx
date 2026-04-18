@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Star } from "lucide-react";
 import { MobileShell } from "@/components/MobileShell";
 import { StatusBadge } from "@/components/StatusBadge";
+import { FoodLevelDot } from "@/components/FoodAvailability";
 import { ALL_AREAS, CampusArea, HALLS, occupancyColor, rankHalls } from "@/lib/dining";
 import { usePreferences } from "@/context/PreferencesContext";
 
@@ -70,7 +71,10 @@ export default function AllHalls() {
                 </span>
               )}
               <div className="flex items-start justify-between gap-1">
-                <h3 className="font-semibold text-sm leading-tight text-foreground line-clamp-2">{hall.name}</h3>
+                <h3 className="font-semibold text-sm leading-tight text-foreground line-clamp-2 flex items-start gap-1.5">
+                  <FoodLevelDot level={hall.foodLevel} />
+                  <span className="line-clamp-2">{hall.name}</span>
+                </h3>
               </div>
               <StatusBadge status={hall.status} />
               <div className="mt-auto pt-2">
