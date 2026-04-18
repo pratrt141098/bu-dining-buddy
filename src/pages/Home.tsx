@@ -1,8 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { ArrowRight, Check, Clock } from "lucide-react";
+import { ArrowRight, Check, Clock, Ticket, AlertTriangle } from "lucide-react";
 import { MobileShell } from "@/components/MobileShell";
 import { OccupancyBar } from "@/components/OccupancyBar";
+import { FoodAvailability } from "@/components/FoodAvailability";
 import { HALLS, rankHalls } from "@/lib/dining";
 import { usePreferences } from "@/context/PreferencesContext";
 
@@ -15,8 +16,9 @@ function greeting() {
 
 export default function Home() {
   const navigate = useNavigate();
-  const { name, dietary } = usePreferences();
+  const { name, dietary, mealPlanData } = usePreferences();
   const ranked = useMemo(() => rankHalls(HALLS, dietary).slice(0, 3), [dietary]);
+  const lowSwipes = mealPlanData.swipesRemainingThisWeek <= 3;
 
   // Maintain a display order over the ranked list (indices into `ranked`)
   const [order, setOrder] = useState<number[]>(() => ranked.map((_, i) => i));
@@ -64,6 +66,25 @@ export default function Home() {
         </p>
       </section>
 
+      {/* Meal plan strip */}
+      <section className="px-5 pb-3">
+        <button
+          onClick={() => navigate("/profile")}
+          className={`w-full ios-card px-4 py-3 flex items-center gap-2 text-sm font-medium no-tap-highlight active:scale-[0.99] transition-transform ${
+            lowSwipes ? "text-status-warn" : "text-foreground"
+          }`}
+        >
+          {lowSwipes ? (
+            <AlertTriangle className="w-4 h-4 shrink-0" />
+          ) : (
+            <Ticket className="w-4 h-4 shrink-0 text-primary" />
+          )}
+          <span className="truncate">
+            {mealPlanData.swipesRemainingThisWeek} swipes left this week · ${mealPlanData.dollarBalance.toFixed(2)} dining dollars
+          </span>
+        </button>
+      </section>
+
       {/* Recommendation cards */}
       <section className="px-5 space-y-4">
         {display.map((hall, idx) => {
@@ -89,6 +110,8 @@ export default function Home() {
               </div>
 
               <OccupancyBar pct={hall.occupancy} />
+
+              <FoodAvailability level={hall.foodLevel} />
 
               <div className="mt-3 flex flex-wrap gap-1.5">
                 {hall.tags.map(t => (
