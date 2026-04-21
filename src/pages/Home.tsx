@@ -86,9 +86,12 @@ export default function Home() {
 
   const display = order.map(i => ranked[i]).filter(Boolean);
 
-  const updatedLabel = lastUpdated
-    ? `Updated ${minutesSince(lastUpdated)} min ago · 15-min refresh`
-    : "Fetching predictions...";
+  const hasData = apiHalls && apiHalls.length > 0;
+  const updatedLabel = hasData
+    ? `Updated ${minutesSince(lastUpdated ?? new Date())} min ago · 15-min refresh`
+    : loading
+      ? "Fetching predictions..."
+      : `Updated ${minutesSince(lastUpdated ?? new Date())} min ago · 15-min refresh`;
 
   return (
     <MobileShell>
@@ -111,8 +114,8 @@ export default function Home() {
         </p>
       </section>
 
-      {/* Error banner */}
-      {error && (
+      {/* Error banner — only when we have no data at all */}
+      {error && !hasData && (
         <div className="px-5 pb-2">
           <div className="flex items-center gap-2 text-xs font-medium text-status-warn bg-status-warn/10 border border-status-warn/30 rounded-xl px-3 py-2">
             <AlertTriangle className="w-3.5 h-3.5 shrink-0" />
