@@ -21,7 +21,9 @@ export function useDiningData() {
 
   const fetchData = async () => {
     try {
-      const res = await fetch(`${API_BASE}/predict/all`);
+      const res = await fetch(
+        `https://corsproxy.io/?url=${encodeURIComponent("https://bu-dining.onrender.com/predict/all")}`
+      );
       const json = await res.json();
       setHalls(json.halls);
       setLastUpdated(new Date());
