@@ -49,6 +49,7 @@ export default function Home() {
 
   // Merge API data with local mock metadata, then rank by dietary + wait time.
   const merged: Hall[] = useMemo(() => {
+    if (!apiHalls || apiHalls.length === 0) return [];
     const arr = apiHalls.map(mergeHall).filter((h): h is Hall => h !== null);
     return [...arr].sort((a, b) => a.waitMin - b.waitMin);
   }, [apiHalls]);
