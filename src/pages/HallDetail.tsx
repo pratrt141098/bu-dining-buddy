@@ -6,21 +6,41 @@ import { MobileShell } from "@/components/MobileShell";
 import { OccupancyRing } from "@/components/OccupancyRing";
 import { StatusBadge } from "@/components/StatusBadge";
 import { FoodAvailability } from "@/components/FoodAvailability";
+import { WaitTrendSparkline } from "@/components/WaitTrendSparkline";
 import { HALLS, HALL_MENUS, rankHalls } from "@/lib/dining";
 import { usePreferences } from "@/context/PreferencesContext";
+import { hallPredictions, lunchPredictions } from "@/data/modelOutput";
 
 export default function HallDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { dietary, logAdoption } = usePreferences();
 
-  const hall = HALLS.find(h => h.id === Number(id));
+  const baseHall = HALLS.find(h => h.id === Number(id));
+
+  // Merge live model prediction (prefer current meal window) into the hall view.
+  const hall = useMemo(() => {
+    if (!baseHall) return null;
+    const now = new Date();
+    const minutes = now.getHours() * 60 + now.getMinutes();
+    const isLunch = minutes >= 11 * 60 && minutes <= 16 * 60 + 30;
+    const source = isLunch ? lunchPredictions : hallPredictions;
+    const pred = source.find(p => p.name === baseHall.name);
+    if (!pred) return baseHall;
+    return {
+      ...baseHall,
+      occupancy: Math.round(pred.occupancyPct),
+      waitMin: Math.round(pred.predictedWaitMin),
+      status: pred.status,
+    };
+  }, [baseHall]);
 
   const nextHallId = useMemo(() => {
+    if (!hall) return undefined;
     const ranked = rankHalls(HALLS, dietary);
-    const next = ranked.find(h => h.id !== Number(id));
+    const next = ranked.find(h => h.id !== hall.id);
     return next?.id;
-  }, [id, dietary]);
+  }, [hall, dietary]);
 
   if (!hall) {
     return (
@@ -64,10 +84,15 @@ export default function HallDetail() {
             <Clock className="w-3.5 h-3.5" /> ~{hall.waitMin} min predicted wait
           </span>
         </div>
-        <p className="text-[11px] text-muted-foreground mt-2">Updated 4 min ago • 15-min refresh</p>
+        <p className="text-[11px] text-muted-foreground mt-2">15-min refresh • underlying swipe data has 15-min delay</p>
         <div className="w-full mt-2">
           <FoodAvailability level={hall.foodLevel} />
         </div>
+      </section>
+
+      {/* Trend sparkline */}
+      <section className="px-5 mt-5">
+        <WaitTrendSparkline hallName={hall.name} />
       </section>
 
       {/* Menu */}

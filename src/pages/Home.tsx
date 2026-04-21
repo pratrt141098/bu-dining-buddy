@@ -1,13 +1,18 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { ArrowRight, Check, Clock, Ticket, AlertTriangle } from "lucide-react";
+import { ArrowRight, Check, Clock, Ticket, AlertTriangle, Cpu } from "lucide-react";
 import { MobileShell } from "@/components/MobileShell";
 import { OccupancyBar } from "@/components/OccupancyBar";
 import { FoodAvailability } from "@/components/FoodAvailability";
-import { Skeleton } from "@/components/ui/skeleton";
-import { HALLS, rankHalls, Hall, HallStatus } from "@/lib/dining";
+import { HALLS } from "@/lib/dining";
 import { usePreferences } from "@/context/PreferencesContext";
-import { useDiningData, HallPrediction } from "@/hooks/useDiningData";
+import {
+  hallPredictions,
+  lunchPredictions,
+  MODEL_META,
+  NAME_TO_HALL_ID,
+  type HallPrediction,
+} from "@/data/modelOutput";
 
 function greeting() {
   const h = new Date().getHours();
@@ -16,82 +21,44 @@ function greeting() {
   return "Good evening";
 }
 
-// Map API hall_name → local mock hall id (for foodLevel, tags, etc.)
-const NAME_TO_ID: Record<string, number> = {
-  "Marciano Commons": 1,
-  "Warren Towers Dining": 2,
-  "West Campus Dining": 3,
-  "Stuvi2 / towers": 4,
-  "Sargent Choice Café": 5,
-};
-
-function mergeHall(pred: HallPrediction): Hall | null {
-  const id = NAME_TO_ID[pred.hall_name];
-  const base = HALLS.find(h => h.id === id);
-  if (!base) return null;
-  return {
-    ...base,
-    occupancy: Math.round(pred.occupancy_pct),
-    waitMin: pred.predicted_wait_min,
-    status: pred.status as HallStatus,
-  };
+function isLunchNow() {
+  const now = new Date();
+  const minutes = now.getHours() * 60 + now.getMinutes();
+  return minutes >= 11 * 60 && minutes <= 16 * 60 + 30;
 }
 
-function minutesSince(date: Date): number {
-  return Math.max(0, Math.floor((Date.now() - date.getTime()) / 60000));
-}
+type MealKey = "lunch" | "dinner";
 
 export default function Home() {
   const navigate = useNavigate();
-  const { name, dietary, mealPlanData } = usePreferences();
-  const { halls: apiHalls, loading, error, lastUpdated } = useDiningData();
+  const { name, mealPlanData } = usePreferences();
   const lowSwipes = mealPlanData.swipesRemainingThisWeek <= 3;
 
-  // Merge API data with local mock metadata, then rank by dietary + wait time.
-  const merged: Hall[] = useMemo(() => {
-    if (!apiHalls || apiHalls.length === 0) return [];
-    const arr = apiHalls.map(mergeHall).filter((h): h is Hall => h !== null);
-    return [...arr].sort((a, b) => a.waitMin - b.waitMin);
-  }, [apiHalls]);
+  const [meal, setMeal] = useState<MealKey>(() => (isLunchNow() ? "lunch" : "dinner"));
 
-  const ranked = useMemo(() => rankHalls(merged, dietary).slice(0, 3), [merged, dietary]);
+  const predictions = meal === "lunch" ? lunchPredictions : hallPredictions;
 
-  // Maintain a display order over the ranked list (indices into `ranked`)
-  const [order, setOrder] = useState<number[]>(() => ranked.map((_, i) => i));
-  const [fading, setFading] = useState(false);
+  // Always sort by predicted wait ascending so rank reflects current data.
+  const ranked: HallPrediction[] = useMemo(
+    () => [...predictions].sort((a, b) => a.predictedWaitSec - b.predictedWaitSec),
+    [predictions],
+  );
 
-  useEffect(() => {
-    setOrder(ranked.map((_, i) => i));
-  }, [ranked]);
+  // Resolve canonical hall id (for routing + foodLevel/tags lookup).
+  const detailIdFor = (p: HallPrediction) => NAME_TO_HALL_ID[p.name] ?? p.id;
+  const foodLevelFor = (p: HallPrediction) =>
+    HALLS.find((h) => h.id === detailIdFor(p))?.foodLevel ?? "Good";
 
   // Tick every 30s so "Updated X min ago" stays fresh
   const [, setTick] = useState(0);
   useEffect(() => {
-    const id = setInterval(() => setTick(t => t + 1), 30000);
+    const id = setInterval(() => setTick((t) => t + 1), 30000);
     return () => clearInterval(id);
   }, []);
 
-  const swapTopTwo = () => {
-    if (order.length < 2 || fading) return;
-    setFading(true);
-    window.setTimeout(() => {
-      setOrder(prev => {
-        const next = [...prev];
-        [next[0], next[1]] = [next[1], next[0]];
-        return next;
-      });
-      window.setTimeout(() => setFading(false), 30);
-    }, 250);
-  };
-
-  const display = order.map(i => ranked[i]).filter(Boolean);
-
-  const hasData = apiHalls && apiHalls.length > 0;
-  const updatedLabel = hasData
-    ? `Updated ${minutesSince(lastUpdated ?? new Date())} min ago · 15-min refresh`
-    : loading
-      ? "Fetching predictions..."
-      : `Updated ${minutesSince(lastUpdated ?? new Date())} min ago · 15-min refresh`;
+  const lastRefresh = useMemo(() => new Date(MODEL_META.lastRefresh), []);
+  const minutesAgo = Math.max(0, Math.floor((Date.now() - lastRefresh.getTime()) / 60000));
+  const updatedLabel = `Updated ${minutesAgo} min ago · 15-min refresh`;
 
   return (
     <MobileShell>
@@ -112,17 +79,11 @@ export default function Home() {
         <p className="text-sm text-muted-foreground mt-1 flex items-center gap-1.5">
           <Clock className="w-3.5 h-3.5" /> {updatedLabel}
         </p>
-      </section>
-
-      {/* Error banner — only when we have no data at all */}
-      {error && !hasData && (
-        <div className="px-5 pb-2">
-          <div className="flex items-center gap-2 text-xs font-medium text-status-warn bg-status-warn/10 border border-status-warn/30 rounded-xl px-3 py-2">
-            <AlertTriangle className="w-3.5 h-3.5 shrink-0" />
-            <span>Predictions unavailable — showing last known data</span>
-          </div>
+        <div className="mt-2 inline-flex items-center gap-1.5 bg-card border border-border rounded-full px-2.5 py-1 text-[11px] font-semibold text-muted-foreground">
+          <Cpu className="w-3 h-3 text-primary" />
+          <span>GBM model · {Math.round(MODEL_META.trainingRows / 1000)}k swipes</span>
         </div>
-      )}
+      </section>
 
       {/* Meal plan strip */}
       <section className="px-5 pt-2 pb-3">
@@ -143,83 +104,86 @@ export default function Home() {
         </button>
       </section>
 
-      {/* Recommendation cards */}
-      <section className="px-5 space-y-4">
-        {loading && display.length === 0 ? (
-          <>
-            {[0, 1, 2].map(i => (
-              <article key={i} className="ios-card p-4">
-                <div className="flex items-start justify-between gap-3 mb-3">
-                  <div className="flex items-center gap-3 min-w-0 flex-1">
-                    <Skeleton className="w-9 h-9 rounded-full" />
-                    <Skeleton className="h-5 w-2/3" />
-                  </div>
-                  <Skeleton className="h-6 w-20 rounded-full" />
-                </div>
-                <Skeleton className="h-2 w-full rounded-full" />
-                <Skeleton className="h-3 w-24 mt-2" />
-                <Skeleton className="h-4 w-40 mt-4" />
-                <Skeleton className="h-11 w-full rounded-xl mt-4" />
-              </article>
-            ))}
-          </>
-        ) : (
-          display.map((hall, idx) => {
-            const isSwapping = fading && idx < 2;
+      {/* Section header + meal toggle */}
+      <section className="px-5 pt-1 pb-2">
+        <h3 className="text-sm font-semibold text-foreground">Predicted wait times</h3>
+        <div
+          role="tablist"
+          aria-label="Meal period"
+          className="mt-2 inline-flex w-full bg-card border border-border rounded-xl p-1"
+        >
+          {([
+            { key: "lunch" as MealKey, label: "Lunch (11a–4:30p)" },
+            { key: "dinner" as MealKey, label: "Dinner (now)" },
+          ]).map((opt) => {
+            const active = meal === opt.key;
             return (
-              <article
-                key={hall.id}
-                className={`ios-card p-4 relative transition-opacity duration-300 ease-out ${
-                  isSwapping ? "opacity-0" : "opacity-100"
+              <button
+                key={opt.key}
+                role="tab"
+                aria-selected={active}
+                onClick={() => setMeal(opt.key)}
+                className={`flex-1 rounded-lg px-2 py-1.5 text-xs font-semibold transition-colors no-tap-highlight ${
+                  active
+                    ? "bg-primary text-primary-foreground"
+                    : "text-muted-foreground hover:text-foreground"
                 }`}
               >
-                <div className="flex items-start justify-between gap-3 mb-3">
-                  <div className="flex items-center gap-3 min-w-0">
-                    <div className="shrink-0 w-9 h-9 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold text-sm">
-                      {idx + 1}
-                    </div>
-                    <h3 className="font-bold text-base text-foreground truncate">{hall.name}</h3>
+                {opt.label}
+              </button>
+            );
+          })}
+        </div>
+      </section>
+
+      {/* Recommendation cards */}
+      <section className="px-5 space-y-4">
+        {ranked.map((hall, idx) => {
+          const detailId = detailIdFor(hall);
+          const waitMin = Math.round(hall.predictedWaitMin);
+          return (
+            <article key={`${meal}-${hall.id}`} className="ios-card p-4 relative">
+              <div className="flex items-start justify-between gap-3 mb-3">
+                <div className="flex items-center gap-3 min-w-0">
+                  <div className="shrink-0 w-9 h-9 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold text-sm">
+                    {idx + 1}
                   </div>
-                  <span className="shrink-0 inline-flex items-center gap-1 bg-primary-soft text-primary text-xs font-semibold px-2.5 py-1 rounded-full">
-                    <Clock className="w-3 h-3" /> ~{hall.waitMin} min wait
+                  <h3 className="font-bold text-base text-foreground truncate">{hall.name}</h3>
+                </div>
+                <div className="shrink-0 flex flex-col items-end">
+                  <span className="inline-flex items-center gap-1 bg-primary-soft text-primary text-xs font-semibold px-2.5 py-1 rounded-full">
+                    <Clock className="w-3 h-3" /> ~{waitMin} min predicted wait
+                  </span>
+                  <span className="mt-1 text-[10px] text-muted-foreground">
+                    GBM model · trained on 137,179 swipes
                   </span>
                 </div>
+              </div>
 
-                <OccupancyBar pct={hall.occupancy} />
+              <OccupancyBar pct={Math.round(hall.occupancyPct)} />
 
-                <FoodAvailability level={hall.foodLevel} />
+              <FoodAvailability level={foodLevelFor(hall)} />
 
-                <div className="mt-3 flex flex-wrap gap-1.5">
-                  {hall.tags.map(t => (
-                    <span key={t} className="inline-flex items-center gap-1 bg-primary/15 text-primary text-[11px] font-semibold px-2 py-0.5 rounded-full">
-                      {t} <Check className="w-3 h-3" strokeWidth={3} />
-                    </span>
-                  ))}
-                </div>
+              <div className="mt-3 flex flex-wrap gap-1.5">
+                {hall.dietaryTags.map((t) => (
+                  <span key={t} className="inline-flex items-center gap-1 bg-primary/15 text-primary text-[11px] font-semibold px-2 py-0.5 rounded-full">
+                    {t} <Check className="w-3 h-3" strokeWidth={3} />
+                  </span>
+                ))}
+              </div>
 
-                <button
-                  onClick={() => navigate(`/halls/${hall.id}`)}
-                  className="cta-shadow mt-4 w-full bg-primary text-primary-foreground rounded-xl py-3 font-semibold text-sm flex items-center justify-center gap-2 no-tap-highlight active:scale-[0.98] transition-transform"
-                >
-                  Go Here <ArrowRight className="w-4 h-4" />
-                </button>
-
-                {idx === 0 && display.length > 1 && (
-                  <button
-                    onClick={swapTopTwo}
-                    disabled={fading}
-                    className="mt-2 w-full text-primary font-semibold text-sm py-2 no-tap-highlight disabled:opacity-60"
-                  >
-                    Next Best Rec →
-                  </button>
-                )}
-              </article>
-            );
-          })
-        )}
+              <button
+                onClick={() => navigate(`/halls/${detailId}`)}
+                className="cta-shadow mt-4 w-full bg-primary text-primary-foreground rounded-xl py-3 font-semibold text-sm flex items-center justify-center gap-2 no-tap-highlight active:scale-[0.98] transition-transform"
+              >
+                Go Here <ArrowRight className="w-4 h-4" />
+              </button>
+            </article>
+          );
+        })}
 
         <p className="text-[11px] text-muted-foreground text-center pt-2">
-          Predicted wait times • 15-min refresh
+          Predicted wait times • underlying swipe counts have a 15-min delay
         </p>
       </section>
     </MobileShell>

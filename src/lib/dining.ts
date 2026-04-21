@@ -47,9 +47,9 @@ export function rankHalls(halls: Hall[], dietary: DietaryTag[]): Hall[] {
 }
 
 export function occupancyColor(pct: number): "good" | "warn" | "bad" {
-  if (pct < 60) return "good";
-  if (pct <= 85) return "warn";
-  return "bad";
+  if (pct >= 90) return "bad";
+  if (pct >= 75) return "warn";
+  return "good";
 }
 
 export function statusTone(status: HallStatus): "good" | "warn" | "bad" | "muted" {
