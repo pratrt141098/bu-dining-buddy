@@ -21,12 +21,14 @@ export function useDiningData() {
 
   const fetchData = async () => {
     try {
+      const apiUrl = "https://bu-dining.onrender.com/predict/all";
       const res = await fetch(
-        `https://corsproxy.io/?url=${encodeURIComponent("https://bu-dining.onrender.com/predict/all")}`
+        `https://api.allorigins.win/get?url=${encodeURIComponent(apiUrl)}`
       );
-      const json = await res.json();
+      const wrapper = await res.json();
+      const json = JSON.parse(wrapper.contents);
       console.log("API response:", json);
-      const hallsArray = json?.halls ?? json?.body?.halls ?? [];
+      const hallsArray = json?.halls ?? [];
       if (hallsArray.length === 0) throw new Error("Empty halls array");
       setHalls(hallsArray);
       setLastUpdated(new Date());
