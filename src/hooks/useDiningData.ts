@@ -25,10 +25,14 @@ export function useDiningData() {
         `https://corsproxy.io/?url=${encodeURIComponent("https://bu-dining.onrender.com/predict/all")}`
       );
       const json = await res.json();
-      setHalls(json.halls);
+      console.log("API response:", json);
+      const hallsArray = json?.halls ?? json?.body?.halls ?? [];
+      if (hallsArray.length === 0) throw new Error("Empty halls array");
+      setHalls(hallsArray);
       setLastUpdated(new Date());
       setError(null);
     } catch (e) {
+      console.error("Fetch error:", e);
       setError("Could not reach prediction API");
     } finally {
       setLoading(false);
