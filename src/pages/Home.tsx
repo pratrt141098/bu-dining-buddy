@@ -147,15 +147,15 @@ export default function Home() {
               <article key={i} className="ios-card p-4">
                 <div className="flex items-start justify-between gap-3 mb-3">
                   <div className="flex items-center gap-3 min-w-0 flex-1">
-                    <Skeleton className="w-9 h-9 rounded-full bg-card-elevated" />
-                    <Skeleton className="h-5 w-2/3 bg-card-elevated" />
+                    <Skeleton className="w-9 h-9 rounded-full" />
+                    <Skeleton className="h-5 w-2/3" />
                   </div>
-                  <Skeleton className="h-6 w-20 rounded-full bg-card-elevated" />
+                  <Skeleton className="h-6 w-20 rounded-full" />
                 </div>
-                <Skeleton className="h-2 w-full rounded-full bg-card-elevated" />
-                <Skeleton className="h-3 w-24 mt-2 bg-card-elevated" />
-                <Skeleton className="h-4 w-40 mt-4 bg-card-elevated" />
-                <Skeleton className="h-11 w-full rounded-xl mt-4 bg-card-elevated" />
+                <Skeleton className="h-2 w-full rounded-full" />
+                <Skeleton className="h-3 w-24 mt-2" />
+                <Skeleton className="h-4 w-40 mt-4" />
+                <Skeleton className="h-11 w-full rounded-xl mt-4" />
               </article>
             ))}
           </>
