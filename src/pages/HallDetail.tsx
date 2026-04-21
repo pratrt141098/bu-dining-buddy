@@ -84,10 +84,15 @@ export default function HallDetail() {
             <Clock className="w-3.5 h-3.5" /> ~{hall.waitMin} min predicted wait
           </span>
         </div>
-        <p className="text-[11px] text-muted-foreground mt-2">Updated 4 min ago • 15-min refresh</p>
+        <p className="text-[11px] text-muted-foreground mt-2">15-min refresh • underlying swipe data has 15-min delay</p>
         <div className="w-full mt-2">
           <FoodAvailability level={hall.foodLevel} />
         </div>
+      </section>
+
+      {/* Trend sparkline */}
+      <section className="px-5 mt-5">
+        <WaitTrendSparkline hallName={hall.name} />
       </section>
 
       {/* Menu */}
