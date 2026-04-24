@@ -5,9 +5,10 @@ import { MobileShell } from "@/components/MobileShell";
 import { OccupancyBar } from "@/components/OccupancyBar";
 import { FoodAvailability } from "@/components/FoodAvailability";
 import { Skeleton } from "@/components/ui/skeleton";
-import { HALLS } from "@/lib/dining";
+import { HALL_DISPLAY_NAMES, HALLS } from "@/lib/dining";
 import { usePreferences } from "@/context/PreferencesContext";
 import {
+  breakfastPredictions,
   hallPredictions,
   lunchPredictions,
   NAME_TO_HALL_ID,
@@ -23,18 +24,15 @@ function greeting() {
   return "Good evening";
 }
 
-function isLunchNow() {
-  const now = new Date();
-  const minutes = now.getHours() * 60 + now.getMinutes();
-  return minutes >= 11 * 60 && minutes <= 16 * 60 + 30;
-}
+type MealKey = "breakfast" | "lunch" | "dinner";
 
 function currentMealForUI(date: Date): MealKey {
-  const hour = date.getHours();
-  return hour >= 11 && hour < 16 ? "lunch" : "dinner";
+  const minutes = date.getHours() * 60 + date.getMinutes();
+  if (minutes >= 7 * 60 && minutes < 11 * 60) return "breakfast";
+  if (minutes >= 11 * 60 && minutes < 16 * 60 + 30) return "lunch";
+  if (minutes >= 16 * 60 + 30 && minutes <= 21 * 60) return "dinner";
+  return "lunch";
 }
-
-type MealKey = "lunch" | "dinner";
 
 type MenuItemSummary = {
   item_id: string;
@@ -42,6 +40,7 @@ type MenuItemSummary = {
   station: string;
   depletion_pct: number | null;
   depleted: boolean;
+  matchesDietary: boolean;
 };
 
 type HallMenuData = {
@@ -57,7 +56,7 @@ export default function Home() {
   const { name, mealPlanData, dietary } = usePreferences();
   const lowSwipes = mealPlanData.swipesRemainingThisWeek <= 3;
 
-  const [meal, setMeal] = useState<MealKey>(() => (isLunchNow() ? "lunch" : "dinner"));
+  const [meal, setMeal] = useState<MealKey>(() => currentMealForUI(new Date()));
   const [now, setNow] = useState(() => new Date());
   const [ctaAnimatingId, setCtaAnimatingId] = useState<number | null>(null);
   const [loading, setLoading] = useState(true);
@@ -75,9 +74,11 @@ export default function Home() {
 
   const predictions = useLiveForSelectedMeal
     ? dayMealPredictions
-    : meal === "lunch"
-      ? lunchPredictions
-      : hallPredictions;
+    : meal === "breakfast"
+      ? breakfastPredictions
+      : meal === "lunch"
+        ? lunchPredictions
+        : hallPredictions;
 
   // Always sort by predicted wait ascending so rank reflects current data.
   const ranked: HallPrediction[] = useMemo(
@@ -91,6 +92,8 @@ export default function Home() {
     HALLS.find((h) => h.id === detailIdFor(p))?.foodLevel ?? "Good";
   const hallNameFor = (p: HallPrediction) =>
     HALLS.find((h) => h.id === detailIdFor(p))?.name ?? p.name;
+  const displayNameFor = (p: HallPrediction) =>
+    HALL_DISPLAY_NAMES[detailIdFor(p)] ?? hallNameFor(p);
 
   // Tick every second so displayed time and freshness labels stay current.
   useEffect(() => {
@@ -118,9 +121,15 @@ export default function Home() {
           const nonDepleted = inventory.filter((item) => !item.depleted);
           const matches = await filterByDietary(nonDepleted, dietary);
 
+          const matchedIdSet = new Set(matches.map((m) => String(m.item_id)));
+
           const sortedItems: MenuItemSummary[] = nonDepleted
             .slice()
             .sort((a, b) => {
+              // Dietary matches bubble to the top; within each group sort by inventory level desc.
+              const aMatch = matchedIdSet.has(String(a.item_id)) ? 1 : 0;
+              const bMatch = matchedIdSet.has(String(b.item_id)) ? 1 : 0;
+              if (bMatch !== aMatch) return bMatch - aMatch;
               const aLevel = a.depletion_pct !== null ? 1 - a.depletion_pct : 0;
               const bLevel = b.depletion_pct !== null ? 1 - b.depletion_pct : 0;
               return bLevel - aLevel;
@@ -131,6 +140,7 @@ export default function Home() {
               station: String(item.station),
               depletion_pct: item.depletion_pct,
               depleted: item.depleted,
+              matchesDietary: matchedIdSet.has(String(item.item_id)),
             }));
 
           return [
@@ -154,9 +164,11 @@ export default function Home() {
 
   const currentTimeLabel = now.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" });
   const updatedLabel = `Current time ${currentTimeLabel} · 15-min refresh`;
-  const showUnavailableWarning = !useLiveForSelectedMeal && !warningDismissed;
+  const showUnavailableWarning = !useLiveForSelectedMeal && meal !== "breakfast" && !warningDismissed;
 
-  const handleGoHere = (detailId: number) => {
+  const handleGoHere = (hall: HallPrediction, detailId: number) => {
+    localStorage.setItem("lastAdoptedHall", displayNameFor(hall));
+    localStorage.setItem("lastAdoptedMeal", meal);
     setCtaAnimatingId(detailId);
     setTimeout(() => {
       setCtaAnimatingId(null);
@@ -230,10 +242,13 @@ export default function Home() {
           aria-label="Meal period"
           className="mt-space-3 inline-flex w-full bg-[var(--color-surface-1)] border border-white/10 rounded-xl-token p-space-1"
         >
-          {([
-            { key: "lunch" as MealKey, label: "Lunch (11a–4:30p)" },
-            { key: "dinner" as MealKey, label: "Dinner (5p–9:30p)" },
-          ]).map((opt) => {
+          {(
+            [
+              { key: "breakfast" as MealKey, label: "Breakfast", sub: "7–10am" },
+              { key: "lunch" as MealKey, label: "Lunch", sub: "11am–4:30pm" },
+              { key: "dinner" as MealKey, label: "Dinner", sub: "5–9pm" },
+            ] as const
+          ).map((opt) => {
             const active = meal === opt.key;
             return (
               <button
@@ -241,13 +256,16 @@ export default function Home() {
                 role="tab"
                 aria-selected={active}
                 onClick={() => setMeal(opt.key)}
-                className={`flex-1 min-h-[44px] rounded-sm-token px-space-2 py-space-2 font-body text-sm font-medium transition-colors no-tap-highlight ${
+                className={`flex-1 min-h-[44px] rounded-sm-token px-1 py-space-2 font-body font-medium transition-colors no-tap-highlight flex flex-col items-center justify-center gap-0.5 ${
                   active
                     ? "bg-primary text-primary-foreground"
                     : "text-muted-foreground hover:text-foreground"
                 }`}
               >
-                {opt.label}
+                <span className="text-[13px] leading-tight">{opt.label}</span>
+                <span className={`text-[10px] leading-tight ${active ? "text-primary-foreground/70" : "text-muted-foreground/60"}`}>
+                  {opt.sub}
+                </span>
               </button>
             );
           })}
@@ -292,7 +310,7 @@ export default function Home() {
                   <div className="shrink-0 w-11 h-11 rounded-lg-token bg-primary text-primary-foreground flex items-center justify-center font-display font-bold text-sm">
                     {idx + 1}
                   </div>
-                  <h3 className="font-display text-2xl font-bold text-foreground truncate">{hall.name}</h3>
+                  <h3 className="font-display text-[1.2rem] font-bold text-foreground truncate">{displayNameFor(hall)}</h3>
                 </div>
                 <div className="shrink-0 flex flex-col items-end">
                   <span className="inline-flex items-center gap-space-1 bg-primary-soft text-primary font-body text-xs font-medium px-space-2 py-space-1 rounded-sm-token">
@@ -303,14 +321,17 @@ export default function Home() {
 
               <OccupancyBar pct={Math.round(hall.occupancyPct)} />
 
-              <p
-                className={`mt-space-2 font-body text-xs text-left ${
-                  showNoMatchWarning ? "text-[#F59E0B]" : "text-muted-foreground"
-                }`}
-              >
-                {showNoMatchWarning
-                  ? `⚠ No ${preferenceLabel} options right now`
-                  : `${menuCounts.total} options available · ${menuCounts.matches} match your preferences`}
+              <p className="mt-space-2 font-body text-xs text-left">
+                {showNoMatchWarning ? (
+                  <span className="text-[#F59E0B]">⚠ No {preferenceLabel} options right now</span>
+                ) : (
+                  <>
+                    <span className="text-muted-foreground">{menuCounts.total} options available · </span>
+                    <span className={dietary.length > 0 ? "text-emerald-400" : "text-muted-foreground"}>
+                      {menuCounts.matches} match your preferences
+                    </span>
+                  </>
+                )}
               </p>
 
               {menuCounts.items.length > 0 && (
@@ -335,7 +356,7 @@ export default function Home() {
                           key={item.item_id}
                           className="flex items-center justify-between gap-space-2"
                         >
-                          <span className="font-body text-xs text-foreground truncate">
+                          <span className={`font-body text-xs truncate ${item.matchesDietary && dietary.length > 0 ? "text-emerald-400" : "text-foreground"}`}>
                             {item.item_name}
                           </span>
                           <span
@@ -366,7 +387,7 @@ export default function Home() {
               </div>
 
               <button
-                onClick={() => handleGoHere(detailId)}
+                onClick={() => handleGoHere(hall, detailId)}
                 className={`cta-shadow mt-space-4 min-h-[44px] w-full bg-primary text-primary-foreground rounded-lg-token py-space-3 font-body font-medium text-sm flex items-center justify-center gap-space-2 text-left no-tap-highlight ${ctaAnimatingId === detailId ? "cta-pulse" : ""}`}
               >
                 Go Here →
@@ -375,9 +396,10 @@ export default function Home() {
           );
         })}
 
-        <p className="font-body text-xs text-muted-foreground text-left pt-space-2 pb-space-6">
-          Predicted wait times • underlying swipe counts have a 15-min delay
-        </p>
+        <div className="font-body text-xs text-muted-foreground text-left pt-space-2 pb-space-6 space-y-space-1">
+          <p>Predicted wait times • swipe counts have a 15-min delay</p>
+          <p>Food availability estimated from typical replenishment patterns • 15 minute stagger in recommendations</p>
+        </div>
       </section>
     </MobileShell>
   );

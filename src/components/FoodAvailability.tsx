@@ -12,9 +12,6 @@ export function FoodAvailability({ level }: { level: FoodLevel }) {
         <span className="text-muted-foreground">Food availability:</span>
         <span className={`font-medium ${colorClass}`}>{level}</span>
       </div>
-      <p className="font-body text-xs text-muted-foreground mt-space-1 text-left">
-        Estimated — based on typical replenishment patterns. Not real-time.
-      </p>
     </div>
   );
 }

@@ -286,3 +286,40 @@ export const NAME_TO_HALL_ID: Record<string, number> = {
   "Stuvi2 / towers": 4,
   "Sargent Choice Café": 5,
 };
+
+function occupancyStatus(pct: number): HallPrediction["status"] {
+  if (pct >= 90) return "High";
+  if (pct >= 75) return "Busy";
+  return "Normal";
+}
+
+// Breakfast predictions derived from hourlyPredictions (breakfast-tagged hours only).
+// Average waitMin and occupancyPct across all breakfast hours per hall.
+const _allBase = new Map<string, HallPrediction>(
+  [...lunchPredictions, ...hallPredictions].map((p) => [p.name, p]),
+);
+
+export const breakfastPredictions: HallPrediction[] = Object.entries(hourlyPredictions)
+  .map(([hallName, points]) => {
+    const bfPoints = points.filter((p) => p.meal === "breakfast");
+    if (bfPoints.length === 0) return null;
+    const base = _allBase.get(hallName);
+    if (!base) return null;
+    const avgWaitMin = bfPoints.reduce((s, p) => s + p.waitMin, 0) / bfPoints.length;
+    const avgOcc = bfPoints.reduce((s, p) => s + p.occupancyPct, 0) / bfPoints.length;
+    const waitSec = Math.round(avgWaitMin * 60);
+    const occupancyPct = Math.round(avgOcc);
+    return {
+      ...base,
+      id: NAME_TO_HALL_ID[hallName] ?? base.id,
+      name: hallName,
+      predictedWaitSec: waitSec,
+      predictedWaitMin: Math.round(avgWaitMin * 10) / 10,
+      occupancyPct,
+      status: occupancyStatus(occupancyPct),
+      mealPeriod: "breakfast" as const,
+      modelGenerated: true,
+    } as HallPrediction;
+  })
+  .filter((p): p is HallPrediction => p !== null)
+  .sort((a, b) => a.predictedWaitSec - b.predictedWaitSec);

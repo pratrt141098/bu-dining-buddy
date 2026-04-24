@@ -8,7 +8,7 @@ import { StatusBadge } from "@/components/StatusBadge";
 import { FoodAvailability } from "@/components/FoodAvailability";
 import { WaitTrendSparkline } from "@/components/WaitTrendSparkline";
 import { Skeleton } from "@/components/ui/skeleton";
-import { HALLS, rankHalls } from "@/lib/dining";
+import { HALL_DISPLAY_NAMES, HALLS, rankHalls } from "@/lib/dining";
 import { usePreferences } from "@/context/PreferencesContext";
 import { getDailyMealPredictions, getDayName, getMealPeriodForTime } from "@/data/dailySummary";
 import { filterByDietary, getMenuForSession } from "@/data/menuData";
@@ -146,7 +146,7 @@ export default function HallDetail() {
         >
           <ArrowLeft className="w-5 h-5" />
         </button>
-        <h1 className="font-display text-2xl font-bold tracking-tight truncate text-foreground">{hall.name}</h1>
+        <h1 className="font-display text-2xl font-bold tracking-tight truncate text-foreground">{HALL_DISPLAY_NAMES[hall.id] ?? hall.name}</h1>
       </header>
 
       {/* Ring */}

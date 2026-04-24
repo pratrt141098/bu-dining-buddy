@@ -1,10 +1,11 @@
 import { ReactNode } from "react";
 import { NavLink, useLocation } from "react-router-dom";
-import { Home, LayoutGrid, User } from "lucide-react";
+import { Home, LayoutGrid, MessageSquare, User } from "lucide-react";
 
 const TABS = [
   { to: "/", label: "Home", icon: Home },
   { to: "/halls", label: "All Halls", icon: LayoutGrid },
+  { to: "/feedback", label: "Feedback", icon: MessageSquare },
   { to: "/profile", label: "Profile", icon: User },
 ];
 
@@ -28,7 +29,7 @@ export function MobileShell({ children, hideTabBar = false }: { children: ReactN
 function BottomTabBar() {
   return (
     <nav className="fixed bottom-2 inset-x-0 mx-auto max-w-[390px] z-40 rounded-2xl border border-white/10 bg-tabbar/92 backdrop-blur-lg shadow-xl">
-      <div className="grid grid-cols-3 px-2 pt-2 pb-[max(0.5rem,env(safe-area-inset-bottom))]">
+      <div className="grid grid-cols-4 px-2 pt-2 pb-[max(0.5rem,env(safe-area-inset-bottom))]">
         {TABS.map(({ to, label, icon: Icon }) => (
           <NavLink
             key={to}

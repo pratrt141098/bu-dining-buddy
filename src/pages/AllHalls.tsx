@@ -1,10 +1,9 @@
 import { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Settings, Star } from "lucide-react";
+import { Settings } from "lucide-react";
 import { MobileShell } from "@/components/MobileShell";
 import { StatusBadge } from "@/components/StatusBadge";
-import { FoodLevelDot } from "@/components/FoodAvailability";
-import { ALL_AREAS, CampusArea, HALLS, occupancyColor, rankHalls } from "@/lib/dining";
+import { ALL_AREAS, CampusArea, HALL_DISPLAY_NAMES, HALLS, occupancyColor, rankHalls } from "@/lib/dining";
 import { usePreferences } from "@/context/PreferencesContext";
 import { getDailyMealPredictions, getDayName, getMealPeriodForTime } from "@/data/dailySummary";
 
@@ -101,23 +100,17 @@ export default function AllHalls() {
             <button
               key={hall.id}
               onClick={() => navigate(`/halls/${hall.id}`)}
-              className="ios-card min-h-[44px] p-space-3 text-left flex flex-col gap-space-2 active:scale-[0.98] transition-transform no-tap-highlight relative"
+              className={`ios-card min-h-[44px] p-space-3 flex flex-col items-center gap-space-2 active:scale-[0.98] transition-transform no-tap-highlight text-center ${
+                recommended ? "ring-2 ring-primary shadow-[0_0_12px_2px_hsl(var(--primary)/0.25)]" : ""
+              }`}
             >
-              {recommended && (
-                <span className="absolute -top-2 -right-2 inline-flex items-center gap-space-1 bg-primary text-primary-foreground font-body text-xs font-medium px-space-2 py-space-1 rounded-sm-token">
-                  <Star className="w-3 h-3 fill-current" /> Recommended
-                </span>
-              )}
-              <div className="flex items-start justify-between gap-1">
-                <h3 className="font-body text-sm font-medium leading-tight text-foreground line-clamp-2 flex items-start gap-space-1">
-                  <FoodLevelDot level={hall.foodLevel} />
-                  <span className="line-clamp-2">{hall.name}</span>
-                </h3>
-              </div>
+              <h3 className="font-body text-sm font-medium leading-tight text-foreground line-clamp-2">
+                {HALL_DISPLAY_NAMES[hall.id] ?? hall.name}
+              </h3>
               <StatusBadge status={hall.status} />
               <div className="mt-auto pt-space-2">
                 <p className={`font-display text-2xl font-bold tracking-tight ${occColor}`}>{hall.occupancy}%</p>
-                <p className="font-body text-xs text-muted-foreground mt-space-1 text-left">~{hall.waitMin} min predicted wait</p>
+                <p className="font-body text-xs text-muted-foreground mt-space-1">~{hall.waitMin} min predicted wait</p>
               </div>
             </button>
           );
