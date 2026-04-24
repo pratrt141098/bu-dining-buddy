@@ -1,216 +1,213 @@
-# BU Dining Optimizer
+# BU Dining Buddy
 
-> An AI-powered dining hall recommendation app for Boston University students. Get real-time wait time predictions, personalized hall rankings, and occupancy trends — all driven by a machine learning model trained on simulated BU card swipe data.
-
----
-
-## What It Does
-
-BU students lose 20–40 minutes navigating crowded dining halls during peak lunch periods with no visibility into wait times before they arrive. The BU Dining Optimizer solves this by:
-
-- **Predicting wait times** at all 5 BU dining halls using a Gradient Boosting model
-- **Ranking halls** for the current meal window based on predicted wait + your dietary preferences
-- **Logging adoptions** — the app's North Star metric counts every time a student receives a recommendation and visits that hall within 30 minutes during the lunch window (11am–4:30pm)
+A mobile-first web app that helps Boston University students find the best dining hall to eat at right now — showing predicted wait times, real menu options with live inventory levels, and dietary preference matching across all five BU dining halls.
 
 ---
 
-## Product Context
+## What it does
 
-| Attribute | Detail |
+- **Predicted wait times** — a Gradient Boosting model trained on 137,179 simulated BU card swipe events ranks all five halls by predicted wait (in seconds) for the current meal period.
+- **Three meal periods** — Breakfast (7–10 am), Lunch (11 am–4:30 pm), Dinner (5–9 pm) with automatic selection based on time of day.
+- **Menu options with inventory** — per-hall menu items are loaded from CSV data and shown with an inventory level % (how much stock remains). Items matching your dietary preferences are highlighted in green and sorted to the top.
+- **Dietary preference filtering** — set Vegetarian, Vegan, Halal, or Gluten-Free preferences in the Profile tab; all counts and highlights update throughout the app.
+- **All Halls tab** — a 2-column grid of all five halls with occupancy %, wait time, and a visual highlight on the recommended hall (no sticker — a glowing primary ring).
+- **Hall Detail** — occupancy ring, wait trend sparkline (hour-by-hour GBM forecast), and the full menu grouped by station with depletion times for sold-out items.
+- **Feedback tab** — a 5-question single-screen-per-question feedback flow (star rating → wait time → food availability → influence → open text). Responses are stored in `localStorage` under `feedbackLog`.
+- **Meal plan strip** — swipes remaining and dining dollar balance shown on the Home tab; low-swipe alert triggers at ≤ 3 remaining.
+
+---
+
+## Tech stack
+
+| Layer | Technology |
 |---|---|
-| Course | DS719 Product Management, Spring 2026 |
-| North Star Metric | Weekly Lunch-Period Recommendation Adoptions |
-| Data constraint | Aramark swipe system — 15-min refresh delay |
-| Stakeholder | BU VP of Dining Operations (not hall managers) |
-| MVP scope | Student recommendation feed · Adoption logging · Preference settings |
+| UI framework | React 18 + TypeScript |
+| Build tool | Vite 5 |
+| Styling | Tailwind CSS 3 + custom design tokens |
+| Component primitives | shadcn/ui (Radix UI) |
+| Icons | Lucide React |
+| Routing | React Router v6 |
+| CSV parsing | PapaParse |
+| Model API | FastAPI + scikit-learn (Gradient Boosting Regressor) |
+| API hosting | Render (https://bu-dining.onrender.com) |
+| State | React `useState` / `useContext` / `localStorage` |
 
 ---
 
-## Tech Stack
-
-### ML Pipeline (Python)
-| Component | Detail |
-|---|---|
-| Algorithm | Gradient Boosting Regressor (`scikit-learn`) |
-| Training data | 137,179 simulated card swipe events |
-| Users simulated | 11,000 (5 personas: residential east/west/central, commuter, off-campus) |
-| Features | `hall`, `meal_period`, `day_of_week`, `hour`, `is_weekend`, `occupancy_rate`, `bin_swipe_count` |
-| Target | `wait_time_seconds` |
-| Libraries | `pandas`, `numpy`, `scikit-learn`, `joblib` |
-
-### Frontend (React)
-| Component | Detail |
-|---|---|
-| Framework | React (via Lovable) |
-| Styling | Tailwind CSS |
-| Icons | `lucide-react` |
-| State | `useState` / `useEffect` — no external state library |
-| Model data | `src/data/modelOutput.js` (pre-computed predictions exported from Python) |
-
----
-
-## Project Structure
+## Project structure
 
 ```
-bu-dining-optimizer/
+bu-dining-buddy/
 ├── src/
+│   ├── pages/
+│   │   ├── Home.tsx          # Main recommendations screen (meal toggle, ranked cards)
+│   │   ├── AllHalls.tsx      # 2-column hall grid with area filter
+│   │   ├── HallDetail.tsx    # Per-hall detail: occupancy ring, menu, sparkline
+│   │   ├── Feedback.tsx      # 5-question feedback flow
+│   │   ├── Profile.tsx       # Meal plan + dietary preferences
+│   │   └── Confirmed.tsx     # Post-"Go Here" confirmation
 │   ├── components/
-│   │   ├── HomeScreen.jsx          # Recommendation feed — ranked hall cards
-│   │   ├── AllHallsView.jsx        # 2-column tile grid of all 5 halls
-│   │   ├── HallDetailView.jsx      # Occupancy bar + sparkline trend chart
-│   │   └── SettingsPanel.jsx       # Dietary preference toggles + location
+│   │   ├── MobileShell.tsx   # App chrome: max-width container + bottom tab bar
+│   │   ├── OccupancyBar.tsx  # Horizontal fill bar for occupancy %
+│   │   ├── OccupancyRing.tsx # SVG ring for hall detail
+│   │   ├── FoodAvailability.tsx
+│   │   ├── WaitTrendSparkline.tsx  # SVG hour-by-hour wait chart
+│   │   └── ui/               # shadcn/ui primitives
 │   ├── data/
-│   │   └── modelOutput.js          # Pre-computed GBM predictions (export from Python)
-│   └── App.jsx
-├── pipeline/
-│   ├── simulate_swipes.py          # Generates 137k synthetic swipe events
-│   └── train_model.py              # Trains GBM, exports predictions to JS
-├── output/
-│   ├── bu_dining_swipes_week.csv   # Simulated swipe dataset
-│   ├── bu_dining_summary_stats.csv # Hall × day × meal period aggregates
-│   └── bu_dining_user_stats.csv    # Per-user behavioral profiles
-└── README.md
+│   │   ├── modelOutput.ts    # Static hall predictions + hourly points (breakfast/lunch/dinner)
+│   │   ├── dailySummary.ts   # CSV-derived day-of-week predictions
+│   │   └── menuData.js       # PapaParse loader for menu + inventory CSVs
+│   ├── lib/
+│   │   └── dining.ts         # HALLS list, HALL_DISPLAY_NAMES, types, helpers
+│   └── context/
+│       └── PreferencesContext.tsx  # Dietary prefs + meal plan mock data
+├── model/
+│   ├── 01_train_model.py     # Trains wait + occupancy GBM models, saves .joblib files
+│   ├── 02_evaluate.py        # Evaluation plots and metrics
+│   ├── 03_api.py             # FastAPI serving /predict and /predict/all
+│   ├── bu_dining_swipes_week.csv       # 137k synthetic swipe events (training data)
+│   ├── bu_dining_menu_items.csv        # Menu item master (id, name, dietary tags, calories)
+│   ├── bu_dining_menu_schedule.csv     # What's served per hall/meal/date
+│   ├── bu_dining_inventory.csv         # Per-item inventory: units remaining, depletion %
+│   ├── bu_dining_summary_stats.csv     # Day-of-week avg wait + occupancy per hall/meal
+│   ├── wait_model.joblib     # Trained wait-time model
+│   ├── occ_model.joblib      # Trained occupancy model
+│   ├── le_hall.joblib        # Hall label encoder
+│   ├── le_meal.joblib        # Meal period label encoder
+│   └── model_meta.json       # Model metadata (algorithm, features, last refresh)
+├── requirements.txt          # Python dependencies (model API)
+├── package.json
+├── vite.config.ts
+└── tailwind.config.ts
 ```
 
 ---
 
-## ML Model — How It Works
+## Prerequisites
 
-### Data Simulation
-
-Since BU Dining / Aramark did not provide swipe data access, 7 days of realistic card swipe behavior was simulated across 11,000 users, 5 dining halls, and 3 meal periods.
-
-**User personas:**
-
-| Persona | Share | Behavior |
-|---|---|---|
-| `residential_east` | 25% | 2.6 meals/day, prefers Marciano Commons |
-| `residential_west` | 25% | 2.5 meals/day, prefers West Campus Dining |
-| `residential_central` | 20% | 2.7 meals/day, spreads across halls |
-| `commuter` | 20% | Lunch-heavy (90% lunch prob), only 15% breakfast |
-| `off_campus_plan` | 10% | Sporadic, ~0.8 meals/day |
-
-**Temporal realism:**
-- Gaussian-distributed arrival times around each meal peak (breakfast μ=8am, lunch μ=12:18pm, dinner μ=6:12pm)
-- Weekend attendance drops 28–40% vs weekday, breakfast shifts ~48 min later
-
-### Training
-
-```python
-from sklearn.ensemble import GradientBoostingRegressor
-
-features = ['hall_enc', 'meal_enc', 'day_enc', 'swipe_hour',
-            'is_weekend', 'occupancy_rate', 'bin_swipe_count']
-
-model = GradientBoostingRegressor(
-    n_estimators=200,
-    max_depth=5,
-    learning_rate=0.05,
-    random_state=42
-)
-model.fit(X_train, y_train)  # y = wait_time_sec
-```
-
-### Model Outputs (Monday Dinner — Current Predictions)
-
-| Rank | Hall | Predicted Wait | Occupancy | Status |
-|---|---|---|---|---|
-| 1 | Warren Towers Dining | ~6 min | 77.3% | Busy |
-| 2 | Marciano Commons | ~7 min | 88.6% | Busy |
-| 3 | West Campus Dining | ~7 min | 85.2% | Busy |
-| 4 | Stuvi2 / Towers | ~7 min | 84.4% | Busy |
-| 5 | Sargent Choice Café | ~7 min | 93.6% | High |
-
-### Exported Data
-
-Pre-computed predictions are exported as `src/data/modelOutput.js` with three exports:
-
-- `hallPredictions` — current meal window, sorted by predicted wait (feeds home screen ranking)
-- `lunchPredictions` — North Star window predictions (11am–4:30pm, Monday)
-- `hourlyPredictions` — per-hall wait time curve from 7am–9pm (feeds sparkline in hall detail view)
+| Tool | Version |
+|---|---|
+| Node.js | 18 or higher (tested on v22) |
+| npm | 8 or higher |
+| Python | 3.10 or higher (only needed to run the model API locally) |
 
 ---
 
-## App Screens
-
-### Home Screen
-- Greeting + swipe balance + dining dollar balance
-- Amber warning banner when predictions are stale (dismissible)
-- Lunch / Dinner toggle — switches between `lunchPredictions` and `hallPredictions`
-- 3 ranked recommendation cards, each showing:
-  - Predicted wait time (labeled "predicted" — never presented as live)
-  - Occupancy progress bar (color-coded: teal < 75%, amber 75–89%, red ≥ 90%)
-  - Dietary match tags from user profile
-  - Data caveat: "GBM model · trained on 137,179 swipes · 15-min delay — Aramark system"
-- "Go Here →" CTA — logs an adoption event on tap
-
-### All Halls View
-- 2-column tile grid with all 5 halls
-- Status color badge per tile
-- Tap any tile to open Hall Detail
-
-### Hall Detail View
-- Occupancy bar + predicted wait for selected hall
-- SVG sparkline: predicted wait time (y) vs hour 7am–9pm (x) for today
-- Vertical "now" marker at current hour
-- "Go Here →" CTA
-
-### Settings Panel
-- Dietary toggles: None, Vegetarian, Vegan, Halal, Gluten-Free
-- Campus location: East / West / Central
-- Preference changes update card ranking order on home screen in real time
-
----
-
-## North Star Metric
-
-**Weekly Lunch-Period Recommendation Adoptions**
-
-> The number of students who open the app, receive a recommendation, and visit that dining hall within 30 minutes during the lunch window (11am–4:30pm).
-
-The metric is scoped to the lunch window because that is the single most constrained meal period — halls regularly run out of food before 4:30pm. An adoption fires only when a student actually changes behavior: open → decide → act.
-
----
-
-## Key Design Decisions
-
-**Why synthetic data?** BU Dining operations are managed by Aramark, a third-party vendor. Hall managers (like those at Marciano Commons) work for Aramark, not BU, and have no incentive to share data externally. The correct stakeholder path is BU's VP of Dining Operations. Until that partnership is established, synthetic data grounded in realistic behavioral patterns is the honest approach.
-
-**Why label every predicted number?** Every wait time in the UI is labeled "predicted" and includes a model attribution badge. This is both an ethical design choice and a practical one — the Aramark system has a 15-minute data delay, so presenting numbers as "live" would be misleading.
-
-**Why pre-compute predictions instead of running the model in the browser?** The GBM model is a Python artifact. Pre-computing predictions per hall per hour and exporting them as a JS data file is the simplest integration path for a Lovable/React prototype. In production, this would be a FastAPI endpoint that re-runs inference on each Aramark data refresh.
-
----
-
-## Running Locally
+## Frontend setup
 
 ```bash
-# Frontend
-npm install
-npm run dev
+# 1. Clone the repository
+git clone <repo-url>
+cd bu-dining-buddy
 
-# ML pipeline (optional — modelOutput.js is already pre-generated)
-pip install pandas scikit-learn numpy
-python pipeline/simulate_swipes.py
-python pipeline/train_model.py
+# 2. Install JavaScript dependencies
+npm install
+
+# 3. Start the development server
+npm run dev
+```
+
+The app will be available at **http://localhost:5173**.
+
+The frontend is fully functional out of the box using the bundled CSV data and static model output — the live Python API is optional (see below).
+
+### Other frontend scripts
+
+```bash
+npm run build       # Production build → dist/
+npm run preview     # Preview the production build locally
+npm run lint        # ESLint
+npm run test        # Run Vitest unit tests once
+npm run test:watch  # Watch mode
 ```
 
 ---
 
-## What's Real vs. Mocked
+## Python model API setup (optional)
 
-| Component | Status |
-|---|---|
-| GBM model | Real — trained on simulated data |
-| Card swipe dataset | Simulated — BU/Aramark access not yet established |
-| Wait time predictions | Real model output |
-| Occupancy percentages | Derived from simulated swipe counts |
-| Menu / food availability | Not implemented — no data layer exists at Aramark |
-| Live Aramark feed | Not connected — 15-min delay constraint acknowledged |
-| Manager dashboard | Phase 2 — requires BU VP partnership |
+The frontend proxies `/model-api` to `https://bu-dining.onrender.com` by default. If you want to run the prediction API locally:
+
+```bash
+# 1. Create and activate a virtual environment
+python -m venv .venv
+source .venv/bin/activate      # macOS / Linux
+# .venv\Scripts\activate       # Windows
+
+# 2. Install Python dependencies
+pip install -r requirements.txt
+
+# 3. Start the API server (must run from the model/ directory)
+cd model
+uvicorn 03_api:app --reload --port 8000
+```
+
+The API will be at **http://localhost:8000**. Endpoints:
+
+| Method | Path | Description |
+|---|---|---|
+| `GET` | `/health` | Liveness check — returns hall and meal period lists |
+| `POST` | `/predict` | Single-hall prediction for a given timestamp |
+| `GET` | `/predict/all` | Predictions for all 5 halls, sorted by wait time |
+
+To point the frontend at your local API instead of Render, update `vite.config.ts`:
+
+```ts
+proxy: {
+  "/model-api": {
+    target: "http://localhost:8000",
+    rewrite: (path) => path.replace(/^\/model-api/, ""),
+  },
+},
+```
+
+### Retraining the model
+
+```bash
+cd model
+python 01_train_model.py   # Trains and saves wait_model.joblib + occ_model.joblib
+python 02_evaluate.py      # Generates evaluation plots
+```
 
 ---
 
-## Team
+## Dining halls
 
-DS719 Product Management · Boston University · Spring 2026
+| Display name | Full name | Capacity | Area |
+|---|---|---|---|
+| Marciano | Marciano Commons | 800 | East |
+| Warren | Warren Towers Dining | 600 | Central |
+| West | West Campus Dining | 500 | West |
+| Stu-Vi 2 | Stuvi2 Dining | 400 | East |
+| Sargent | Sargent Choice Café | 300 | Central |
+
+---
+
+## Meal period windows
+
+| Period | Hours |
+|---|---|
+| Breakfast | 7:00 – 10:59 am |
+| Lunch | 11:00 am – 4:29 pm |
+| Dinner | 4:30 – 9:00 pm |
+| Outside hours | Falls back to Lunch |
+
+---
+
+## localStorage keys
+
+The app persists the following keys in the browser's `localStorage`:
+
+| Key | Type | Description |
+|---|---|---|
+| `lastAdoptedHall` | `string` | Display name of the last hall the user tapped "Go Here →" on |
+| `lastAdoptedMeal` | `string` | Meal period active when "Go Here →" was tapped |
+| `feedbackLog` | `JSON array` | All submitted feedback entries |
+| Preferences | Various | Dietary tags, meal plan data (managed by `PreferencesContext`) |
+
+---
+
+## Notes
+
+- **Menu and inventory data** covers the week of April 6–12 2026 (synthetic). Dates outside this window fall back to April 7 2026.
+- **Swipe count data** has an inherent 15-minute stagger built into the model training.
+- **No real-time data feed** is active in the current build; the live API on Render serves predictions on demand but the CSV pipeline is the primary data source for menus and inventory.
