@@ -36,6 +36,22 @@ function currentMealForUI(date: Date): MealKey {
 
 type MealKey = "lunch" | "dinner";
 
+type MenuItemSummary = {
+  item_id: string;
+  item_name: string;
+  station: string;
+  depletion_pct: number | null;
+  depleted: boolean;
+};
+
+type HallMenuData = {
+  total: number;
+  matches: number;
+  items: MenuItemSummary[];
+};
+
+const MAX_MENU_VISIBLE = 6;
+
 export default function Home() {
   const navigate = useNavigate();
   const { name, mealPlanData, dietary } = usePreferences();
@@ -46,7 +62,7 @@ export default function Home() {
   const [ctaAnimatingId, setCtaAnimatingId] = useState<number | null>(null);
   const [loading, setLoading] = useState(true);
   const [warningDismissed, setWarningDismissed] = useState(false);
-  const [menuCountsByHall, setMenuCountsByHall] = useState<Record<string, { total: number; matches: number }>>({});
+  const [menuCountsByHall, setMenuCountsByHall] = useState<Record<string, HallMenuData>>({});
 
   const dayName = getDayName(now);
 
@@ -101,7 +117,26 @@ export default function Home() {
           const inventory = await getInventoryStatus(hall.name, mealPeriod, new Date());
           const nonDepleted = inventory.filter((item) => !item.depleted);
           const matches = await filterByDietary(nonDepleted, dietary);
-          return [hall.name, { total: nonDepleted.length, matches: matches.length }] as const;
+
+          const sortedItems: MenuItemSummary[] = nonDepleted
+            .slice()
+            .sort((a, b) => {
+              const aLevel = a.depletion_pct !== null ? 1 - a.depletion_pct : 0;
+              const bLevel = b.depletion_pct !== null ? 1 - b.depletion_pct : 0;
+              return bLevel - aLevel;
+            })
+            .map((item) => ({
+              item_id: String(item.item_id),
+              item_name: String(item.item_name),
+              station: String(item.station),
+              depletion_pct: item.depletion_pct,
+              depleted: item.depleted,
+            }));
+
+          return [
+            hall.name,
+            { total: nonDepleted.length, matches: matches.length, items: sortedItems },
+          ] as const;
         }),
       );
 
@@ -197,7 +232,7 @@ export default function Home() {
         >
           {([
             { key: "lunch" as MealKey, label: "Lunch (11a–4:30p)" },
-            { key: "dinner" as MealKey, label: "Dinner (now)" },
+            { key: "dinner" as MealKey, label: "Dinner (5p–9:30p)" },
           ]).map((opt) => {
             const active = meal === opt.key;
             return (
@@ -243,7 +278,7 @@ export default function Home() {
           const detailId = detailIdFor(hall);
           const waitMin = Math.round(hall.predictedWaitMin);
           const canonicalHallName = hallNameFor(hall);
-          const menuCounts = menuCountsByHall[canonicalHallName] ?? { total: 0, matches: 0 };
+          const menuCounts = menuCountsByHall[canonicalHallName] ?? { total: 0, matches: 0, items: [] };
           const preferenceLabel = dietary.join(", ");
           const showNoMatchWarning = dietary.length > 0 && menuCounts.matches === 0;
           return (
@@ -277,6 +312,48 @@ export default function Home() {
                   ? `⚠ No ${preferenceLabel} options right now`
                   : `${menuCounts.total} options available · ${menuCounts.matches} match your preferences`}
               </p>
+
+              {menuCounts.items.length > 0 && (
+                <div className="mt-space-3 border-t border-white/5 pt-space-3">
+                  <p className="font-body text-[11px] font-semibold text-muted-foreground uppercase tracking-wider mb-space-2">
+                    Menu Options
+                  </p>
+                  <div className="space-y-[6px]">
+                    {menuCounts.items.slice(0, MAX_MENU_VISIBLE).map((item) => {
+                      const invLevel =
+                        item.depletion_pct !== null
+                          ? Math.round((1 - item.depletion_pct) * 100)
+                          : null;
+                      const badgeClass =
+                        invLevel !== null && invLevel >= 70
+                          ? "bg-emerald-500/15 text-emerald-400"
+                          : invLevel !== null && invLevel >= 30
+                            ? "bg-amber-500/15 text-amber-400"
+                            : "bg-red-500/15 text-red-400";
+                      return (
+                        <div
+                          key={item.item_id}
+                          className="flex items-center justify-between gap-space-2"
+                        >
+                          <span className="font-body text-xs text-foreground truncate">
+                            {item.item_name}
+                          </span>
+                          <span
+                            className={`shrink-0 font-body text-[11px] font-medium px-1.5 py-0.5 rounded-sm-token ${badgeClass}`}
+                          >
+                            {invLevel !== null ? `${invLevel}%` : "—"}
+                          </span>
+                        </div>
+                      );
+                    })}
+                  </div>
+                  {menuCounts.items.length > MAX_MENU_VISIBLE && (
+                    <p className="font-body text-xs text-muted-foreground mt-space-2">
+                      +{menuCounts.items.length - MAX_MENU_VISIBLE} more options
+                    </p>
+                  )}
+                </div>
+              )}
 
               <FoodAvailability level={foodLevelFor(hall)} />
 
