@@ -5,27 +5,28 @@ import { MobileShell } from "@/components/MobileShell";
 export default function Confirmed() {
   return (
     <MobileShell hideTabBar>
-      <div className="flex-1 flex flex-col items-center justify-center px-6 text-center">
-        <div className="w-24 h-24 rounded-full bg-primary text-primary-foreground flex items-center justify-center cta-shadow animate-in zoom-in duration-300">
-          <Check className="w-12 h-12" strokeWidth={3} />
+      <div className="flex-1 flex flex-col justify-center px-space-4">
+        <div className="inline-flex min-h-[44px] items-center gap-space-2 px-space-3 py-space-2 rounded-sm-token bg-primary/15 text-primary font-body text-sm font-medium w-fit">
+          <Check className="w-4 h-4" strokeWidth={3} />
+          Visit logged
         </div>
 
-        <h1 className="mt-6 text-2xl font-bold tracking-tight">Nice — we logged your visit.</h1>
-        <p className="mt-2 text-sm text-muted-foreground max-w-xs">
+        <h1 className="mt-space-4 font-display text-2xl font-bold tracking-tight text-foreground text-left">Nice — we logged your visit.</h1>
+        <p className="mt-space-2 font-body text-sm text-muted-foreground max-w-xs text-left">
           Your recommendation adoption was counted toward this week's metric.
         </p>
 
-        <div className="mt-8 ios-card px-5 py-4 w-full max-w-xs">
-          <p className="text-[11px] uppercase tracking-wider font-semibold text-muted-foreground">This week</p>
-          <p className="mt-1 text-2xl font-bold text-primary">142 lunch adoptions</p>
-          <p className="text-xs text-muted-foreground">across campus</p>
+        <div className="mt-space-8 ios-card px-space-4 py-space-4 w-full max-w-xs">
+          <p className="font-body text-xs uppercase tracking-wider font-medium text-muted-foreground text-left">This week</p>
+          <p className="mt-space-1 font-display text-2xl font-bold text-primary text-left">142 lunch adoptions</p>
+          <p className="font-body text-xs text-muted-foreground text-left">across campus</p>
         </div>
 
-        <button className="mt-8 px-5 py-2.5 rounded-xl border border-border font-semibold text-sm text-foreground no-tap-highlight active:scale-[0.98] transition-transform">
+        <button className="mt-space-8 min-h-[44px] px-space-4 py-space-2 rounded-lg-token border border-white/10 font-body font-medium text-sm text-foreground no-tap-highlight text-left w-fit">
           Rate your experience
         </button>
 
-        <Link to="/" className="mt-6 text-primary font-semibold text-sm no-tap-highlight">
+        <Link to="/" className="mt-space-6 min-h-[44px] inline-flex items-center text-primary font-body font-medium text-sm no-tap-highlight text-left w-fit">
           ← Back to recommendations
         </Link>
       </div>

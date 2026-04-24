@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { occupancyColor } from "@/lib/dining";
 
 export function OccupancyBar({ pct }: { pct: number }) {
@@ -6,18 +5,7 @@ export function OccupancyBar({ pct }: { pct: number }) {
   const colorClass =
     tone === "good" ? "bg-status-good" : tone === "warn" ? "bg-status-warn" : "bg-status-bad";
 
-  const target = Math.min(100, pct);
-  const [width, setWidth] = useState(0);
-
-  useEffect(() => {
-    // Start at 0, then animate to target on next frame
-    setWidth(0);
-    const id = requestAnimationFrame(() => {
-      // Second rAF ensures the 0 width is committed before transitioning
-      requestAnimationFrame(() => setWidth(target));
-    });
-    return () => cancelAnimationFrame(id);
-  }, [target]);
+  const width = Math.min(100, pct);
 
   return (
     <div className="w-full">
@@ -30,7 +18,7 @@ export function OccupancyBar({ pct }: { pct: number }) {
         aria-label={`${pct}% capacity`}
       >
         <div
-          className={`h-full ${colorClass} rounded-full transition-[width] duration-1000 ease-out`}
+          className={`h-full ${colorClass} rounded-full`}
           style={{ width: `${width}%` }}
         />
       </div>

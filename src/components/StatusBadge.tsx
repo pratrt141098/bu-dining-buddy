@@ -10,7 +10,7 @@ export function StatusBadge({ status }: { status: HallStatus }) {
   }[tone];
 
   return (
-    <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold ${cls}`}>
+    <span className={`inline-flex items-center gap-space-1 px-space-2 py-space-1 rounded-sm-token font-body text-xs font-medium ${cls}`}>
       <span className="w-1.5 h-1.5 rounded-full bg-current" />
       {status}
     </span>

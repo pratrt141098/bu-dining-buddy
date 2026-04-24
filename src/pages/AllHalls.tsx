@@ -1,11 +1,11 @@
 import { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Star } from "lucide-react";
+import { Settings } from "lucide-react";
 import { MobileShell } from "@/components/MobileShell";
 import { StatusBadge } from "@/components/StatusBadge";
-import { FoodLevelDot } from "@/components/FoodAvailability";
-import { ALL_AREAS, CampusArea, HALLS, occupancyColor, rankHalls } from "@/lib/dining";
+import { ALL_AREAS, CampusArea, HALL_DISPLAY_NAMES, HALLS, occupancyColor, rankHalls } from "@/lib/dining";
 import { usePreferences } from "@/context/PreferencesContext";
+import { getDailyMealPredictions, getDayName, getMealPeriodForTime } from "@/data/dailySummary";
 
 const FILTERS: ("All" | CampusArea)[] = ["All", ...ALL_AREAS];
 const FILTER_LABEL: Record<string, string> = {
@@ -20,30 +20,67 @@ export default function AllHalls() {
   const { dietary } = usePreferences();
   const [filter, setFilter] = useState<(typeof FILTERS)[number]>("All");
 
-  const topRecId = useMemo(() => rankHalls(HALLS, dietary)[0]?.id, [dietary]);
+  const now = new Date();
+  const dayName = getDayName(now);
+  const activeMeal = getMealPeriodForTime(now);
+  const mealForDisplay = activeMeal === "closed" ? "dinner" : activeMeal;
+
+  const predictionById = useMemo(() => {
+    const rows = getDailyMealPredictions(dayName, mealForDisplay);
+    return rows.reduce<Record<number, (typeof rows)[number]>>((acc, row) => {
+      acc[row.id] = row;
+      return acc;
+    }, {});
+  }, [dayName, mealForDisplay]);
+
+  const hallsForDay = useMemo(
+    () =>
+      HALLS.map((hall) => {
+        const pred = predictionById[hall.id];
+        if (!pred) return hall;
+        return {
+          ...hall,
+          occupancy: Math.round(pred.occupancyPct),
+          waitMin: Math.round(pred.predictedWaitMin),
+          status: pred.status,
+        };
+      }),
+    [predictionById],
+  );
+
+  const topRecId = useMemo(() => rankHalls(hallsForDay, dietary)[0]?.id, [dietary, hallsForDay]);
 
   const visible = useMemo(
-    () => HALLS.filter(h => filter === "All" || h.area === filter),
-    [filter]
+    () => hallsForDay.filter(h => filter === "All" || h.area === filter),
+    [filter, hallsForDay]
   );
+
+  const dietaryMatches = useMemo(() => {
+    if (dietary.length === 0) return visible;
+    return visible.filter((h) => dietary.some((tag) => h.tags.includes(tag)));
+  }, [dietary, visible]);
+
+  const noMatches = dietary.length > 0 && dietaryMatches.length === 0;
 
   return (
     <MobileShell>
-      <header className="px-5 pt-[max(1.25rem,env(safe-area-inset-top))] pb-2">
-        <h1 className="text-2xl font-bold tracking-tight">All Halls</h1>
-        <p className="text-sm text-muted-foreground mt-1">Predicted wait times • 15-min refresh</p>
+      <header className="px-space-4 pt-[max(1rem,env(safe-area-inset-top))] pb-space-2">
+        <h1 className="font-display text-2xl font-bold tracking-tight text-foreground">All Halls</h1>
+        <p className="font-body text-sm text-muted-foreground mt-space-2 text-left">
+          Predicted {mealForDisplay} wait times for {dayName}
+        </p>
       </header>
 
       {/* Filter chips */}
-      <div className="px-5 pt-3 pb-4 flex gap-2 overflow-x-auto no-scrollbar">
+      <div className="px-space-4 pt-space-3 pb-space-4 flex gap-space-2 overflow-x-auto no-scrollbar">
         {FILTERS.map(f => {
           const active = filter === f;
           return (
             <button
               key={f}
               onClick={() => setFilter(f)}
-              className={`shrink-0 px-3.5 py-1.5 rounded-full text-sm font-semibold transition-colors no-tap-highlight ${
-                active ? "bg-primary text-primary-foreground" : "bg-card text-foreground border border-border"
+              className={`shrink-0 min-h-[44px] px-space-3 py-space-2 rounded-sm-token font-body text-sm font-medium transition-colors no-tap-highlight ${
+                active ? "bg-primary text-primary-foreground" : "bg-card text-foreground border border-white/10"
               }`}
             >
               {FILTER_LABEL[f]}
@@ -53,8 +90,8 @@ export default function AllHalls() {
       </div>
 
       {/* Tile grid */}
-      <section className="px-5 grid grid-cols-2 gap-3">
-        {visible.map(hall => {
+      <section className="px-space-4 grid grid-cols-2 gap-space-3">
+        {dietaryMatches.map(hall => {
           const tone = occupancyColor(hall.occupancy);
           const occColor =
             tone === "good" ? "text-status-good" : tone === "warn" ? "text-status-warn" : "text-status-bad";
@@ -63,27 +100,30 @@ export default function AllHalls() {
             <button
               key={hall.id}
               onClick={() => navigate(`/halls/${hall.id}`)}
-              className="ios-card p-3.5 text-left flex flex-col gap-2 active:scale-[0.98] transition-transform no-tap-highlight relative"
+              className={`ios-card min-h-[44px] p-space-3 flex flex-col items-center gap-space-2 active:scale-[0.98] transition-transform no-tap-highlight text-center ${
+                recommended ? "ring-2 ring-primary shadow-[0_0_12px_2px_hsl(var(--primary)/0.25)]" : ""
+              }`}
             >
-              {recommended && (
-                <span className="absolute -top-2 -right-2 inline-flex items-center gap-1 bg-primary text-primary-foreground text-[10px] font-bold px-2 py-1 rounded-full shadow-md">
-                  <Star className="w-3 h-3 fill-current" /> Recommended
-                </span>
-              )}
-              <div className="flex items-start justify-between gap-1">
-                <h3 className="font-semibold text-sm leading-tight text-foreground line-clamp-2 flex items-start gap-1.5">
-                  <FoodLevelDot level={hall.foodLevel} />
-                  <span className="line-clamp-2">{hall.name}</span>
-                </h3>
-              </div>
+              <h3 className="font-body text-sm font-medium leading-tight text-foreground line-clamp-2">
+                {HALL_DISPLAY_NAMES[hall.id] ?? hall.name}
+              </h3>
               <StatusBadge status={hall.status} />
-              <div className="mt-auto pt-2">
-                <p className={`text-3xl font-bold tracking-tight ${occColor}`}>{hall.occupancy}%</p>
-                <p className="text-[11px] text-muted-foreground mt-0.5">~{hall.waitMin} min predicted wait</p>
+              <div className="mt-auto pt-space-2">
+                <p className={`font-display text-2xl font-bold tracking-tight ${occColor}`}>{hall.occupancy}%</p>
+                <p className="font-body text-xs text-muted-foreground mt-space-1">~{hall.waitMin} min predicted wait</p>
               </div>
             </button>
           );
         })}
+
+        {noMatches && (
+          <div className="col-span-2 ios-card p-space-4">
+            <p className="font-body text-sm text-muted-foreground text-left inline-flex items-center gap-space-2">
+              <Settings className="w-4 h-4 text-primary" />
+              No halls match your current filters — try updating your preferences in Settings
+            </p>
+          </div>
+        )}
       </section>
     </MobileShell>
   );

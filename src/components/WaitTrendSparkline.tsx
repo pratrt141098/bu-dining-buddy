@@ -16,6 +16,7 @@ const X_LABELS: { hour: number; label: string }[] = [
 export function WaitTrendSparkline({ hallName }: Props) {
   const series: HourlyPoint[] = hourlyPredictions[hallName] ?? [];
   if (series.length === 0) return null;
+  const dayLabel = new Date().toLocaleDateString("en-US", { weekday: "long" });
 
   const W = 320;
   const H = 140;
@@ -48,7 +49,7 @@ export function WaitTrendSparkline({ hallName }: Props) {
   return (
     <div className="ios-card p-4">
       <h3 className="font-bold text-base text-foreground mb-1">
-        Predicted Wait Today (Monday)
+        Predicted Wait Today ({dayLabel})
       </h3>
       <p className="text-[11px] text-muted-foreground mb-3">
         GBM model · hour-by-hour forecast

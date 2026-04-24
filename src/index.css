@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -8,40 +6,38 @@
 
 @layer base {
   :root {
-    /* #0f1f1e */
-    --background: 177 35% 9%;
-    /* #e2f0ee */
-    --foreground: 170 31% 91%;
+    /* Midnight navy */
+    --background: 223 37% 11%;
+    /* Soft cool white */
+    --foreground: 210 33% 95%;
 
-    /* #1a2e2b cards */
-    --card: 173 27% 14%;
-    --card-foreground: 170 31% 91%;
+    /* Elevated slate cards */
+    --card: 221 29% 16%;
+    --card-foreground: 210 33% 95%;
 
-    --popover: 173 27% 14%;
-    --popover-foreground: 170 31% 91%;
+    --popover: 221 29% 16%;
+    --popover-foreground: 210 33% 95%;
 
-    /* #00C896 mint-teal accent */
-    --primary: 163 100% 39%;
-    --primary-foreground: 177 35% 9%;
-    /* Soft accent surface ≈ rgba(0,200,150,0.15) on dark bg */
-    --primary-soft: 168 40% 18%;
+    /* Electric sky accent */
+    --primary: 196 100% 58%;
+    --primary-foreground: 223 37% 11%;
+    --primary-soft: 204 55% 22%;
 
-    --secondary: 175 22% 17%;
-    --secondary-foreground: 170 31% 91%;
+    --secondary: 220 23% 19%;
+    --secondary-foreground: 210 33% 95%;
 
-    --muted: 175 18% 16%;
-    /* #7a9e9b */
-    --muted-foreground: 173 13% 55%;
+    --muted: 220 20% 18%;
+    --muted-foreground: 214 18% 67%;
 
-    --accent: 168 40% 18%;
-    --accent-foreground: 163 100% 50%;
+    --accent: 221 25% 21%;
+    --accent-foreground: 196 100% 66%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 170 10% 22%;
-    --input: 170 10% 22%;
-    --ring: 163 100% 39%;
+    --border: 218 18% 27%;
+    --input: 218 18% 27%;
+    --ring: 196 100% 58%;
 
     --radius: 1rem;
 
@@ -51,12 +47,12 @@
     --status-bad: 0 84% 60%;        /* #EF4444 */
 
     /* Tab bar — #111f1e + inactive #4a6e6b */
-    --tabbar: 175 30% 9%;
-    --tabbar-border: 170 10% 18%;
-    --tabbar-inactive: 173 19% 36%;
+    --tabbar: 223 34% 10%;
+    --tabbar-border: 218 18% 20%;
+    --tabbar-inactive: 216 16% 54%;
 
-    --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.3);
-    --shadow-cta: 0 6px 20px -4px hsl(163 100% 39% / 0.45);
+    --shadow-card: 0 10px 24px rgba(4, 8, 24, 0.42);
+    --shadow-cta: 0 10px 20px -8px hsl(196 100% 58% / 0.55);
 
     /* Sidebar (unused, kept for shadcn defaults) */
     --sidebar-background: 175 30% 9%;
@@ -81,8 +77,17 @@
 
   body {
     @apply text-foreground antialiased;
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-feature-settings: 'cv11', 'ss01';
+    background:
+      radial-gradient(1100px 480px at 0% -10%, hsl(198 100% 58% / 0.14), transparent 60%),
+      radial-gradient(900px 440px at 100% -18%, hsl(208 100% 64% / 0.1), transparent 60%),
+      hsl(var(--background));
+  }
+
+  h1, h2, h3 {
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    letter-spacing: -0.01em;
   }
 
   ::selection {
@@ -93,18 +98,35 @@
 
 @layer components {
   .ios-card {
-    @apply bg-card rounded-2xl border border-white/[0.08];
+    @apply bg-card rounded-2xl border border-white/[0.08] backdrop-blur-sm;
+    background-image: linear-gradient(180deg, hsl(0 0% 100% / 0.04), transparent 56%);
     box-shadow: var(--shadow-card);
   }
+
   .cta-shadow {
     box-shadow: var(--shadow-cta);
   }
+
   .no-tap-highlight {
     -webkit-tap-highlight-color: transparent;
   }
+
   .premium-shell {
-    background:
-      radial-gradient(90% 55% at 50% 0%, hsl(168 40% 14% / 0.55) 0%, transparent 70%),
-      hsl(var(--background));
+    background: hsl(var(--background));
+  }
+
+  .screen-enter {
+    animation: page-in 220ms ease-out;
+  }
+}
+
+@keyframes page-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }

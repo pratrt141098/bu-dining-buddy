@@ -8,6 +8,7 @@ import Home from "./pages/Home";
 import AllHalls from "./pages/AllHalls";
 import HallDetail from "./pages/HallDetail";
 import Confirmed from "./pages/Confirmed";
+import Feedback from "./pages/Feedback";
 import Profile from "./pages/Profile";
 import NotFound from "./pages/NotFound.tsx";
 
@@ -25,6 +26,7 @@ const App = () => (
             <Route path="/halls" element={<AllHalls />} />
             <Route path="/halls/:id" element={<HallDetail />} />
             <Route path="/confirmed" element={<Confirmed />} />
+            <Route path="/feedback" element={<Feedback />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="*" element={<NotFound />} />
           </Routes>

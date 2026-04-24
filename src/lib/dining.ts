@@ -23,6 +23,16 @@ export const HALLS: Hall[] = [
   { id: 5, name: "Sargent Choice Café", capacity: 300, occupancy: 94, waitMin: 18, status: "High", tags: ["Gluten-Free"], area: "Central", foodLevel: "Low" },
 ];
 
+// Short display names shown in the UI. Internal `name` fields remain unchanged
+// so data lookups (CSV matching, hourlyPredictions keys, etc.) keep working.
+export const HALL_DISPLAY_NAMES: Record<number, string> = {
+  1: "Marciano",
+  2: "Warren",
+  3: "West",
+  4: "Stu-Vi 2",
+  5: "Sargent",
+};
+
 export function foodLevelTone(level: FoodLevel): "good" | "warn" | "bad" {
   if (level === "Excellent") return "good";
   if (level === "Good") return "warn";

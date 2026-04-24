@@ -1,18 +1,21 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { ArrowRight, Check, Clock, Ticket, AlertTriangle, Cpu } from "lucide-react";
+import { Check, Clock, Ticket, AlertTriangle, X } from "lucide-react";
 import { MobileShell } from "@/components/MobileShell";
 import { OccupancyBar } from "@/components/OccupancyBar";
 import { FoodAvailability } from "@/components/FoodAvailability";
-import { HALLS } from "@/lib/dining";
+import { Skeleton } from "@/components/ui/skeleton";
+import { HALL_DISPLAY_NAMES, HALLS } from "@/lib/dining";
 import { usePreferences } from "@/context/PreferencesContext";
 import {
+  breakfastPredictions,
   hallPredictions,
   lunchPredictions,
-  MODEL_META,
   NAME_TO_HALL_ID,
   type HallPrediction,
 } from "@/data/modelOutput";
+import { getDailyMealPredictions, getDayName } from "@/data/dailySummary";
+import { filterByDietary, getInventoryStatus } from "@/data/menuData";
 
 function greeting() {
   const h = new Date().getHours();
@@ -21,22 +24,61 @@ function greeting() {
   return "Good evening";
 }
 
-function isLunchNow() {
-  const now = new Date();
-  const minutes = now.getHours() * 60 + now.getMinutes();
-  return minutes >= 11 * 60 && minutes <= 16 * 60 + 30;
+type MealKey = "breakfast" | "lunch" | "dinner";
+
+function currentMealForUI(date: Date): MealKey {
+  const minutes = date.getHours() * 60 + date.getMinutes();
+  if (minutes >= 7 * 60 && minutes < 11 * 60) return "breakfast";
+  if (minutes >= 11 * 60 && minutes < 16 * 60 + 30) return "lunch";
+  if (minutes >= 16 * 60 + 30 && minutes <= 21 * 60) return "dinner";
+  return "lunch";
 }
 
-type MealKey = "lunch" | "dinner";
+type MenuItemSummary = {
+  item_id: string;
+  item_name: string;
+  station: string;
+  depletion_pct: number | null;
+  depleted: boolean;
+  matchesDietary: boolean;
+};
+
+type HallMenuData = {
+  total: number;
+  matches: number;
+  items: MenuItemSummary[];
+};
+
+const MAX_MENU_VISIBLE = 6;
 
 export default function Home() {
   const navigate = useNavigate();
-  const { name, mealPlanData } = usePreferences();
+  const { name, mealPlanData, dietary } = usePreferences();
   const lowSwipes = mealPlanData.swipesRemainingThisWeek <= 3;
 
-  const [meal, setMeal] = useState<MealKey>(() => (isLunchNow() ? "lunch" : "dinner"));
+  const [meal, setMeal] = useState<MealKey>(() => currentMealForUI(new Date()));
+  const [now, setNow] = useState(() => new Date());
+  const [ctaAnimatingId, setCtaAnimatingId] = useState<number | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [warningDismissed, setWarningDismissed] = useState(false);
+  const [menuCountsByHall, setMenuCountsByHall] = useState<Record<string, HallMenuData>>({});
 
-  const predictions = meal === "lunch" ? lunchPredictions : hallPredictions;
+  const dayName = getDayName(now);
+
+  const dayMealPredictions: HallPrediction[] = useMemo(
+    () => getDailyMealPredictions(dayName, meal),
+    [dayName, meal],
+  );
+
+  const useLiveForSelectedMeal = dayMealPredictions.length > 0;
+
+  const predictions = useLiveForSelectedMeal
+    ? dayMealPredictions
+    : meal === "breakfast"
+      ? breakfastPredictions
+      : meal === "lunch"
+        ? lunchPredictions
+        : hallPredictions;
 
   // Always sort by predicted wait ascending so rank reflects current data.
   const ranked: HallPrediction[] = useMemo(
@@ -48,48 +90,136 @@ export default function Home() {
   const detailIdFor = (p: HallPrediction) => NAME_TO_HALL_ID[p.name] ?? p.id;
   const foodLevelFor = (p: HallPrediction) =>
     HALLS.find((h) => h.id === detailIdFor(p))?.foodLevel ?? "Good";
+  const hallNameFor = (p: HallPrediction) =>
+    HALLS.find((h) => h.id === detailIdFor(p))?.name ?? p.name;
+  const displayNameFor = (p: HallPrediction) =>
+    HALL_DISPLAY_NAMES[detailIdFor(p)] ?? hallNameFor(p);
 
-  // Tick every 30s so "Updated X min ago" stays fresh
-  const [, setTick] = useState(0);
+  // Tick every second so displayed time and freshness labels stay current.
   useEffect(() => {
-    const id = setInterval(() => setTick((t) => t + 1), 30000);
+    const id = setInterval(() => setNow(new Date()), 1000);
     return () => clearInterval(id);
   }, []);
 
-  const lastRefresh = useMemo(() => new Date(MODEL_META.lastRefresh), []);
-  const minutesAgo = Math.max(0, Math.floor((Date.now() - lastRefresh.getTime()) / 60000));
-  const updatedLabel = `Updated ${minutesAgo} min ago · 15-min refresh`;
+  useEffect(() => {
+    const id = setTimeout(() => setLoading(false), 500);
+    return () => clearTimeout(id);
+  }, []);
+
+  useEffect(() => {
+    setMeal(currentMealForUI(now));
+  }, [now]);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    async function loadMenuCounts() {
+      const mealPeriod = meal;
+      const counts = await Promise.all(
+        HALLS.map(async (hall) => {
+          const inventory = await getInventoryStatus(hall.name, mealPeriod, new Date());
+          const nonDepleted = inventory.filter((item) => !item.depleted);
+          const matches = await filterByDietary(nonDepleted, dietary);
+
+          const matchedIdSet = new Set(matches.map((m) => String(m.item_id)));
+
+          const sortedItems: MenuItemSummary[] = nonDepleted
+            .slice()
+            .sort((a, b) => {
+              // Dietary matches bubble to the top; within each group sort by inventory level desc.
+              const aMatch = matchedIdSet.has(String(a.item_id)) ? 1 : 0;
+              const bMatch = matchedIdSet.has(String(b.item_id)) ? 1 : 0;
+              if (bMatch !== aMatch) return bMatch - aMatch;
+              const aLevel = a.depletion_pct !== null ? 1 - a.depletion_pct : 0;
+              const bLevel = b.depletion_pct !== null ? 1 - b.depletion_pct : 0;
+              return bLevel - aLevel;
+            })
+            .map((item) => ({
+              item_id: String(item.item_id),
+              item_name: String(item.item_name),
+              station: String(item.station),
+              depletion_pct: item.depletion_pct,
+              depleted: item.depleted,
+              matchesDietary: matchedIdSet.has(String(item.item_id)),
+            }));
+
+          return [
+            hall.name,
+            { total: nonDepleted.length, matches: matches.length, items: sortedItems },
+          ] as const;
+        }),
+      );
+
+      if (!cancelled) {
+        setMenuCountsByHall(Object.fromEntries(counts));
+      }
+    }
+
+    loadMenuCounts();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [meal, dietary]);
+
+  const currentTimeLabel = now.toLocaleTimeString([], { hour: "numeric", minute: "2-digit" });
+  const updatedLabel = `Current time ${currentTimeLabel} · 15-min refresh`;
+  const showUnavailableWarning = !useLiveForSelectedMeal && meal !== "breakfast" && !warningDismissed;
+
+  const handleGoHere = (hall: HallPrediction, detailId: number) => {
+    localStorage.setItem("lastAdoptedHall", displayNameFor(hall));
+    localStorage.setItem("lastAdoptedMeal", meal);
+    setCtaAnimatingId(detailId);
+    setTimeout(() => {
+      setCtaAnimatingId(null);
+      navigate(`/halls/${detailId}`);
+    }, 200);
+  };
 
   return (
     <MobileShell>
       {/* Top bar */}
-      <header className="px-5 pt-[max(1rem,env(safe-area-inset-top))] pb-3 flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <div className="w-9 h-9 rounded-xl bg-primary text-primary-foreground flex items-center justify-center font-bold text-sm">BU</div>
-          <h1 className="font-bold text-base tracking-tight">BU Dining</h1>
+      <header className="px-space-4 pt-[max(1rem,env(safe-area-inset-top))] pb-space-3 flex items-center justify-between">
+        <div className="flex items-center gap-space-3">
+          <div className="w-11 h-11 rounded-lg-token bg-primary text-primary-foreground flex items-center justify-center font-display font-bold text-sm">BU</div>
+          <h1 className="font-display text-2xl font-bold leading-tight tracking-tight text-foreground">BU Dining</h1>
         </div>
-        <Link to="/profile" aria-label="Profile" className="w-9 h-9 rounded-full bg-primary-soft text-primary flex items-center justify-center font-semibold text-sm no-tap-highlight">
+        <Link to="/profile" aria-label="Profile" className="w-11 h-11 rounded-lg-token border border-white/10 bg-card text-foreground flex items-center justify-center font-body font-medium text-sm no-tap-highlight">
           {name.charAt(0)}
         </Link>
       </header>
 
       {/* Greeting */}
-      <section className="px-5 pt-2 pb-2">
-        <h2 className="text-2xl font-bold tracking-tight text-foreground">{greeting()}, {name}</h2>
-        <p className="text-sm text-muted-foreground mt-1 flex items-center gap-1.5">
+      <section className="px-space-4 pt-space-3 pb-space-2">
+        <h2 className="font-display text-2xl font-bold tracking-tight text-foreground text-center">{greeting()}, {name}</h2>
+        <p className="font-body text-sm text-muted-foreground mt-space-2 flex items-center gap-space-2 text-left">
           <Clock className="w-3.5 h-3.5" /> {updatedLabel}
         </p>
-        <div className="mt-2 inline-flex items-center gap-1.5 bg-card border border-border rounded-full px-2.5 py-1 text-[11px] font-semibold text-muted-foreground">
-          <Cpu className="w-3 h-3 text-primary" />
-          <span>GBM model · {Math.round(MODEL_META.trainingRows / 1000)}k swipes</span>
-        </div>
       </section>
 
+      {showUnavailableWarning && (
+        <section className="px-space-4 pb-space-2">
+          <div className="ios-card bg-status-warn/10 border-status-warn/30 p-space-3 flex items-start justify-between gap-space-3">
+            <p className="font-body text-sm text-status-warn text-left">
+              Predicted wait data is temporarily unavailable. Showing fallback BU hall predictions.
+            </p>
+            <button
+              type="button"
+              aria-label="Dismiss warning"
+              onClick={() => setWarningDismissed(true)}
+              className="min-h-[44px] min-w-[44px] inline-flex items-center justify-center rounded-sm-token text-status-warn"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          </div>
+        </section>
+      )}
+
       {/* Meal plan strip */}
-      <section className="px-5 pt-2 pb-3">
+      <section className="px-space-4 pt-space-3 pb-space-4">
         <button
           onClick={() => navigate("/profile")}
-          className={`w-full ios-card px-4 py-3 flex items-center gap-2 text-sm font-medium no-tap-highlight active:scale-[0.99] transition-transform ${
+          className={`w-full min-h-[44px] ios-card px-space-4 py-space-3 flex items-center gap-space-2 font-body text-sm font-medium text-left no-tap-highlight active:scale-[0.99] transition-transform ${
             lowSwipes ? "text-status-warn" : "text-foreground"
           }`}
         >
@@ -105,17 +235,20 @@ export default function Home() {
       </section>
 
       {/* Section header + meal toggle */}
-      <section className="px-5 pt-1 pb-2">
-        <h3 className="text-sm font-semibold text-foreground">Predicted wait times</h3>
+      <section className="px-space-4 pt-space-2 pb-space-3">
+        <h3 className="font-display text-2xl font-bold text-foreground">Predicted wait times</h3>
         <div
           role="tablist"
           aria-label="Meal period"
-          className="mt-2 inline-flex w-full bg-card border border-border rounded-xl p-1"
+          className="mt-space-3 inline-flex w-full bg-[var(--color-surface-1)] border border-white/10 rounded-xl-token p-space-1"
         >
-          {([
-            { key: "lunch" as MealKey, label: "Lunch (11a–4:30p)" },
-            { key: "dinner" as MealKey, label: "Dinner (now)" },
-          ]).map((opt) => {
+          {(
+            [
+              { key: "breakfast" as MealKey, label: "Breakfast", sub: "7–10am" },
+              { key: "lunch" as MealKey, label: "Lunch", sub: "11am–4:30pm" },
+              { key: "dinner" as MealKey, label: "Dinner", sub: "5–9pm" },
+            ] as const
+          ).map((opt) => {
             const active = meal === opt.key;
             return (
               <button
@@ -123,13 +256,16 @@ export default function Home() {
                 role="tab"
                 aria-selected={active}
                 onClick={() => setMeal(opt.key)}
-                className={`flex-1 rounded-lg px-2 py-1.5 text-xs font-semibold transition-colors no-tap-highlight ${
+                className={`flex-1 min-h-[44px] rounded-sm-token px-1 py-space-2 font-body font-medium transition-colors no-tap-highlight flex flex-col items-center justify-center gap-0.5 ${
                   active
                     ? "bg-primary text-primary-foreground"
                     : "text-muted-foreground hover:text-foreground"
                 }`}
               >
-                {opt.label}
+                <span className="text-[13px] leading-tight">{opt.label}</span>
+                <span className={`text-[10px] leading-tight ${active ? "text-primary-foreground/70" : "text-muted-foreground/60"}`}>
+                  {opt.sub}
+                </span>
               </button>
             );
           })}
@@ -137,54 +273,133 @@ export default function Home() {
       </section>
 
       {/* Recommendation cards */}
-      <section className="px-5 space-y-4">
-        {ranked.map((hall, idx) => {
+      <section className="px-space-4 space-y-space-4">
+        {loading
+          ? [0, 1, 2].map((n) => (
+              <article key={`skeleton-${n}`} className="ios-card p-space-4">
+                <div className="flex items-start justify-between mb-space-3">
+                  <div className="flex-1 space-y-space-2">
+                    <Skeleton className="h-[20px] w-[65%] rounded-sm-token" />
+                    <Skeleton className="h-[16px] w-[45%] rounded-sm-token" />
+                  </div>
+                  <Skeleton className="h-[22px] w-[110px] rounded-sm-token" />
+                </div>
+                <Skeleton className="h-[8px] w-full rounded-sm-token" />
+                <div className="mt-space-3 flex gap-space-2">
+                  <Skeleton className="h-[22px] w-[80px] rounded-sm-token" />
+                  <Skeleton className="h-[22px] w-[92px] rounded-sm-token" />
+                </div>
+                <Skeleton className="mt-space-4 h-[44px] w-full rounded-lg-token" />
+              </article>
+            ))
+          : ranked.map((hall, idx) => {
           const detailId = detailIdFor(hall);
           const waitMin = Math.round(hall.predictedWaitMin);
+          const canonicalHallName = hallNameFor(hall);
+          const menuCounts = menuCountsByHall[canonicalHallName] ?? { total: 0, matches: 0, items: [] };
+          const preferenceLabel = dietary.join(", ");
+          const showNoMatchWarning = dietary.length > 0 && menuCounts.matches === 0;
           return (
-            <article key={`${meal}-${hall.id}`} className="ios-card p-4 relative">
-              <div className="flex items-start justify-between gap-3 mb-3">
-                <div className="flex items-center gap-3 min-w-0">
-                  <div className="shrink-0 w-9 h-9 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold text-sm">
+            <article
+              key={`${meal}-${hall.id}`}
+              className="ios-card card-enter p-space-4 relative"
+              style={{ ["--stagger" as string]: idx }}
+            >
+              <div className="flex items-start justify-between gap-space-3 mb-space-3">
+                <div className="flex items-center gap-space-3 min-w-0">
+                  <div className="shrink-0 w-11 h-11 rounded-lg-token bg-primary text-primary-foreground flex items-center justify-center font-display font-bold text-sm">
                     {idx + 1}
                   </div>
-                  <h3 className="font-bold text-base text-foreground truncate">{hall.name}</h3>
+                  <h3 className="font-display text-[1.2rem] font-bold text-foreground truncate">{displayNameFor(hall)}</h3>
                 </div>
                 <div className="shrink-0 flex flex-col items-end">
-                  <span className="inline-flex items-center gap-1 bg-primary-soft text-primary text-xs font-semibold px-2.5 py-1 rounded-full">
+                  <span className="inline-flex items-center gap-space-1 bg-primary-soft text-primary font-body text-xs font-medium px-space-2 py-space-1 rounded-sm-token">
                     <Clock className="w-3 h-3" /> ~{waitMin} min predicted wait
-                  </span>
-                  <span className="mt-1 text-[10px] text-muted-foreground">
-                    GBM model · trained on 137,179 swipes
                   </span>
                 </div>
               </div>
 
               <OccupancyBar pct={Math.round(hall.occupancyPct)} />
 
+              <p className="mt-space-2 font-body text-xs text-left">
+                {showNoMatchWarning ? (
+                  <span className="text-[#F59E0B]">⚠ No {preferenceLabel} options right now</span>
+                ) : (
+                  <>
+                    <span className="text-muted-foreground">{menuCounts.total} options available · </span>
+                    <span className={dietary.length > 0 ? "text-emerald-400" : "text-muted-foreground"}>
+                      {menuCounts.matches} match your preferences
+                    </span>
+                  </>
+                )}
+              </p>
+
+              {menuCounts.items.length > 0 && (
+                <div className="mt-space-3 border-t border-white/5 pt-space-3">
+                  <p className="font-body text-[11px] font-semibold text-muted-foreground uppercase tracking-wider mb-space-2">
+                    Menu Options
+                  </p>
+                  <div className="space-y-[6px]">
+                    {menuCounts.items.slice(0, MAX_MENU_VISIBLE).map((item) => {
+                      const invLevel =
+                        item.depletion_pct !== null
+                          ? Math.round((1 - item.depletion_pct) * 100)
+                          : null;
+                      const badgeClass =
+                        invLevel !== null && invLevel >= 70
+                          ? "bg-emerald-500/15 text-emerald-400"
+                          : invLevel !== null && invLevel >= 30
+                            ? "bg-amber-500/15 text-amber-400"
+                            : "bg-red-500/15 text-red-400";
+                      return (
+                        <div
+                          key={item.item_id}
+                          className="flex items-center justify-between gap-space-2"
+                        >
+                          <span className={`font-body text-xs truncate ${item.matchesDietary && dietary.length > 0 ? "text-emerald-400" : "text-foreground"}`}>
+                            {item.item_name}
+                          </span>
+                          <span
+                            className={`shrink-0 font-body text-[11px] font-medium px-1.5 py-0.5 rounded-sm-token ${badgeClass}`}
+                          >
+                            {invLevel !== null ? `${invLevel}%` : "—"}
+                          </span>
+                        </div>
+                      );
+                    })}
+                  </div>
+                  {menuCounts.items.length > MAX_MENU_VISIBLE && (
+                    <p className="font-body text-xs text-muted-foreground mt-space-2">
+                      +{menuCounts.items.length - MAX_MENU_VISIBLE} more options
+                    </p>
+                  )}
+                </div>
+              )}
+
               <FoodAvailability level={foodLevelFor(hall)} />
 
-              <div className="mt-3 flex flex-wrap gap-1.5">
+              <div className="mt-space-3 flex flex-wrap gap-space-2">
                 {hall.dietaryTags.map((t) => (
-                  <span key={t} className="inline-flex items-center gap-1 bg-primary/15 text-primary text-[11px] font-semibold px-2 py-0.5 rounded-full">
+                  <span key={t} className="inline-flex items-center gap-space-1 bg-primary/15 text-primary font-body text-xs font-medium px-space-2 py-space-1 rounded-sm-token">
                     {t} <Check className="w-3 h-3" strokeWidth={3} />
                   </span>
                 ))}
               </div>
 
               <button
-                onClick={() => navigate(`/halls/${detailId}`)}
-                className="cta-shadow mt-4 w-full bg-primary text-primary-foreground rounded-xl py-3 font-semibold text-sm flex items-center justify-center gap-2 no-tap-highlight active:scale-[0.98] transition-transform"
+                onClick={() => handleGoHere(hall, detailId)}
+                className={`cta-shadow mt-space-4 min-h-[44px] w-full bg-primary text-primary-foreground rounded-lg-token py-space-3 font-body font-medium text-sm flex items-center justify-center gap-space-2 text-left no-tap-highlight ${ctaAnimatingId === detailId ? "cta-pulse" : ""}`}
               >
-                Go Here <ArrowRight className="w-4 h-4" />
+                Go Here →
               </button>
             </article>
           );
         })}
 
-        <p className="text-[11px] text-muted-foreground text-center pt-2">
-          Predicted wait times • underlying swipe counts have a 15-min delay
-        </p>
+        <div className="font-body text-xs text-muted-foreground text-left pt-space-2 pb-space-6 space-y-space-1">
+          <p>Predicted wait times • swipe counts have a 15-min delay</p>
+          <p>Food availability estimated from typical replenishment patterns • 15 minute stagger in recommendations</p>
+        </div>
       </section>
     </MobileShell>
   );

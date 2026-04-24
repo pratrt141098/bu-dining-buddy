@@ -1,0 +1,172 @@
+:root {
+    --color-primary: #00A896;
+
+    --color-bg: #0f172a;
+    --color-surface-1: #1e293b;
+    --color-surface-2: #243447;
+    --color-surface-3: #2d3f55;
+
+    --color-text-primary: #e5edf8;
+    --color-text-muted: #9fb0c7;
+    --color-text-faint: #7f90ab;
+
+    --font-display: "Satoshi", -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    --font-body: "General Sans", -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+    --radius-sm: 6px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --radius-xl: 16px;
+
+    --space-1: 4px;
+    --space-2: 8px;
+    --space-3: 12px;
+    --space-4: 16px;
+    --space-5: 20px;
+    --space-6: 24px;
+    --space-7: 28px;
+    --space-8: 32px;
+    --space-9: 36px;
+    --space-10: 40px;
+    --space-11: 44px;
+    --space-12: 48px;
+    --space-13: 52px;
+    --space-14: 56px;
+    --space-15: 60px;
+    --space-16: 64px;
+
+    --transition-interactive: 180ms cubic-bezier(0.16, 1, 0.3, 1);
+
+    /* Existing app tokens mapped to new palette */
+    --background: 222 47% 11%;
+    --foreground: 214 56% 94%;
+
+    --card: 215 34% 18%;
+    --card-foreground: 214 56% 94%;
+
+    --popover: 215 34% 18%;
+    --popover-foreground: 214 56% 94%;
+
+    --primary: 173 100% 33%;
+    --primary-foreground: 222 47% 11%;
+    --primary-soft: 206 31% 24%;
+
+    --secondary: 209 31% 21%;
+    --secondary-foreground: 214 56% 94%;
+
+    --muted: 209 31% 21%;
+    --muted-foreground: 215 31% 70%;
+
+    --accent: 209 31% 21%;
+    --accent-foreground: 173 100% 33%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 0 0% 100% / 0.1;
+    --input: 0 0% 100% / 0.1;
+    --ring: 173 100% 33%;
+
+    --radius: var(--radius-xl);
+
+    --status-good: 173 100% 33%;
+    --status-warn: 38 92% 50%;
+    --status-bad: 0 84% 60%;
+
+    --tabbar: 222 47% 11%;
+    --tabbar-border: 0 0% 100% / 0.1;
+    --tabbar-inactive: 216 19% 64%;
+
+    --shadow-card: none;
+    --shadow-cta: none;
+}
+
+html,
+body,
+#root {
+  background: var(--color-bg);
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--color-text-primary);
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+button,
+a {
+  transition: transform var(--transition-interactive),
+    background-color var(--transition-interactive),
+    color var(--transition-interactive),
+    border-color var(--transition-interactive);
+}
+
+.premium-shell {
+  background: var(--color-bg);
+}
+
+.ios-card {
+  border-radius: var(--radius-xl);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--color-surface-1);
+  box-shadow: none;
+}
+
+.token-pill {
+  border-radius: var(--radius-sm);
+}
+
+.card-enter {
+  animation: card-fade-up 300ms ease-out both;
+  animation-delay: calc(var(--stagger, 0) * 80ms);
+}
+
+.cta-pulse {
+  animation: cta-press 200ms ease;
+}
+
+.screen-enter {
+  animation: none;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0 50%;
+  }
+}
+
+@keyframes card-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes cta-press {
+  0% {
+    transform: scale(0.95);
+  }
+  50% {
+    transform: scale(1.02);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
