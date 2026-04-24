@@ -14,7 +14,9 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
+        sans: ["var(--font-body)", "system-ui", "-apple-system", "sans-serif"],
+        display: ["var(--font-display)", "system-ui", "-apple-system", "sans-serif"],
+        body: ["var(--font-body)", "system-ui", "-apple-system", "sans-serif"],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -76,6 +78,28 @@ export default {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
+        "sm-token": "var(--radius-sm)",
+        "md-token": "var(--radius-md)",
+        "lg-token": "var(--radius-lg)",
+        "xl-token": "var(--radius-xl)",
+      },
+      spacing: {
+        "space-1": "var(--space-1)",
+        "space-2": "var(--space-2)",
+        "space-3": "var(--space-3)",
+        "space-4": "var(--space-4)",
+        "space-5": "var(--space-5)",
+        "space-6": "var(--space-6)",
+        "space-7": "var(--space-7)",
+        "space-8": "var(--space-8)",
+        "space-9": "var(--space-9)",
+        "space-10": "var(--space-10)",
+        "space-11": "var(--space-11)",
+        "space-12": "var(--space-12)",
+        "space-13": "var(--space-13)",
+        "space-14": "var(--space-14)",
+        "space-15": "var(--space-15)",
+        "space-16": "var(--space-16)",
       },
       keyframes: {
         "accordion-down": {

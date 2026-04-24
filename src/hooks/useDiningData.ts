@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-const API_BASE = "https://bu-dining.onrender.com";
+const API_BASE = "/model-api";
 
 export interface HallPrediction {
   hall_name: string;
@@ -21,13 +21,11 @@ export function useDiningData() {
 
   const fetchData = async () => {
     try {
-      const apiUrl = "https://bu-dining.onrender.com/predict/all";
-      const res = await fetch(
-        `https://api.allorigins.win/get?url=${encodeURIComponent(apiUrl)}`
-      );
-      const wrapper = await res.json();
-      const json = JSON.parse(wrapper.contents);
-      console.log("API response:", json);
+      const apiUrl = `${API_BASE}/predict/all`;
+      const res = await fetch(apiUrl);
+      if (!res.ok) throw new Error(`Model API failed: ${res.status}`);
+      const json = await res.json();
+
       const hallsArray = json?.halls ?? [];
       if (hallsArray.length === 0) throw new Error("Empty halls array");
       setHalls(hallsArray);

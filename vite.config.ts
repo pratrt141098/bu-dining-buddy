@@ -11,6 +11,13 @@ export default defineConfig(({ mode }) => ({
     hmr: {
       overlay: false,
     },
+    proxy: {
+      "/model-api": {
+        target: "https://bu-dining.onrender.com",
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/model-api/, ""),
+      },
+    },
   },
   plugins: [react(), mode === "development" && componentTagger()].filter(Boolean),
   resolve: {

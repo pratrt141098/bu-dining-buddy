@@ -6,13 +6,13 @@ export function FoodAvailability({ level }: { level: FoodLevel }) {
     tone === "good" ? "text-status-good" : tone === "warn" ? "text-status-warn" : "text-status-bad";
 
   return (
-    <div className="mt-3">
-      <div className="flex items-center gap-1.5 text-xs">
+    <div className="mt-space-3">
+      <div className="flex items-center gap-space-1 font-body text-xs text-left">
         <span aria-hidden>🍽️</span>
         <span className="text-muted-foreground">Food availability:</span>
-        <span className={`font-semibold ${colorClass}`}>{level}</span>
+        <span className={`font-medium ${colorClass}`}>{level}</span>
       </div>
-      <p className="text-[10px] text-muted-foreground mt-0.5">
+      <p className="font-body text-xs text-muted-foreground mt-space-1 text-left">
         Estimated — based on typical replenishment patterns. Not real-time.
       </p>
     </div>

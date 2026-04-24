@@ -1,0 +1,533 @@
+date,day_of_week,is_weekend,hall,meal_period,item_id,item_name,station,dietary_tags,calories,available
+2026-04-06,Monday,False,Marciano Commons,breakfast,MRC-001,Scrambled Eggs,Hot Breakfast,"none,halal",190,True
+2026-04-06,Monday,False,Marciano Commons,breakfast,MRC-002,Veggie Omelette,Hot Breakfast,vegetarian,220,True
+2026-04-06,Monday,False,Marciano Commons,breakfast,MRC-003,Turkey Sausage,Hot Breakfast,halal,160,True
+2026-04-06,Monday,False,Marciano Commons,breakfast,MRC-004,Oatmeal Bar,Hot Breakfast,"vegetarian,vegan",180,True
+2026-04-06,Monday,False,Marciano Commons,breakfast,MRC-005,Whole Wheat Toast,Bakery,"vegetarian,vegan",110,True
+2026-04-06,Monday,False,Marciano Commons,breakfast,MRC-006,Blueberry Muffin,Bakery,vegetarian,290,True
+2026-04-06,Monday,False,Marciano Commons,lunch,MRC-007,Grilled Chicken Wrap,Grill,halal,510,True
+2026-04-06,Monday,False,Marciano Commons,lunch,MRC-008,Beef Burger,Grill,none,620,True
+2026-04-06,Monday,False,Marciano Commons,lunch,MRC-009,Black Bean Burger,Grill,"vegetarian,vegan",420,True
+2026-04-06,Monday,False,Marciano Commons,lunch,MRC-010,Mixed Greens Bowl,Salad Bar,"vegetarian,vegan,gluten_free",120,True
+2026-04-06,Monday,False,Marciano Commons,lunch,MRC-011,Chicken Tikka Masala,International,"halal,gluten_free",480,True
+2026-04-06,Monday,False,Marciano Commons,lunch,MRC-012,Dal Tadka,International,"vegetarian,vegan,gluten_free",310,True
+2026-04-06,Monday,False,Marciano Commons,lunch,MRC-013,Penne Arrabiata,Pasta,"vegetarian,vegan",390,True
+2026-04-06,Monday,False,Marciano Commons,lunch,MRC-014,Mac & Cheese,Pasta,vegetarian,520,True
+2026-04-06,Monday,False,Marciano Commons,lunch,MRC-018,Chocolate Cake,Dessert,vegetarian,350,True
+2026-04-06,Monday,False,Marciano Commons,dinner,MRC-010,Mixed Greens Bowl,Salad Bar,"vegetarian,vegan,gluten_free",120,True
+2026-04-06,Monday,False,Marciano Commons,dinner,MRC-011,Chicken Tikka Masala,International,"halal,gluten_free",480,True
+2026-04-06,Monday,False,Marciano Commons,dinner,MRC-013,Penne Arrabiata,Pasta,"vegetarian,vegan",390,True
+2026-04-06,Monday,False,Marciano Commons,dinner,MRC-014,Mac & Cheese,Pasta,vegetarian,520,True
+2026-04-06,Monday,False,Marciano Commons,dinner,MRC-015,Roast Chicken,Carving,"halal,gluten_free",430,True
+2026-04-06,Monday,False,Marciano Commons,dinner,MRC-016,Herb Roasted Salmon,Carving,gluten_free,380,True
+2026-04-06,Monday,False,Marciano Commons,dinner,MRC-017,Roasted Vegetables,Sides,"vegetarian,vegan,gluten_free",90,True
+2026-04-06,Monday,False,Marciano Commons,dinner,MRC-018,Chocolate Cake,Dessert,vegetarian,350,True
+2026-04-06,Monday,False,Warren Towers Dining,breakfast,WRN-001,Pancakes,Hot Breakfast,vegetarian,310,True
+2026-04-06,Monday,False,Warren Towers Dining,breakfast,WRN-002,Halal Chicken Sausage,Hot Breakfast,halal,140,True
+2026-04-06,Monday,False,Warren Towers Dining,breakfast,WRN-003,Greek Yogurt Parfait,Hot Breakfast,"vegetarian,gluten_free",230,True
+2026-04-06,Monday,False,Warren Towers Dining,lunch,WRN-005,Grilled Cheese,Grill,vegetarian,410,True
+2026-04-06,Monday,False,Warren Towers Dining,lunch,WRN-006,Halal Beef Patty Melt,Grill,halal,580,True
+2026-04-06,Monday,False,Warren Towers Dining,lunch,WRN-007,Tofu Stir Fry,Vegan Station,"vegetarian,vegan,gluten_free",330,True
+2026-04-06,Monday,False,Warren Towers Dining,lunch,WRN-008,Lentil Soup,Vegan Station,"vegetarian,vegan,gluten_free",210,True
+2026-04-06,Monday,False,Warren Towers Dining,lunch,WRN-009,Cheese Pizza,Pizza,vegetarian,480,True
+2026-04-06,Monday,False,Warren Towers Dining,lunch,WRN-010,Vegan Margherita,Pizza,"vegetarian,vegan",390,True
+2026-04-06,Monday,False,Warren Towers Dining,lunch,WRN-011,Chicken Tenders,Comfort,none,520,True
+2026-04-06,Monday,False,Warren Towers Dining,lunch,WRN-012,Loaded Baked Potato,Comfort,"vegetarian,gluten_free",370,True
+2026-04-06,Monday,False,Warren Towers Dining,dinner,WRN-007,Tofu Stir Fry,Vegan Station,"vegetarian,vegan,gluten_free",330,True
+2026-04-06,Monday,False,Warren Towers Dining,dinner,WRN-008,Lentil Soup,Vegan Station,"vegetarian,vegan,gluten_free",210,True
+2026-04-06,Monday,False,Warren Towers Dining,dinner,WRN-009,Cheese Pizza,Pizza,vegetarian,480,True
+2026-04-06,Monday,False,Warren Towers Dining,dinner,WRN-010,Vegan Margherita,Pizza,"vegetarian,vegan",390,True
+2026-04-06,Monday,False,Warren Towers Dining,dinner,WRN-011,Chicken Tenders,Comfort,none,520,True
+2026-04-06,Monday,False,Warren Towers Dining,dinner,WRN-012,Loaded Baked Potato,Comfort,"vegetarian,gluten_free",370,True
+2026-04-06,Monday,False,Warren Towers Dining,dinner,WRN-013,Ice Cream Bar,Dessert,vegetarian,260,True
+2026-04-06,Monday,False,West Campus Dining,breakfast,WST-001,Eggs Benedict,Hot Breakfast,none,420,True
+2026-04-06,Monday,False,West Campus Dining,breakfast,WST-002,Veggie Frittata,Hot Breakfast,"vegetarian,gluten_free",280,True
+2026-04-06,Monday,False,West Campus Dining,breakfast,WST-003,Halal Turkey Bacon,Hot Breakfast,halal,130,True
+2026-04-06,Monday,False,West Campus Dining,breakfast,WST-004,Avocado Toast,Bakery,"vegetarian,vegan",310,True
+2026-04-06,Monday,False,West Campus Dining,lunch,WST-005,Falafel Bowl,Global Bowl,"vegetarian,vegan",460,True
+2026-04-06,Monday,False,West Campus Dining,lunch,WST-006,Halal Shawarma Bowl,Global Bowl,"halal,gluten_free",530,True
+2026-04-06,Monday,False,West Campus Dining,lunch,WST-007,Brown Rice Buddha Bowl,Global Bowl,"vegetarian,vegan,gluten_free",340,True
+2026-04-06,Monday,False,West Campus Dining,lunch,WST-008,Classic Burger,Grill,none,590,True
+2026-04-06,Monday,False,West Campus Dining,lunch,WST-011,Sweet Potato Fries,Sides,"vegetarian,vegan,gluten_free",230,True
+2026-04-06,Monday,False,West Campus Dining,dinner,WST-005,Falafel Bowl,Global Bowl,"vegetarian,vegan",460,True
+2026-04-06,Monday,False,West Campus Dining,dinner,WST-006,Halal Shawarma Bowl,Global Bowl,"halal,gluten_free",530,True
+2026-04-06,Monday,False,West Campus Dining,dinner,WST-007,Brown Rice Buddha Bowl,Global Bowl,"vegetarian,vegan,gluten_free",340,True
+2026-04-06,Monday,False,West Campus Dining,dinner,WST-009,Tomato Bisque,Soup,"vegetarian,vegan,gluten_free",160,True
+2026-04-06,Monday,False,West Campus Dining,dinner,WST-010,Grilled Salmon,Grill,gluten_free,400,True
+2026-04-06,Monday,False,West Campus Dining,dinner,WST-011,Sweet Potato Fries,Sides,"vegetarian,vegan,gluten_free",230,True
+2026-04-06,Monday,False,West Campus Dining,dinner,WST-012,Fruit Crumble,Dessert,vegetarian,290,True
+2026-04-06,Monday,False,Stuvi2 / towers,breakfast,STU-001,Breakfast Sandwich,Express,none,380,True
+2026-04-06,Monday,False,Stuvi2 / towers,breakfast,STU-002,Vegan Breakfast Wrap,Express,"vegetarian,vegan",320,True
+2026-04-06,Monday,False,Stuvi2 / towers,breakfast,STU-003,Halal Omelette,Express,halal,250,True
+2026-04-06,Monday,False,Stuvi2 / towers,lunch,STU-004,Greek Salad,Grab & Go,"vegetarian,gluten_free",220,True
+2026-04-06,Monday,False,Stuvi2 / towers,lunch,STU-005,Halal Chicken Wrap,Grab & Go,halal,490,True
+2026-04-06,Monday,False,Stuvi2 / towers,lunch,STU-006,Hummus & Veggie Wrap,Grab & Go,"vegetarian,vegan",370,True
+2026-04-06,Monday,False,Stuvi2 / towers,lunch,STU-007,Pasta Primavera,Hot Line,"vegetarian,vegan",410,True
+2026-04-06,Monday,False,Stuvi2 / towers,lunch,STU-010,Steamed Broccoli,Sides,"vegetarian,vegan,gluten_free",60,True
+2026-04-06,Monday,False,Stuvi2 / towers,dinner,STU-007,Pasta Primavera,Hot Line,"vegetarian,vegan",410,True
+2026-04-06,Monday,False,Stuvi2 / towers,dinner,STU-008,Halal Beef Stew,Hot Line,"halal,gluten_free",470,True
+2026-04-06,Monday,False,Stuvi2 / towers,dinner,STU-009,Roasted Chicken Thigh,Hot Line,"halal,gluten_free",400,True
+2026-04-06,Monday,False,Stuvi2 / towers,dinner,STU-010,Steamed Broccoli,Sides,"vegetarian,vegan,gluten_free",60,True
+2026-04-06,Monday,False,Stuvi2 / towers,dinner,STU-011,Brownie,Dessert,vegetarian,310,True
+2026-04-06,Monday,False,Sargent Choice Café,breakfast,SAR-002,Green Smoothie,Wellness,"vegetarian,vegan,gluten_free",180,True
+2026-04-06,Monday,False,Sargent Choice Café,breakfast,SAR-003,Chia Pudding,Wellness,"vegetarian,vegan,gluten_free",210,True
+2026-04-06,Monday,False,Sargent Choice Café,lunch,SAR-004,Quinoa Power Bowl,Café,"vegetarian,vegan,gluten_free",430,True
+2026-04-06,Monday,False,Sargent Choice Café,lunch,SAR-005,Grilled Chicken Salad,Café,"halal,gluten_free",380,True
+2026-04-06,Monday,False,Sargent Choice Café,lunch,SAR-006,Lentil & Kale Soup,Café,"vegetarian,vegan,gluten_free",190,True
+2026-04-06,Monday,False,Sargent Choice Café,lunch,SAR-007,Turkey Avocado Wrap,Café,none,460,True
+2026-04-06,Monday,False,Sargent Choice Café,dinner,SAR-006,Lentil & Kale Soup,Café,"vegetarian,vegan,gluten_free",190,True
+2026-04-06,Monday,False,Sargent Choice Café,dinner,SAR-008,Salmon & Quinoa Bowl,Wellness,gluten_free,490,True
+2026-04-06,Monday,False,Sargent Choice Café,dinner,SAR-009,Vegan Buddha Bowl,Wellness,"vegetarian,vegan,gluten_free",360,True
+2026-04-07,Tuesday,False,Marciano Commons,breakfast,MRC-001,Scrambled Eggs,Hot Breakfast,"none,halal",190,True
+2026-04-07,Tuesday,False,Marciano Commons,breakfast,MRC-002,Veggie Omelette,Hot Breakfast,vegetarian,220,True
+2026-04-07,Tuesday,False,Marciano Commons,breakfast,MRC-003,Turkey Sausage,Hot Breakfast,halal,160,True
+2026-04-07,Tuesday,False,Marciano Commons,breakfast,MRC-004,Oatmeal Bar,Hot Breakfast,"vegetarian,vegan",180,True
+2026-04-07,Tuesday,False,Marciano Commons,breakfast,MRC-005,Whole Wheat Toast,Bakery,"vegetarian,vegan",110,True
+2026-04-07,Tuesday,False,Marciano Commons,breakfast,MRC-006,Blueberry Muffin,Bakery,vegetarian,290,True
+2026-04-07,Tuesday,False,Marciano Commons,lunch,MRC-007,Grilled Chicken Wrap,Grill,halal,510,True
+2026-04-07,Tuesday,False,Marciano Commons,lunch,MRC-008,Beef Burger,Grill,none,620,True
+2026-04-07,Tuesday,False,Marciano Commons,lunch,MRC-009,Black Bean Burger,Grill,"vegetarian,vegan",420,True
+2026-04-07,Tuesday,False,Marciano Commons,lunch,MRC-010,Mixed Greens Bowl,Salad Bar,"vegetarian,vegan,gluten_free",120,True
+2026-04-07,Tuesday,False,Marciano Commons,lunch,MRC-011,Chicken Tikka Masala,International,"halal,gluten_free",480,True
+2026-04-07,Tuesday,False,Marciano Commons,lunch,MRC-012,Dal Tadka,International,"vegetarian,vegan,gluten_free",310,True
+2026-04-07,Tuesday,False,Marciano Commons,lunch,MRC-013,Penne Arrabiata,Pasta,"vegetarian,vegan",390,True
+2026-04-07,Tuesday,False,Marciano Commons,lunch,MRC-014,Mac & Cheese,Pasta,vegetarian,520,True
+2026-04-07,Tuesday,False,Marciano Commons,lunch,MRC-018,Chocolate Cake,Dessert,vegetarian,350,True
+2026-04-07,Tuesday,False,Marciano Commons,dinner,MRC-010,Mixed Greens Bowl,Salad Bar,"vegetarian,vegan,gluten_free",120,True
+2026-04-07,Tuesday,False,Marciano Commons,dinner,MRC-011,Chicken Tikka Masala,International,"halal,gluten_free",480,True
+2026-04-07,Tuesday,False,Marciano Commons,dinner,MRC-012,Dal Tadka,International,"vegetarian,vegan,gluten_free",310,True
+2026-04-07,Tuesday,False,Marciano Commons,dinner,MRC-013,Penne Arrabiata,Pasta,"vegetarian,vegan",390,True
+2026-04-07,Tuesday,False,Marciano Commons,dinner,MRC-014,Mac & Cheese,Pasta,vegetarian,520,True
+2026-04-07,Tuesday,False,Marciano Commons,dinner,MRC-015,Roast Chicken,Carving,"halal,gluten_free",430,True
+2026-04-07,Tuesday,False,Marciano Commons,dinner,MRC-016,Herb Roasted Salmon,Carving,gluten_free,380,True
+2026-04-07,Tuesday,False,Marciano Commons,dinner,MRC-017,Roasted Vegetables,Sides,"vegetarian,vegan,gluten_free",90,True
+2026-04-07,Tuesday,False,Marciano Commons,dinner,MRC-018,Chocolate Cake,Dessert,vegetarian,350,True
+2026-04-07,Tuesday,False,Warren Towers Dining,breakfast,WRN-001,Pancakes,Hot Breakfast,vegetarian,310,True
+2026-04-07,Tuesday,False,Warren Towers Dining,breakfast,WRN-002,Halal Chicken Sausage,Hot Breakfast,halal,140,True
+2026-04-07,Tuesday,False,Warren Towers Dining,breakfast,WRN-003,Greek Yogurt Parfait,Hot Breakfast,"vegetarian,gluten_free",230,True
+2026-04-07,Tuesday,False,Warren Towers Dining,breakfast,WRN-004,Granola Bowl,Cereal & Cold,"vegetarian,vegan",260,True
+2026-04-07,Tuesday,False,Warren Towers Dining,lunch,WRN-005,Grilled Cheese,Grill,vegetarian,410,True
+2026-04-07,Tuesday,False,Warren Towers Dining,lunch,WRN-006,Halal Beef Patty Melt,Grill,halal,580,True
+2026-04-07,Tuesday,False,Warren Towers Dining,lunch,WRN-007,Tofu Stir Fry,Vegan Station,"vegetarian,vegan,gluten_free",330,True
+2026-04-07,Tuesday,False,Warren Towers Dining,lunch,WRN-008,Lentil Soup,Vegan Station,"vegetarian,vegan,gluten_free",210,True
+2026-04-07,Tuesday,False,Warren Towers Dining,lunch,WRN-009,Cheese Pizza,Pizza,vegetarian,480,True
+2026-04-07,Tuesday,False,Warren Towers Dining,lunch,WRN-010,Vegan Margherita,Pizza,"vegetarian,vegan",390,True
+2026-04-07,Tuesday,False,Warren Towers Dining,lunch,WRN-011,Chicken Tenders,Comfort,none,520,True
+2026-04-07,Tuesday,False,Warren Towers Dining,lunch,WRN-012,Loaded Baked Potato,Comfort,"vegetarian,gluten_free",370,True
+2026-04-07,Tuesday,False,Warren Towers Dining,dinner,WRN-007,Tofu Stir Fry,Vegan Station,"vegetarian,vegan,gluten_free",330,True
+2026-04-07,Tuesday,False,Warren Towers Dining,dinner,WRN-008,Lentil Soup,Vegan Station,"vegetarian,vegan,gluten_free",210,True
+2026-04-07,Tuesday,False,Warren Towers Dining,dinner,WRN-009,Cheese Pizza,Pizza,vegetarian,480,True
+2026-04-07,Tuesday,False,Warren Towers Dining,dinner,WRN-011,Chicken Tenders,Comfort,none,520,True
+2026-04-07,Tuesday,False,Warren Towers Dining,dinner,WRN-012,Loaded Baked Potato,Comfort,"vegetarian,gluten_free",370,True
+2026-04-07,Tuesday,False,Warren Towers Dining,dinner,WRN-013,Ice Cream Bar,Dessert,vegetarian,260,True
+2026-04-07,Tuesday,False,West Campus Dining,breakfast,WST-001,Eggs Benedict,Hot Breakfast,none,420,True
+2026-04-07,Tuesday,False,West Campus Dining,breakfast,WST-002,Veggie Frittata,Hot Breakfast,"vegetarian,gluten_free",280,True
+2026-04-07,Tuesday,False,West Campus Dining,breakfast,WST-003,Halal Turkey Bacon,Hot Breakfast,halal,130,True
+2026-04-07,Tuesday,False,West Campus Dining,breakfast,WST-004,Avocado Toast,Bakery,"vegetarian,vegan",310,True
+2026-04-07,Tuesday,False,West Campus Dining,lunch,WST-005,Falafel Bowl,Global Bowl,"vegetarian,vegan",460,True
+2026-04-07,Tuesday,False,West Campus Dining,lunch,WST-006,Halal Shawarma Bowl,Global Bowl,"halal,gluten_free",530,True
+2026-04-07,Tuesday,False,West Campus Dining,lunch,WST-007,Brown Rice Buddha Bowl,Global Bowl,"vegetarian,vegan,gluten_free",340,True
+2026-04-07,Tuesday,False,West Campus Dining,lunch,WST-009,Tomato Bisque,Soup,"vegetarian,vegan,gluten_free",160,True
+2026-04-07,Tuesday,False,West Campus Dining,lunch,WST-011,Sweet Potato Fries,Sides,"vegetarian,vegan,gluten_free",230,True
+2026-04-07,Tuesday,False,West Campus Dining,dinner,WST-005,Falafel Bowl,Global Bowl,"vegetarian,vegan",460,True
+2026-04-07,Tuesday,False,West Campus Dining,dinner,WST-006,Halal Shawarma Bowl,Global Bowl,"halal,gluten_free",530,True
+2026-04-07,Tuesday,False,West Campus Dining,dinner,WST-007,Brown Rice Buddha Bowl,Global Bowl,"vegetarian,vegan,gluten_free",340,True
+2026-04-07,Tuesday,False,West Campus Dining,dinner,WST-009,Tomato Bisque,Soup,"vegetarian,vegan,gluten_free",160,True
+2026-04-07,Tuesday,False,West Campus Dining,dinner,WST-010,Grilled Salmon,Grill,gluten_free,400,True
+2026-04-07,Tuesday,False,West Campus Dining,dinner,WST-011,Sweet Potato Fries,Sides,"vegetarian,vegan,gluten_free",230,True
+2026-04-07,Tuesday,False,West Campus Dining,dinner,WST-012,Fruit Crumble,Dessert,vegetarian,290,True
+2026-04-07,Tuesday,False,Stuvi2 / towers,breakfast,STU-001,Breakfast Sandwich,Express,none,380,True
+2026-04-07,Tuesday,False,Stuvi2 / towers,breakfast,STU-002,Vegan Breakfast Wrap,Express,"vegetarian,vegan",320,True
+2026-04-07,Tuesday,False,Stuvi2 / towers,breakfast,STU-003,Halal Omelette,Express,halal,250,True
+2026-04-07,Tuesday,False,Stuvi2 / towers,lunch,STU-004,Greek Salad,Grab & Go,"vegetarian,gluten_free",220,True
+2026-04-07,Tuesday,False,Stuvi2 / towers,lunch,STU-006,Hummus & Veggie Wrap,Grab & Go,"vegetarian,vegan",370,True
+2026-04-07,Tuesday,False,Stuvi2 / towers,lunch,STU-007,Pasta Primavera,Hot Line,"vegetarian,vegan",410,True
+2026-04-07,Tuesday,False,Stuvi2 / towers,lunch,STU-010,Steamed Broccoli,Sides,"vegetarian,vegan,gluten_free",60,True
+2026-04-07,Tuesday,False,Stuvi2 / towers,lunch,STU-011,Brownie,Dessert,vegetarian,310,True
+2026-04-07,Tuesday,False,Stuvi2 / towers,dinner,STU-007,Pasta Primavera,Hot Line,"vegetarian,vegan",410,True
+2026-04-07,Tuesday,False,Stuvi2 / towers,dinner,STU-008,Halal Beef Stew,Hot Line,"halal,gluten_free",470,True
+2026-04-07,Tuesday,False,Stuvi2 / towers,dinner,STU-009,Roasted Chicken Thigh,Hot Line,"halal,gluten_free",400,True
+2026-04-07,Tuesday,False,Stuvi2 / towers,dinner,STU-010,Steamed Broccoli,Sides,"vegetarian,vegan,gluten_free",60,True
+2026-04-07,Tuesday,False,Stuvi2 / towers,dinner,STU-011,Brownie,Dessert,vegetarian,310,True
+2026-04-07,Tuesday,False,Sargent Choice Café,breakfast,SAR-001,Acai Bowl,Wellness,"vegetarian,vegan,gluten_free",340,True
+2026-04-07,Tuesday,False,Sargent Choice Café,breakfast,SAR-002,Green Smoothie,Wellness,"vegetarian,vegan,gluten_free",180,True
+2026-04-07,Tuesday,False,Sargent Choice Café,breakfast,SAR-003,Chia Pudding,Wellness,"vegetarian,vegan,gluten_free",210,True
+2026-04-07,Tuesday,False,Sargent Choice Café,lunch,SAR-004,Quinoa Power Bowl,Café,"vegetarian,vegan,gluten_free",430,True
+2026-04-07,Tuesday,False,Sargent Choice Café,lunch,SAR-006,Lentil & Kale Soup,Café,"vegetarian,vegan,gluten_free",190,True
+2026-04-07,Tuesday,False,Sargent Choice Café,lunch,SAR-007,Turkey Avocado Wrap,Café,none,460,True
+2026-04-07,Tuesday,False,Sargent Choice Café,dinner,SAR-006,Lentil & Kale Soup,Café,"vegetarian,vegan,gluten_free",190,True
+2026-04-07,Tuesday,False,Sargent Choice Café,dinner,SAR-008,Salmon & Quinoa Bowl,Wellness,gluten_free,490,True
+2026-04-07,Tuesday,False,Sargent Choice Café,dinner,SAR-009,Vegan Buddha Bowl,Wellness,"vegetarian,vegan,gluten_free",360,True
+2026-04-07,Tuesday,False,Sargent Choice Café,dinner,SAR-010,Halal Grilled Chicken Bowl,Café,"halal,gluten_free",440,True
+2026-04-08,Wednesday,False,Marciano Commons,breakfast,MRC-001,Scrambled Eggs,Hot Breakfast,"none,halal",190,True
+2026-04-08,Wednesday,False,Marciano Commons,breakfast,MRC-002,Veggie Omelette,Hot Breakfast,vegetarian,220,True
+2026-04-08,Wednesday,False,Marciano Commons,breakfast,MRC-003,Turkey Sausage,Hot Breakfast,halal,160,True
+2026-04-08,Wednesday,False,Marciano Commons,breakfast,MRC-004,Oatmeal Bar,Hot Breakfast,"vegetarian,vegan",180,True
+2026-04-08,Wednesday,False,Marciano Commons,breakfast,MRC-005,Whole Wheat Toast,Bakery,"vegetarian,vegan",110,True
+2026-04-08,Wednesday,False,Marciano Commons,lunch,MRC-007,Grilled Chicken Wrap,Grill,halal,510,True
+2026-04-08,Wednesday,False,Marciano Commons,lunch,MRC-008,Beef Burger,Grill,none,620,True
+2026-04-08,Wednesday,False,Marciano Commons,lunch,MRC-009,Black Bean Burger,Grill,"vegetarian,vegan",420,True
+2026-04-08,Wednesday,False,Marciano Commons,lunch,MRC-010,Mixed Greens Bowl,Salad Bar,"vegetarian,vegan,gluten_free",120,True
+2026-04-08,Wednesday,False,Marciano Commons,lunch,MRC-011,Chicken Tikka Masala,International,"halal,gluten_free",480,True
+2026-04-08,Wednesday,False,Marciano Commons,lunch,MRC-012,Dal Tadka,International,"vegetarian,vegan,gluten_free",310,True
+2026-04-08,Wednesday,False,Marciano Commons,lunch,MRC-013,Penne Arrabiata,Pasta,"vegetarian,vegan",390,True
+2026-04-08,Wednesday,False,Marciano Commons,lunch,MRC-014,Mac & Cheese,Pasta,vegetarian,520,True
+2026-04-08,Wednesday,False,Marciano Commons,lunch,MRC-018,Chocolate Cake,Dessert,vegetarian,350,True
+2026-04-08,Wednesday,False,Marciano Commons,dinner,MRC-010,Mixed Greens Bowl,Salad Bar,"vegetarian,vegan,gluten_free",120,True
+2026-04-08,Wednesday,False,Marciano Commons,dinner,MRC-011,Chicken Tikka Masala,International,"halal,gluten_free",480,True
+2026-04-08,Wednesday,False,Marciano Commons,dinner,MRC-012,Dal Tadka,International,"vegetarian,vegan,gluten_free",310,True
+2026-04-08,Wednesday,False,Marciano Commons,dinner,MRC-013,Penne Arrabiata,Pasta,"vegetarian,vegan",390,True
+2026-04-08,Wednesday,False,Marciano Commons,dinner,MRC-014,Mac & Cheese,Pasta,vegetarian,520,True
+2026-04-08,Wednesday,False,Marciano Commons,dinner,MRC-015,Roast Chicken,Carving,"halal,gluten_free",430,True
+2026-04-08,Wednesday,False,Marciano Commons,dinner,MRC-016,Herb Roasted Salmon,Carving,gluten_free,380,True
+2026-04-08,Wednesday,False,Marciano Commons,dinner,MRC-017,Roasted Vegetables,Sides,"vegetarian,vegan,gluten_free",90,True
+2026-04-08,Wednesday,False,Marciano Commons,dinner,MRC-018,Chocolate Cake,Dessert,vegetarian,350,True
+2026-04-08,Wednesday,False,Warren Towers Dining,breakfast,WRN-001,Pancakes,Hot Breakfast,vegetarian,310,True
+2026-04-08,Wednesday,False,Warren Towers Dining,breakfast,WRN-002,Halal Chicken Sausage,Hot Breakfast,halal,140,True
+2026-04-08,Wednesday,False,Warren Towers Dining,breakfast,WRN-003,Greek Yogurt Parfait,Hot Breakfast,"vegetarian,gluten_free",230,True
+2026-04-08,Wednesday,False,Warren Towers Dining,breakfast,WRN-004,Granola Bowl,Cereal & Cold,"vegetarian,vegan",260,True
+2026-04-08,Wednesday,False,Warren Towers Dining,lunch,WRN-005,Grilled Cheese,Grill,vegetarian,410,True
+2026-04-08,Wednesday,False,Warren Towers Dining,lunch,WRN-006,Halal Beef Patty Melt,Grill,halal,580,True
+2026-04-08,Wednesday,False,Warren Towers Dining,lunch,WRN-007,Tofu Stir Fry,Vegan Station,"vegetarian,vegan,gluten_free",330,True
+2026-04-08,Wednesday,False,Warren Towers Dining,lunch,WRN-008,Lentil Soup,Vegan Station,"vegetarian,vegan,gluten_free",210,True
+2026-04-08,Wednesday,False,Warren Towers Dining,lunch,WRN-009,Cheese Pizza,Pizza,vegetarian,480,True
+2026-04-08,Wednesday,False,Warren Towers Dining,lunch,WRN-010,Vegan Margherita,Pizza,"vegetarian,vegan",390,True
+2026-04-08,Wednesday,False,Warren Towers Dining,lunch,WRN-012,Loaded Baked Potato,Comfort,"vegetarian,gluten_free",370,True
+2026-04-08,Wednesday,False,Warren Towers Dining,dinner,WRN-007,Tofu Stir Fry,Vegan Station,"vegetarian,vegan,gluten_free",330,True
+2026-04-08,Wednesday,False,Warren Towers Dining,dinner,WRN-008,Lentil Soup,Vegan Station,"vegetarian,vegan,gluten_free",210,True
+2026-04-08,Wednesday,False,Warren Towers Dining,dinner,WRN-009,Cheese Pizza,Pizza,vegetarian,480,True
+2026-04-08,Wednesday,False,Warren Towers Dining,dinner,WRN-010,Vegan Margherita,Pizza,"vegetarian,vegan",390,True
+2026-04-08,Wednesday,False,Warren Towers Dining,dinner,WRN-011,Chicken Tenders,Comfort,none,520,True
+2026-04-08,Wednesday,False,Warren Towers Dining,dinner,WRN-012,Loaded Baked Potato,Comfort,"vegetarian,gluten_free",370,True
+2026-04-08,Wednesday,False,Warren Towers Dining,dinner,WRN-013,Ice Cream Bar,Dessert,vegetarian,260,True
+2026-04-08,Wednesday,False,West Campus Dining,breakfast,WST-001,Eggs Benedict,Hot Breakfast,none,420,True
+2026-04-08,Wednesday,False,West Campus Dining,breakfast,WST-002,Veggie Frittata,Hot Breakfast,"vegetarian,gluten_free",280,True
+2026-04-08,Wednesday,False,West Campus Dining,breakfast,WST-003,Halal Turkey Bacon,Hot Breakfast,halal,130,True
+2026-04-08,Wednesday,False,West Campus Dining,breakfast,WST-004,Avocado Toast,Bakery,"vegetarian,vegan",310,True
+2026-04-08,Wednesday,False,West Campus Dining,lunch,WST-005,Falafel Bowl,Global Bowl,"vegetarian,vegan",460,True
+2026-04-08,Wednesday,False,West Campus Dining,lunch,WST-006,Halal Shawarma Bowl,Global Bowl,"halal,gluten_free",530,True
+2026-04-08,Wednesday,False,West Campus Dining,lunch,WST-007,Brown Rice Buddha Bowl,Global Bowl,"vegetarian,vegan,gluten_free",340,True
+2026-04-08,Wednesday,False,West Campus Dining,lunch,WST-008,Classic Burger,Grill,none,590,True
+2026-04-08,Wednesday,False,West Campus Dining,lunch,WST-009,Tomato Bisque,Soup,"vegetarian,vegan,gluten_free",160,True
+2026-04-08,Wednesday,False,West Campus Dining,lunch,WST-011,Sweet Potato Fries,Sides,"vegetarian,vegan,gluten_free",230,True
+2026-04-08,Wednesday,False,West Campus Dining,dinner,WST-005,Falafel Bowl,Global Bowl,"vegetarian,vegan",460,True
+2026-04-08,Wednesday,False,West Campus Dining,dinner,WST-006,Halal Shawarma Bowl,Global Bowl,"halal,gluten_free",530,True
+2026-04-08,Wednesday,False,West Campus Dining,dinner,WST-007,Brown Rice Buddha Bowl,Global Bowl,"vegetarian,vegan,gluten_free",340,True
+2026-04-08,Wednesday,False,West Campus Dining,dinner,WST-010,Grilled Salmon,Grill,gluten_free,400,True
+2026-04-08,Wednesday,False,West Campus Dining,dinner,WST-011,Sweet Potato Fries,Sides,"vegetarian,vegan,gluten_free",230,True
+2026-04-08,Wednesday,False,West Campus Dining,dinner,WST-012,Fruit Crumble,Dessert,vegetarian,290,True
+2026-04-08,Wednesday,False,Stuvi2 / towers,breakfast,STU-001,Breakfast Sandwich,Express,none,380,True
+2026-04-08,Wednesday,False,Stuvi2 / towers,breakfast,STU-002,Vegan Breakfast Wrap,Express,"vegetarian,vegan",320,True
+2026-04-08,Wednesday,False,Stuvi2 / towers,breakfast,STU-003,Halal Omelette,Express,halal,250,True
+2026-04-08,Wednesday,False,Stuvi2 / towers,lunch,STU-004,Greek Salad,Grab & Go,"vegetarian,gluten_free",220,True
+2026-04-08,Wednesday,False,Stuvi2 / towers,lunch,STU-005,Halal Chicken Wrap,Grab & Go,halal,490,True
+2026-04-08,Wednesday,False,Stuvi2 / towers,lunch,STU-006,Hummus & Veggie Wrap,Grab & Go,"vegetarian,vegan",370,True
+2026-04-08,Wednesday,False,Stuvi2 / towers,lunch,STU-007,Pasta Primavera,Hot Line,"vegetarian,vegan",410,True
+2026-04-08,Wednesday,False,Stuvi2 / towers,lunch,STU-010,Steamed Broccoli,Sides,"vegetarian,vegan,gluten_free",60,True
+2026-04-08,Wednesday,False,Stuvi2 / towers,dinner,STU-007,Pasta Primavera,Hot Line,"vegetarian,vegan",410,True
+2026-04-08,Wednesday,False,Stuvi2 / towers,dinner,STU-008,Halal Beef Stew,Hot Line,"halal,gluten_free",470,True
+2026-04-08,Wednesday,False,Stuvi2 / towers,dinner,STU-009,Roasted Chicken Thigh,Hot Line,"halal,gluten_free",400,True
+2026-04-08,Wednesday,False,Stuvi2 / towers,dinner,STU-010,Steamed Broccoli,Sides,"vegetarian,vegan,gluten_free",60,True
+2026-04-08,Wednesday,False,Stuvi2 / towers,dinner,STU-011,Brownie,Dessert,vegetarian,310,True
+2026-04-08,Wednesday,False,Sargent Choice Café,breakfast,SAR-001,Acai Bowl,Wellness,"vegetarian,vegan,gluten_free",340,True
+2026-04-08,Wednesday,False,Sargent Choice Café,breakfast,SAR-002,Green Smoothie,Wellness,"vegetarian,vegan,gluten_free",180,True
+2026-04-08,Wednesday,False,Sargent Choice Café,breakfast,SAR-003,Chia Pudding,Wellness,"vegetarian,vegan,gluten_free",210,True
+2026-04-08,Wednesday,False,Sargent Choice Café,lunch,SAR-004,Quinoa Power Bowl,Café,"vegetarian,vegan,gluten_free",430,True
+2026-04-08,Wednesday,False,Sargent Choice Café,lunch,SAR-005,Grilled Chicken Salad,Café,"halal,gluten_free",380,True
+2026-04-08,Wednesday,False,Sargent Choice Café,lunch,SAR-006,Lentil & Kale Soup,Café,"vegetarian,vegan,gluten_free",190,True
+2026-04-08,Wednesday,False,Sargent Choice Café,lunch,SAR-007,Turkey Avocado Wrap,Café,none,460,True
+2026-04-08,Wednesday,False,Sargent Choice Café,dinner,SAR-006,Lentil & Kale Soup,Café,"vegetarian,vegan,gluten_free",190,True
+2026-04-08,Wednesday,False,Sargent Choice Café,dinner,SAR-008,Salmon & Quinoa Bowl,Wellness,gluten_free,490,True
+2026-04-08,Wednesday,False,Sargent Choice Café,dinner,SAR-009,Vegan Buddha Bowl,Wellness,"vegetarian,vegan,gluten_free",360,True
+2026-04-08,Wednesday,False,Sargent Choice Café,dinner,SAR-010,Halal Grilled Chicken Bowl,Café,"halal,gluten_free",440,True
+2026-04-09,Thursday,False,Marciano Commons,breakfast,MRC-001,Scrambled Eggs,Hot Breakfast,"none,halal",190,True
+2026-04-09,Thursday,False,Marciano Commons,breakfast,MRC-002,Veggie Omelette,Hot Breakfast,vegetarian,220,True
+2026-04-09,Thursday,False,Marciano Commons,breakfast,MRC-003,Turkey Sausage,Hot Breakfast,halal,160,True
+2026-04-09,Thursday,False,Marciano Commons,breakfast,MRC-005,Whole Wheat Toast,Bakery,"vegetarian,vegan",110,True
+2026-04-09,Thursday,False,Marciano Commons,breakfast,MRC-006,Blueberry Muffin,Bakery,vegetarian,290,True
+2026-04-09,Thursday,False,Marciano Commons,lunch,MRC-007,Grilled Chicken Wrap,Grill,halal,510,True
+2026-04-09,Thursday,False,Marciano Commons,lunch,MRC-008,Beef Burger,Grill,none,620,True
+2026-04-09,Thursday,False,Marciano Commons,lunch,MRC-009,Black Bean Burger,Grill,"vegetarian,vegan",420,True
+2026-04-09,Thursday,False,Marciano Commons,lunch,MRC-010,Mixed Greens Bowl,Salad Bar,"vegetarian,vegan,gluten_free",120,True
+2026-04-09,Thursday,False,Marciano Commons,lunch,MRC-011,Chicken Tikka Masala,International,"halal,gluten_free",480,True
+2026-04-09,Thursday,False,Marciano Commons,lunch,MRC-012,Dal Tadka,International,"vegetarian,vegan,gluten_free",310,True
+2026-04-09,Thursday,False,Marciano Commons,lunch,MRC-013,Penne Arrabiata,Pasta,"vegetarian,vegan",390,True
+2026-04-09,Thursday,False,Marciano Commons,lunch,MRC-014,Mac & Cheese,Pasta,vegetarian,520,True
+2026-04-09,Thursday,False,Marciano Commons,dinner,MRC-011,Chicken Tikka Masala,International,"halal,gluten_free",480,True
+2026-04-09,Thursday,False,Marciano Commons,dinner,MRC-013,Penne Arrabiata,Pasta,"vegetarian,vegan",390,True
+2026-04-09,Thursday,False,Marciano Commons,dinner,MRC-014,Mac & Cheese,Pasta,vegetarian,520,True
+2026-04-09,Thursday,False,Marciano Commons,dinner,MRC-015,Roast Chicken,Carving,"halal,gluten_free",430,True
+2026-04-09,Thursday,False,Marciano Commons,dinner,MRC-016,Herb Roasted Salmon,Carving,gluten_free,380,True
+2026-04-09,Thursday,False,Marciano Commons,dinner,MRC-017,Roasted Vegetables,Sides,"vegetarian,vegan,gluten_free",90,True
+2026-04-09,Thursday,False,Marciano Commons,dinner,MRC-018,Chocolate Cake,Dessert,vegetarian,350,True
+2026-04-09,Thursday,False,Warren Towers Dining,breakfast,WRN-001,Pancakes,Hot Breakfast,vegetarian,310,True
+2026-04-09,Thursday,False,Warren Towers Dining,breakfast,WRN-003,Greek Yogurt Parfait,Hot Breakfast,"vegetarian,gluten_free",230,True
+2026-04-09,Thursday,False,Warren Towers Dining,breakfast,WRN-004,Granola Bowl,Cereal & Cold,"vegetarian,vegan",260,True
+2026-04-09,Thursday,False,Warren Towers Dining,lunch,WRN-005,Grilled Cheese,Grill,vegetarian,410,True
+2026-04-09,Thursday,False,Warren Towers Dining,lunch,WRN-006,Halal Beef Patty Melt,Grill,halal,580,True
+2026-04-09,Thursday,False,Warren Towers Dining,lunch,WRN-007,Tofu Stir Fry,Vegan Station,"vegetarian,vegan,gluten_free",330,True
+2026-04-09,Thursday,False,Warren Towers Dining,lunch,WRN-009,Cheese Pizza,Pizza,vegetarian,480,True
+2026-04-09,Thursday,False,Warren Towers Dining,lunch,WRN-010,Vegan Margherita,Pizza,"vegetarian,vegan",390,True
+2026-04-09,Thursday,False,Warren Towers Dining,lunch,WRN-011,Chicken Tenders,Comfort,none,520,True
+2026-04-09,Thursday,False,Warren Towers Dining,lunch,WRN-012,Loaded Baked Potato,Comfort,"vegetarian,gluten_free",370,True
+2026-04-09,Thursday,False,Warren Towers Dining,dinner,WRN-008,Lentil Soup,Vegan Station,"vegetarian,vegan,gluten_free",210,True
+2026-04-09,Thursday,False,Warren Towers Dining,dinner,WRN-009,Cheese Pizza,Pizza,vegetarian,480,True
+2026-04-09,Thursday,False,Warren Towers Dining,dinner,WRN-010,Vegan Margherita,Pizza,"vegetarian,vegan",390,True
+2026-04-09,Thursday,False,Warren Towers Dining,dinner,WRN-011,Chicken Tenders,Comfort,none,520,True
+2026-04-09,Thursday,False,Warren Towers Dining,dinner,WRN-012,Loaded Baked Potato,Comfort,"vegetarian,gluten_free",370,True
+2026-04-09,Thursday,False,Warren Towers Dining,dinner,WRN-013,Ice Cream Bar,Dessert,vegetarian,260,True
+2026-04-09,Thursday,False,West Campus Dining,breakfast,WST-001,Eggs Benedict,Hot Breakfast,none,420,True
+2026-04-09,Thursday,False,West Campus Dining,breakfast,WST-002,Veggie Frittata,Hot Breakfast,"vegetarian,gluten_free",280,True
+2026-04-09,Thursday,False,West Campus Dining,breakfast,WST-003,Halal Turkey Bacon,Hot Breakfast,halal,130,True
+2026-04-09,Thursday,False,West Campus Dining,breakfast,WST-004,Avocado Toast,Bakery,"vegetarian,vegan",310,True
+2026-04-09,Thursday,False,West Campus Dining,lunch,WST-005,Falafel Bowl,Global Bowl,"vegetarian,vegan",460,True
+2026-04-09,Thursday,False,West Campus Dining,lunch,WST-006,Halal Shawarma Bowl,Global Bowl,"halal,gluten_free",530,True
+2026-04-09,Thursday,False,West Campus Dining,lunch,WST-007,Brown Rice Buddha Bowl,Global Bowl,"vegetarian,vegan,gluten_free",340,True
+2026-04-09,Thursday,False,West Campus Dining,lunch,WST-008,Classic Burger,Grill,none,590,True
+2026-04-09,Thursday,False,West Campus Dining,lunch,WST-009,Tomato Bisque,Soup,"vegetarian,vegan,gluten_free",160,True
+2026-04-09,Thursday,False,West Campus Dining,lunch,WST-011,Sweet Potato Fries,Sides,"vegetarian,vegan,gluten_free",230,True
+2026-04-09,Thursday,False,West Campus Dining,dinner,WST-005,Falafel Bowl,Global Bowl,"vegetarian,vegan",460,True
+2026-04-09,Thursday,False,West Campus Dining,dinner,WST-006,Halal Shawarma Bowl,Global Bowl,"halal,gluten_free",530,True
+2026-04-09,Thursday,False,West Campus Dining,dinner,WST-007,Brown Rice Buddha Bowl,Global Bowl,"vegetarian,vegan,gluten_free",340,True
+2026-04-09,Thursday,False,West Campus Dining,dinner,WST-009,Tomato Bisque,Soup,"vegetarian,vegan,gluten_free",160,True
+2026-04-09,Thursday,False,West Campus Dining,dinner,WST-010,Grilled Salmon,Grill,gluten_free,400,True
+2026-04-09,Thursday,False,West Campus Dining,dinner,WST-011,Sweet Potato Fries,Sides,"vegetarian,vegan,gluten_free",230,True
+2026-04-09,Thursday,False,West Campus Dining,dinner,WST-012,Fruit Crumble,Dessert,vegetarian,290,True
+2026-04-09,Thursday,False,Stuvi2 / towers,breakfast,STU-001,Breakfast Sandwich,Express,none,380,True
+2026-04-09,Thursday,False,Stuvi2 / towers,breakfast,STU-002,Vegan Breakfast Wrap,Express,"vegetarian,vegan",320,True
+2026-04-09,Thursday,False,Stuvi2 / towers,breakfast,STU-003,Halal Omelette,Express,halal,250,True
+2026-04-09,Thursday,False,Stuvi2 / towers,lunch,STU-004,Greek Salad,Grab & Go,"vegetarian,gluten_free",220,True
+2026-04-09,Thursday,False,Stuvi2 / towers,lunch,STU-005,Halal Chicken Wrap,Grab & Go,halal,490,True
+2026-04-09,Thursday,False,Stuvi2 / towers,lunch,STU-006,Hummus & Veggie Wrap,Grab & Go,"vegetarian,vegan",370,True
+2026-04-09,Thursday,False,Stuvi2 / towers,lunch,STU-007,Pasta Primavera,Hot Line,"vegetarian,vegan",410,True
+2026-04-09,Thursday,False,Stuvi2 / towers,lunch,STU-010,Steamed Broccoli,Sides,"vegetarian,vegan,gluten_free",60,True
+2026-04-09,Thursday,False,Stuvi2 / towers,lunch,STU-011,Brownie,Dessert,vegetarian,310,True
+2026-04-09,Thursday,False,Stuvi2 / towers,dinner,STU-007,Pasta Primavera,Hot Line,"vegetarian,vegan",410,True
+2026-04-09,Thursday,False,Stuvi2 / towers,dinner,STU-008,Halal Beef Stew,Hot Line,"halal,gluten_free",470,True
+2026-04-09,Thursday,False,Stuvi2 / towers,dinner,STU-009,Roasted Chicken Thigh,Hot Line,"halal,gluten_free",400,True
+2026-04-09,Thursday,False,Stuvi2 / towers,dinner,STU-010,Steamed Broccoli,Sides,"vegetarian,vegan,gluten_free",60,True
+2026-04-09,Thursday,False,Stuvi2 / towers,dinner,STU-011,Brownie,Dessert,vegetarian,310,True
+2026-04-09,Thursday,False,Sargent Choice Café,breakfast,SAR-001,Acai Bowl,Wellness,"vegetarian,vegan,gluten_free",340,True
+2026-04-09,Thursday,False,Sargent Choice Café,breakfast,SAR-002,Green Smoothie,Wellness,"vegetarian,vegan,gluten_free",180,True
+2026-04-09,Thursday,False,Sargent Choice Café,breakfast,SAR-003,Chia Pudding,Wellness,"vegetarian,vegan,gluten_free",210,True
+2026-04-09,Thursday,False,Sargent Choice Café,lunch,SAR-004,Quinoa Power Bowl,Café,"vegetarian,vegan,gluten_free",430,True
+2026-04-09,Thursday,False,Sargent Choice Café,lunch,SAR-005,Grilled Chicken Salad,Café,"halal,gluten_free",380,True
+2026-04-09,Thursday,False,Sargent Choice Café,lunch,SAR-006,Lentil & Kale Soup,Café,"vegetarian,vegan,gluten_free",190,True
+2026-04-09,Thursday,False,Sargent Choice Café,lunch,SAR-007,Turkey Avocado Wrap,Café,none,460,True
+2026-04-09,Thursday,False,Sargent Choice Café,dinner,SAR-006,Lentil & Kale Soup,Café,"vegetarian,vegan,gluten_free",190,True
+2026-04-09,Thursday,False,Sargent Choice Café,dinner,SAR-008,Salmon & Quinoa Bowl,Wellness,gluten_free,490,True
+2026-04-09,Thursday,False,Sargent Choice Café,dinner,SAR-009,Vegan Buddha Bowl,Wellness,"vegetarian,vegan,gluten_free",360,True
+2026-04-09,Thursday,False,Sargent Choice Café,dinner,SAR-010,Halal Grilled Chicken Bowl,Café,"halal,gluten_free",440,True
+2026-04-10,Friday,False,Marciano Commons,breakfast,MRC-001,Scrambled Eggs,Hot Breakfast,"none,halal",190,True
+2026-04-10,Friday,False,Marciano Commons,breakfast,MRC-002,Veggie Omelette,Hot Breakfast,vegetarian,220,True
+2026-04-10,Friday,False,Marciano Commons,breakfast,MRC-003,Turkey Sausage,Hot Breakfast,halal,160,True
+2026-04-10,Friday,False,Marciano Commons,breakfast,MRC-004,Oatmeal Bar,Hot Breakfast,"vegetarian,vegan",180,True
+2026-04-10,Friday,False,Marciano Commons,breakfast,MRC-005,Whole Wheat Toast,Bakery,"vegetarian,vegan",110,True
+2026-04-10,Friday,False,Marciano Commons,breakfast,MRC-006,Blueberry Muffin,Bakery,vegetarian,290,True
+2026-04-10,Friday,False,Marciano Commons,lunch,MRC-007,Grilled Chicken Wrap,Grill,halal,510,True
+2026-04-10,Friday,False,Marciano Commons,lunch,MRC-008,Beef Burger,Grill,none,620,True
+2026-04-10,Friday,False,Marciano Commons,lunch,MRC-009,Black Bean Burger,Grill,"vegetarian,vegan",420,True
+2026-04-10,Friday,False,Marciano Commons,lunch,MRC-010,Mixed Greens Bowl,Salad Bar,"vegetarian,vegan,gluten_free",120,True
+2026-04-10,Friday,False,Marciano Commons,lunch,MRC-011,Chicken Tikka Masala,International,"halal,gluten_free",480,True
+2026-04-10,Friday,False,Marciano Commons,lunch,MRC-012,Dal Tadka,International,"vegetarian,vegan,gluten_free",310,True
+2026-04-10,Friday,False,Marciano Commons,lunch,MRC-013,Penne Arrabiata,Pasta,"vegetarian,vegan",390,True
+2026-04-10,Friday,False,Marciano Commons,lunch,MRC-014,Mac & Cheese,Pasta,vegetarian,520,True
+2026-04-10,Friday,False,Marciano Commons,lunch,MRC-018,Chocolate Cake,Dessert,vegetarian,350,True
+2026-04-10,Friday,False,Marciano Commons,dinner,MRC-010,Mixed Greens Bowl,Salad Bar,"vegetarian,vegan,gluten_free",120,True
+2026-04-10,Friday,False,Marciano Commons,dinner,MRC-011,Chicken Tikka Masala,International,"halal,gluten_free",480,True
+2026-04-10,Friday,False,Marciano Commons,dinner,MRC-012,Dal Tadka,International,"vegetarian,vegan,gluten_free",310,True
+2026-04-10,Friday,False,Marciano Commons,dinner,MRC-013,Penne Arrabiata,Pasta,"vegetarian,vegan",390,True
+2026-04-10,Friday,False,Marciano Commons,dinner,MRC-014,Mac & Cheese,Pasta,vegetarian,520,True
+2026-04-10,Friday,False,Marciano Commons,dinner,MRC-015,Roast Chicken,Carving,"halal,gluten_free",430,True
+2026-04-10,Friday,False,Marciano Commons,dinner,MRC-016,Herb Roasted Salmon,Carving,gluten_free,380,True
+2026-04-10,Friday,False,Marciano Commons,dinner,MRC-017,Roasted Vegetables,Sides,"vegetarian,vegan,gluten_free",90,True
+2026-04-10,Friday,False,Marciano Commons,dinner,MRC-018,Chocolate Cake,Dessert,vegetarian,350,True
+2026-04-10,Friday,False,Warren Towers Dining,breakfast,WRN-001,Pancakes,Hot Breakfast,vegetarian,310,True
+2026-04-10,Friday,False,Warren Towers Dining,breakfast,WRN-002,Halal Chicken Sausage,Hot Breakfast,halal,140,True
+2026-04-10,Friday,False,Warren Towers Dining,breakfast,WRN-003,Greek Yogurt Parfait,Hot Breakfast,"vegetarian,gluten_free",230,True
+2026-04-10,Friday,False,Warren Towers Dining,breakfast,WRN-004,Granola Bowl,Cereal & Cold,"vegetarian,vegan",260,True
+2026-04-10,Friday,False,Warren Towers Dining,lunch,WRN-005,Grilled Cheese,Grill,vegetarian,410,True
+2026-04-10,Friday,False,Warren Towers Dining,lunch,WRN-006,Halal Beef Patty Melt,Grill,halal,580,True
+2026-04-10,Friday,False,Warren Towers Dining,lunch,WRN-007,Tofu Stir Fry,Vegan Station,"vegetarian,vegan,gluten_free",330,True
+2026-04-10,Friday,False,Warren Towers Dining,lunch,WRN-008,Lentil Soup,Vegan Station,"vegetarian,vegan,gluten_free",210,True
+2026-04-10,Friday,False,Warren Towers Dining,lunch,WRN-009,Cheese Pizza,Pizza,vegetarian,480,True
+2026-04-10,Friday,False,Warren Towers Dining,lunch,WRN-010,Vegan Margherita,Pizza,"vegetarian,vegan",390,True
+2026-04-10,Friday,False,Warren Towers Dining,lunch,WRN-011,Chicken Tenders,Comfort,none,520,True
+2026-04-10,Friday,False,Warren Towers Dining,lunch,WRN-012,Loaded Baked Potato,Comfort,"vegetarian,gluten_free",370,True
+2026-04-10,Friday,False,Warren Towers Dining,dinner,WRN-007,Tofu Stir Fry,Vegan Station,"vegetarian,vegan,gluten_free",330,True
+2026-04-10,Friday,False,Warren Towers Dining,dinner,WRN-008,Lentil Soup,Vegan Station,"vegetarian,vegan,gluten_free",210,True
+2026-04-10,Friday,False,Warren Towers Dining,dinner,WRN-009,Cheese Pizza,Pizza,vegetarian,480,True
+2026-04-10,Friday,False,Warren Towers Dining,dinner,WRN-010,Vegan Margherita,Pizza,"vegetarian,vegan",390,True
+2026-04-10,Friday,False,Warren Towers Dining,dinner,WRN-011,Chicken Tenders,Comfort,none,520,True
+2026-04-10,Friday,False,Warren Towers Dining,dinner,WRN-012,Loaded Baked Potato,Comfort,"vegetarian,gluten_free",370,True
+2026-04-10,Friday,False,Warren Towers Dining,dinner,WRN-013,Ice Cream Bar,Dessert,vegetarian,260,True
+2026-04-10,Friday,False,West Campus Dining,breakfast,WST-001,Eggs Benedict,Hot Breakfast,none,420,True
+2026-04-10,Friday,False,West Campus Dining,breakfast,WST-002,Veggie Frittata,Hot Breakfast,"vegetarian,gluten_free",280,True
+2026-04-10,Friday,False,West Campus Dining,breakfast,WST-003,Halal Turkey Bacon,Hot Breakfast,halal,130,True
+2026-04-10,Friday,False,West Campus Dining,breakfast,WST-004,Avocado Toast,Bakery,"vegetarian,vegan",310,True
+2026-04-10,Friday,False,West Campus Dining,lunch,WST-005,Falafel Bowl,Global Bowl,"vegetarian,vegan",460,True
+2026-04-10,Friday,False,West Campus Dining,lunch,WST-006,Halal Shawarma Bowl,Global Bowl,"halal,gluten_free",530,True
+2026-04-10,Friday,False,West Campus Dining,lunch,WST-007,Brown Rice Buddha Bowl,Global Bowl,"vegetarian,vegan,gluten_free",340,True
+2026-04-10,Friday,False,West Campus Dining,lunch,WST-008,Classic Burger,Grill,none,590,True
+2026-04-10,Friday,False,West Campus Dining,lunch,WST-009,Tomato Bisque,Soup,"vegetarian,vegan,gluten_free",160,True
+2026-04-10,Friday,False,West Campus Dining,lunch,WST-011,Sweet Potato Fries,Sides,"vegetarian,vegan,gluten_free",230,True
+2026-04-10,Friday,False,West Campus Dining,dinner,WST-005,Falafel Bowl,Global Bowl,"vegetarian,vegan",460,True
+2026-04-10,Friday,False,West Campus Dining,dinner,WST-007,Brown Rice Buddha Bowl,Global Bowl,"vegetarian,vegan,gluten_free",340,True
+2026-04-10,Friday,False,West Campus Dining,dinner,WST-009,Tomato Bisque,Soup,"vegetarian,vegan,gluten_free",160,True
+2026-04-10,Friday,False,West Campus Dining,dinner,WST-010,Grilled Salmon,Grill,gluten_free,400,True
+2026-04-10,Friday,False,West Campus Dining,dinner,WST-011,Sweet Potato Fries,Sides,"vegetarian,vegan,gluten_free",230,True
+2026-04-10,Friday,False,West Campus Dining,dinner,WST-012,Fruit Crumble,Dessert,vegetarian,290,True
+2026-04-10,Friday,False,Stuvi2 / towers,breakfast,STU-001,Breakfast Sandwich,Express,none,380,True
+2026-04-10,Friday,False,Stuvi2 / towers,breakfast,STU-002,Vegan Breakfast Wrap,Express,"vegetarian,vegan",320,True
+2026-04-10,Friday,False,Stuvi2 / towers,breakfast,STU-003,Halal Omelette,Express,halal,250,True
+2026-04-10,Friday,False,Stuvi2 / towers,lunch,STU-004,Greek Salad,Grab & Go,"vegetarian,gluten_free",220,True
+2026-04-10,Friday,False,Stuvi2 / towers,lunch,STU-005,Halal Chicken Wrap,Grab & Go,halal,490,True
+2026-04-10,Friday,False,Stuvi2 / towers,lunch,STU-006,Hummus & Veggie Wrap,Grab & Go,"vegetarian,vegan",370,True
+2026-04-10,Friday,False,Stuvi2 / towers,lunch,STU-007,Pasta Primavera,Hot Line,"vegetarian,vegan",410,True
+2026-04-10,Friday,False,Stuvi2 / towers,lunch,STU-010,Steamed Broccoli,Sides,"vegetarian,vegan,gluten_free",60,True
+2026-04-10,Friday,False,Stuvi2 / towers,lunch,STU-011,Brownie,Dessert,vegetarian,310,True
+2026-04-10,Friday,False,Stuvi2 / towers,dinner,STU-007,Pasta Primavera,Hot Line,"vegetarian,vegan",410,True
+2026-04-10,Friday,False,Stuvi2 / towers,dinner,STU-008,Halal Beef Stew,Hot Line,"halal,gluten_free",470,True
+2026-04-10,Friday,False,Stuvi2 / towers,dinner,STU-009,Roasted Chicken Thigh,Hot Line,"halal,gluten_free",400,True
+2026-04-10,Friday,False,Stuvi2 / towers,dinner,STU-010,Steamed Broccoli,Sides,"vegetarian,vegan,gluten_free",60,True
+2026-04-10,Friday,False,Stuvi2 / towers,dinner,STU-011,Brownie,Dessert,vegetarian,310,True
+2026-04-10,Friday,False,Sargent Choice Café,breakfast,SAR-002,Green Smoothie,Wellness,"vegetarian,vegan,gluten_free",180,True
+2026-04-10,Friday,False,Sargent Choice Café,breakfast,SAR-003,Chia Pudding,Wellness,"vegetarian,vegan,gluten_free",210,True
+2026-04-10,Friday,False,Sargent Choice Café,lunch,SAR-004,Quinoa Power Bowl,Café,"vegetarian,vegan,gluten_free",430,True
+2026-04-10,Friday,False,Sargent Choice Café,lunch,SAR-005,Grilled Chicken Salad,Café,"halal,gluten_free",380,True
+2026-04-10,Friday,False,Sargent Choice Café,lunch,SAR-006,Lentil & Kale Soup,Café,"vegetarian,vegan,gluten_free",190,True
+2026-04-10,Friday,False,Sargent Choice Café,lunch,SAR-007,Turkey Avocado Wrap,Café,none,460,True
+2026-04-10,Friday,False,Sargent Choice Café,dinner,SAR-010,Halal Grilled Chicken Bowl,Café,"halal,gluten_free",440,True
+2026-04-11,Saturday,True,Marciano Commons,breakfast,MRC-001,Scrambled Eggs,Hot Breakfast,"none,halal",190,True
+2026-04-11,Saturday,True,Marciano Commons,breakfast,MRC-002,Veggie Omelette,Hot Breakfast,vegetarian,220,True
+2026-04-11,Saturday,True,Marciano Commons,breakfast,MRC-003,Turkey Sausage,Hot Breakfast,halal,160,True
+2026-04-11,Saturday,True,Marciano Commons,breakfast,MRC-005,Whole Wheat Toast,Bakery,"vegetarian,vegan",110,True
+2026-04-11,Saturday,True,Marciano Commons,breakfast,MRC-006,Blueberry Muffin,Bakery,vegetarian,290,True
+2026-04-11,Saturday,True,Marciano Commons,lunch,MRC-007,Grilled Chicken Wrap,Grill,halal,510,True
+2026-04-11,Saturday,True,Marciano Commons,lunch,MRC-008,Beef Burger,Grill,none,620,True
+2026-04-11,Saturday,True,Marciano Commons,lunch,MRC-009,Black Bean Burger,Grill,"vegetarian,vegan",420,True
+2026-04-11,Saturday,True,Marciano Commons,lunch,MRC-011,Chicken Tikka Masala,International,"halal,gluten_free",480,True
+2026-04-11,Saturday,True,Marciano Commons,lunch,MRC-013,Penne Arrabiata,Pasta,"vegetarian,vegan",390,True
+2026-04-11,Saturday,True,Marciano Commons,lunch,MRC-014,Mac & Cheese,Pasta,vegetarian,520,True
+2026-04-11,Saturday,True,Marciano Commons,lunch,MRC-018,Chocolate Cake,Dessert,vegetarian,350,True
+2026-04-11,Saturday,True,Marciano Commons,dinner,MRC-010,Mixed Greens Bowl,Salad Bar,"vegetarian,vegan,gluten_free",120,True
+2026-04-11,Saturday,True,Marciano Commons,dinner,MRC-012,Dal Tadka,International,"vegetarian,vegan,gluten_free",310,True
+2026-04-11,Saturday,True,Marciano Commons,dinner,MRC-014,Mac & Cheese,Pasta,vegetarian,520,True
+2026-04-11,Saturday,True,Marciano Commons,dinner,MRC-015,Roast Chicken,Carving,"halal,gluten_free",430,True
+2026-04-11,Saturday,True,Marciano Commons,dinner,MRC-016,Herb Roasted Salmon,Carving,gluten_free,380,True
+2026-04-11,Saturday,True,Marciano Commons,dinner,MRC-017,Roasted Vegetables,Sides,"vegetarian,vegan,gluten_free",90,True
+2026-04-11,Saturday,True,Warren Towers Dining,breakfast,WRN-001,Pancakes,Hot Breakfast,vegetarian,310,True
+2026-04-11,Saturday,True,Warren Towers Dining,breakfast,WRN-003,Greek Yogurt Parfait,Hot Breakfast,"vegetarian,gluten_free",230,True
+2026-04-11,Saturday,True,Warren Towers Dining,breakfast,WRN-004,Granola Bowl,Cereal & Cold,"vegetarian,vegan",260,True
+2026-04-11,Saturday,True,Warren Towers Dining,lunch,WRN-008,Lentil Soup,Vegan Station,"vegetarian,vegan,gluten_free",210,True
+2026-04-11,Saturday,True,Warren Towers Dining,lunch,WRN-009,Cheese Pizza,Pizza,vegetarian,480,True
+2026-04-11,Saturday,True,Warren Towers Dining,lunch,WRN-010,Vegan Margherita,Pizza,"vegetarian,vegan",390,True
+2026-04-11,Saturday,True,Warren Towers Dining,lunch,WRN-011,Chicken Tenders,Comfort,none,520,True
+2026-04-11,Saturday,True,Warren Towers Dining,lunch,WRN-012,Loaded Baked Potato,Comfort,"vegetarian,gluten_free",370,True
+2026-04-11,Saturday,True,Warren Towers Dining,dinner,WRN-008,Lentil Soup,Vegan Station,"vegetarian,vegan,gluten_free",210,True
+2026-04-11,Saturday,True,Warren Towers Dining,dinner,WRN-009,Cheese Pizza,Pizza,vegetarian,480,True
+2026-04-11,Saturday,True,Warren Towers Dining,dinner,WRN-010,Vegan Margherita,Pizza,"vegetarian,vegan",390,True
+2026-04-11,Saturday,True,Warren Towers Dining,dinner,WRN-011,Chicken Tenders,Comfort,none,520,True
+2026-04-11,Saturday,True,Warren Towers Dining,dinner,WRN-012,Loaded Baked Potato,Comfort,"vegetarian,gluten_free",370,True
+2026-04-11,Saturday,True,Warren Towers Dining,dinner,WRN-013,Ice Cream Bar,Dessert,vegetarian,260,True
+2026-04-11,Saturday,True,West Campus Dining,breakfast,WST-002,Veggie Frittata,Hot Breakfast,"vegetarian,gluten_free",280,True
+2026-04-11,Saturday,True,West Campus Dining,breakfast,WST-003,Halal Turkey Bacon,Hot Breakfast,halal,130,True
+2026-04-11,Saturday,True,West Campus Dining,breakfast,WST-004,Avocado Toast,Bakery,"vegetarian,vegan",310,True
+2026-04-11,Saturday,True,West Campus Dining,lunch,WST-007,Brown Rice Buddha Bowl,Global Bowl,"vegetarian,vegan,gluten_free",340,True
+2026-04-11,Saturday,True,West Campus Dining,lunch,WST-008,Classic Burger,Grill,none,590,True
+2026-04-11,Saturday,True,West Campus Dining,lunch,WST-009,Tomato Bisque,Soup,"vegetarian,vegan,gluten_free",160,True
+2026-04-11,Saturday,True,West Campus Dining,lunch,WST-011,Sweet Potato Fries,Sides,"vegetarian,vegan,gluten_free",230,True
+2026-04-11,Saturday,True,West Campus Dining,dinner,WST-005,Falafel Bowl,Global Bowl,"vegetarian,vegan",460,True
+2026-04-11,Saturday,True,West Campus Dining,dinner,WST-006,Halal Shawarma Bowl,Global Bowl,"halal,gluten_free",530,True
+2026-04-11,Saturday,True,West Campus Dining,dinner,WST-007,Brown Rice Buddha Bowl,Global Bowl,"vegetarian,vegan,gluten_free",340,True
+2026-04-11,Saturday,True,West Campus Dining,dinner,WST-009,Tomato Bisque,Soup,"vegetarian,vegan,gluten_free",160,True
+2026-04-11,Saturday,True,West Campus Dining,dinner,WST-010,Grilled Salmon,Grill,gluten_free,400,True
+2026-04-11,Saturday,True,West Campus Dining,dinner,WST-011,Sweet Potato Fries,Sides,"vegetarian,vegan,gluten_free",230,True
+2026-04-11,Saturday,True,Stuvi2 / towers,breakfast,STU-001,Breakfast Sandwich,Express,none,380,True
+2026-04-11,Saturday,True,Stuvi2 / towers,breakfast,STU-002,Vegan Breakfast Wrap,Express,"vegetarian,vegan",320,True
+2026-04-11,Saturday,True,Stuvi2 / towers,breakfast,STU-003,Halal Omelette,Express,halal,250,True
+2026-04-11,Saturday,True,Stuvi2 / towers,lunch,STU-004,Greek Salad,Grab & Go,"vegetarian,gluten_free",220,True
+2026-04-11,Saturday,True,Stuvi2 / towers,lunch,STU-005,Halal Chicken Wrap,Grab & Go,halal,490,True
+2026-04-11,Saturday,True,Stuvi2 / towers,lunch,STU-006,Hummus & Veggie Wrap,Grab & Go,"vegetarian,vegan",370,True
+2026-04-11,Saturday,True,Stuvi2 / towers,lunch,STU-007,Pasta Primavera,Hot Line,"vegetarian,vegan",410,True
+2026-04-11,Saturday,True,Stuvi2 / towers,lunch,STU-010,Steamed Broccoli,Sides,"vegetarian,vegan,gluten_free",60,True
+2026-04-11,Saturday,True,Stuvi2 / towers,lunch,STU-011,Brownie,Dessert,vegetarian,310,True
+2026-04-11,Saturday,True,Stuvi2 / towers,dinner,STU-007,Pasta Primavera,Hot Line,"vegetarian,vegan",410,True
+2026-04-11,Saturday,True,Stuvi2 / towers,dinner,STU-008,Halal Beef Stew,Hot Line,"halal,gluten_free",470,True
+2026-04-11,Saturday,True,Stuvi2 / towers,dinner,STU-009,Roasted Chicken Thigh,Hot Line,"halal,gluten_free",400,True
+2026-04-11,Saturday,True,Stuvi2 / towers,dinner,STU-010,Steamed Broccoli,Sides,"vegetarian,vegan,gluten_free",60,True
+2026-04-11,Saturday,True,Stuvi2 / towers,dinner,STU-011,Brownie,Dessert,vegetarian,310,True
+2026-04-11,Saturday,True,Sargent Choice Café,breakfast,SAR-001,Acai Bowl,Wellness,"vegetarian,vegan,gluten_free",340,True
+2026-04-11,Saturday,True,Sargent Choice Café,breakfast,SAR-002,Green Smoothie,Wellness,"vegetarian,vegan,gluten_free",180,True
+2026-04-11,Saturday,True,Sargent Choice Café,breakfast,SAR-003,Chia Pudding,Wellness,"vegetarian,vegan,gluten_free",210,True
+2026-04-11,Saturday,True,Sargent Choice Café,lunch,SAR-004,Quinoa Power Bowl,Café,"vegetarian,vegan,gluten_free",430,True
+2026-04-11,Saturday,True,Sargent Choice Café,lunch,SAR-005,Grilled Chicken Salad,Café,"halal,gluten_free",380,True
+2026-04-11,Saturday,True,Sargent Choice Café,lunch,SAR-006,Lentil & Kale Soup,Café,"vegetarian,vegan,gluten_free",190,True
+2026-04-11,Saturday,True,Sargent Choice Café,lunch,SAR-007,Turkey Avocado Wrap,Café,none,460,True
+2026-04-11,Saturday,True,Sargent Choice Café,dinner,SAR-006,Lentil & Kale Soup,Café,"vegetarian,vegan,gluten_free",190,True
+2026-04-11,Saturday,True,Sargent Choice Café,dinner,SAR-008,Salmon & Quinoa Bowl,Wellness,gluten_free,490,True
+2026-04-11,Saturday,True,Sargent Choice Café,dinner,SAR-009,Vegan Buddha Bowl,Wellness,"vegetarian,vegan,gluten_free",360,True
+2026-04-12,Sunday,True,Marciano Commons,breakfast,MRC-002,Veggie Omelette,Hot Breakfast,vegetarian,220,True
+2026-04-12,Sunday,True,Marciano Commons,breakfast,MRC-004,Oatmeal Bar,Hot Breakfast,"vegetarian,vegan",180,True
+2026-04-12,Sunday,True,Marciano Commons,breakfast,MRC-005,Whole Wheat Toast,Bakery,"vegetarian,vegan",110,True
+2026-04-12,Sunday,True,Marciano Commons,lunch,MRC-007,Grilled Chicken Wrap,Grill,halal,510,True
+2026-04-12,Sunday,True,Marciano Commons,lunch,MRC-008,Beef Burger,Grill,none,620,True
+2026-04-12,Sunday,True,Marciano Commons,lunch,MRC-010,Mixed Greens Bowl,Salad Bar,"vegetarian,vegan,gluten_free",120,True
+2026-04-12,Sunday,True,Marciano Commons,lunch,MRC-011,Chicken Tikka Masala,International,"halal,gluten_free",480,True
+2026-04-12,Sunday,True,Marciano Commons,lunch,MRC-012,Dal Tadka,International,"vegetarian,vegan,gluten_free",310,True
+2026-04-12,Sunday,True,Marciano Commons,lunch,MRC-014,Mac & Cheese,Pasta,vegetarian,520,True
+2026-04-12,Sunday,True,Marciano Commons,dinner,MRC-010,Mixed Greens Bowl,Salad Bar,"vegetarian,vegan,gluten_free",120,True
+2026-04-12,Sunday,True,Marciano Commons,dinner,MRC-011,Chicken Tikka Masala,International,"halal,gluten_free",480,True
+2026-04-12,Sunday,True,Marciano Commons,dinner,MRC-012,Dal Tadka,International,"vegetarian,vegan,gluten_free",310,True
+2026-04-12,Sunday,True,Marciano Commons,dinner,MRC-013,Penne Arrabiata,Pasta,"vegetarian,vegan",390,True
+2026-04-12,Sunday,True,Marciano Commons,dinner,MRC-014,Mac & Cheese,Pasta,vegetarian,520,True
+2026-04-12,Sunday,True,Marciano Commons,dinner,MRC-015,Roast Chicken,Carving,"halal,gluten_free",430,True
+2026-04-12,Sunday,True,Marciano Commons,dinner,MRC-016,Herb Roasted Salmon,Carving,gluten_free,380,True
+2026-04-12,Sunday,True,Marciano Commons,dinner,MRC-017,Roasted Vegetables,Sides,"vegetarian,vegan,gluten_free",90,True
+2026-04-12,Sunday,True,Marciano Commons,dinner,MRC-018,Chocolate Cake,Dessert,vegetarian,350,True
+2026-04-12,Sunday,True,Warren Towers Dining,breakfast,WRN-002,Halal Chicken Sausage,Hot Breakfast,halal,140,True
+2026-04-12,Sunday,True,Warren Towers Dining,breakfast,WRN-003,Greek Yogurt Parfait,Hot Breakfast,"vegetarian,gluten_free",230,True
+2026-04-12,Sunday,True,Warren Towers Dining,lunch,WRN-006,Halal Beef Patty Melt,Grill,halal,580,True
+2026-04-12,Sunday,True,Warren Towers Dining,lunch,WRN-007,Tofu Stir Fry,Vegan Station,"vegetarian,vegan,gluten_free",330,True
+2026-04-12,Sunday,True,Warren Towers Dining,lunch,WRN-008,Lentil Soup,Vegan Station,"vegetarian,vegan,gluten_free",210,True
+2026-04-12,Sunday,True,Warren Towers Dining,lunch,WRN-009,Cheese Pizza,Pizza,vegetarian,480,True
+2026-04-12,Sunday,True,Warren Towers Dining,lunch,WRN-010,Vegan Margherita,Pizza,"vegetarian,vegan",390,True
+2026-04-12,Sunday,True,Warren Towers Dining,lunch,WRN-012,Loaded Baked Potato,Comfort,"vegetarian,gluten_free",370,True
+2026-04-12,Sunday,True,Warren Towers Dining,dinner,WRN-007,Tofu Stir Fry,Vegan Station,"vegetarian,vegan,gluten_free",330,True
+2026-04-12,Sunday,True,Warren Towers Dining,dinner,WRN-009,Cheese Pizza,Pizza,vegetarian,480,True
+2026-04-12,Sunday,True,Warren Towers Dining,dinner,WRN-010,Vegan Margherita,Pizza,"vegetarian,vegan",390,True
+2026-04-12,Sunday,True,Warren Towers Dining,dinner,WRN-011,Chicken Tenders,Comfort,none,520,True
+2026-04-12,Sunday,True,West Campus Dining,breakfast,WST-001,Eggs Benedict,Hot Breakfast,none,420,True
+2026-04-12,Sunday,True,West Campus Dining,breakfast,WST-003,Halal Turkey Bacon,Hot Breakfast,halal,130,True
+2026-04-12,Sunday,True,West Campus Dining,breakfast,WST-004,Avocado Toast,Bakery,"vegetarian,vegan",310,True
+2026-04-12,Sunday,True,West Campus Dining,lunch,WST-005,Falafel Bowl,Global Bowl,"vegetarian,vegan",460,True
+2026-04-12,Sunday,True,West Campus Dining,lunch,WST-006,Halal Shawarma Bowl,Global Bowl,"halal,gluten_free",530,True
+2026-04-12,Sunday,True,West Campus Dining,lunch,WST-007,Brown Rice Buddha Bowl,Global Bowl,"vegetarian,vegan,gluten_free",340,True
+2026-04-12,Sunday,True,West Campus Dining,lunch,WST-009,Tomato Bisque,Soup,"vegetarian,vegan,gluten_free",160,True
+2026-04-12,Sunday,True,West Campus Dining,lunch,WST-011,Sweet Potato Fries,Sides,"vegetarian,vegan,gluten_free",230,True
+2026-04-12,Sunday,True,West Campus Dining,dinner,WST-005,Falafel Bowl,Global Bowl,"vegetarian,vegan",460,True
+2026-04-12,Sunday,True,West Campus Dining,dinner,WST-006,Halal Shawarma Bowl,Global Bowl,"halal,gluten_free",530,True
+2026-04-12,Sunday,True,West Campus Dining,dinner,WST-007,Brown Rice Buddha Bowl,Global Bowl,"vegetarian,vegan,gluten_free",340,True
+2026-04-12,Sunday,True,West Campus Dining,dinner,WST-009,Tomato Bisque,Soup,"vegetarian,vegan,gluten_free",160,True
+2026-04-12,Sunday,True,West Campus Dining,dinner,WST-011,Sweet Potato Fries,Sides,"vegetarian,vegan,gluten_free",230,True
+2026-04-12,Sunday,True,West Campus Dining,dinner,WST-012,Fruit Crumble,Dessert,vegetarian,290,True
+2026-04-12,Sunday,True,Stuvi2 / towers,breakfast,STU-001,Breakfast Sandwich,Express,none,380,True
+2026-04-12,Sunday,True,Stuvi2 / towers,breakfast,STU-002,Vegan Breakfast Wrap,Express,"vegetarian,vegan",320,True
+2026-04-12,Sunday,True,Stuvi2 / towers,breakfast,STU-003,Halal Omelette,Express,halal,250,True
+2026-04-12,Sunday,True,Stuvi2 / towers,lunch,STU-004,Greek Salad,Grab & Go,"vegetarian,gluten_free",220,True
+2026-04-12,Sunday,True,Stuvi2 / towers,lunch,STU-005,Halal Chicken Wrap,Grab & Go,halal,490,True
+2026-04-12,Sunday,True,Stuvi2 / towers,lunch,STU-006,Hummus & Veggie Wrap,Grab & Go,"vegetarian,vegan",370,True
+2026-04-12,Sunday,True,Stuvi2 / towers,lunch,STU-007,Pasta Primavera,Hot Line,"vegetarian,vegan",410,True
+2026-04-12,Sunday,True,Stuvi2 / towers,lunch,STU-010,Steamed Broccoli,Sides,"vegetarian,vegan,gluten_free",60,True
+2026-04-12,Sunday,True,Stuvi2 / towers,lunch,STU-011,Brownie,Dessert,vegetarian,310,True
+2026-04-12,Sunday,True,Stuvi2 / towers,dinner,STU-007,Pasta Primavera,Hot Line,"vegetarian,vegan",410,True
+2026-04-12,Sunday,True,Stuvi2 / towers,dinner,STU-008,Halal Beef Stew,Hot Line,"halal,gluten_free",470,True
+2026-04-12,Sunday,True,Stuvi2 / towers,dinner,STU-009,Roasted Chicken Thigh,Hot Line,"halal,gluten_free",400,True
+2026-04-12,Sunday,True,Stuvi2 / towers,dinner,STU-011,Brownie,Dessert,vegetarian,310,True
+2026-04-12,Sunday,True,Sargent Choice Café,breakfast,SAR-001,Acai Bowl,Wellness,"vegetarian,vegan,gluten_free",340,True
+2026-04-12,Sunday,True,Sargent Choice Café,breakfast,SAR-002,Green Smoothie,Wellness,"vegetarian,vegan,gluten_free",180,True
+2026-04-12,Sunday,True,Sargent Choice Café,lunch,SAR-004,Quinoa Power Bowl,Café,"vegetarian,vegan,gluten_free",430,True
+2026-04-12,Sunday,True,Sargent Choice Café,lunch,SAR-007,Turkey Avocado Wrap,Café,none,460,True
+2026-04-12,Sunday,True,Sargent Choice Café,dinner,SAR-006,Lentil & Kale Soup,Café,"vegetarian,vegan,gluten_free",190,True
+2026-04-12,Sunday,True,Sargent Choice Café,dinner,SAR-008,Salmon & Quinoa Bowl,Wellness,gluten_free,490,True
+2026-04-12,Sunday,True,Sargent Choice Café,dinner,SAR-009,Vegan Buddha Bowl,Wellness,"vegetarian,vegan,gluten_free",360,True

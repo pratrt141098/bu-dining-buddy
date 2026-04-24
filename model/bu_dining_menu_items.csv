@@ -1,0 +1,65 @@
+item_id,hall,station,item_name,dietary_tags,meal_periods_served,calories
+MRC-001,Marciano Commons,Hot Breakfast,Scrambled Eggs,"none,halal",breakfast,190
+MRC-002,Marciano Commons,Hot Breakfast,Veggie Omelette,vegetarian,breakfast,220
+MRC-003,Marciano Commons,Hot Breakfast,Turkey Sausage,halal,breakfast,160
+MRC-004,Marciano Commons,Hot Breakfast,Oatmeal Bar,"vegetarian,vegan",breakfast,180
+MRC-005,Marciano Commons,Bakery,Whole Wheat Toast,"vegetarian,vegan",breakfast,110
+MRC-006,Marciano Commons,Bakery,Blueberry Muffin,vegetarian,breakfast,290
+MRC-007,Marciano Commons,Grill,Grilled Chicken Wrap,halal,lunch,510
+MRC-008,Marciano Commons,Grill,Beef Burger,none,lunch,620
+MRC-009,Marciano Commons,Grill,Black Bean Burger,"vegetarian,vegan",lunch,420
+MRC-010,Marciano Commons,Salad Bar,Mixed Greens Bowl,"vegetarian,vegan,gluten_free","lunch,dinner",120
+MRC-011,Marciano Commons,International,Chicken Tikka Masala,"halal,gluten_free","lunch,dinner",480
+MRC-012,Marciano Commons,International,Dal Tadka,"vegetarian,vegan,gluten_free","lunch,dinner",310
+MRC-013,Marciano Commons,Pasta,Penne Arrabiata,"vegetarian,vegan","lunch,dinner",390
+MRC-014,Marciano Commons,Pasta,Mac & Cheese,vegetarian,"lunch,dinner",520
+MRC-015,Marciano Commons,Carving,Roast Chicken,"halal,gluten_free",dinner,430
+MRC-016,Marciano Commons,Carving,Herb Roasted Salmon,gluten_free,dinner,380
+MRC-017,Marciano Commons,Sides,Roasted Vegetables,"vegetarian,vegan,gluten_free",dinner,90
+MRC-018,Marciano Commons,Dessert,Chocolate Cake,vegetarian,"lunch,dinner",350
+WRN-001,Warren Towers Dining,Hot Breakfast,Pancakes,vegetarian,breakfast,310
+WRN-002,Warren Towers Dining,Hot Breakfast,Halal Chicken Sausage,halal,breakfast,140
+WRN-003,Warren Towers Dining,Hot Breakfast,Greek Yogurt Parfait,"vegetarian,gluten_free",breakfast,230
+WRN-004,Warren Towers Dining,Cereal & Cold,Granola Bowl,"vegetarian,vegan",breakfast,260
+WRN-005,Warren Towers Dining,Grill,Grilled Cheese,vegetarian,lunch,410
+WRN-006,Warren Towers Dining,Grill,Halal Beef Patty Melt,halal,lunch,580
+WRN-007,Warren Towers Dining,Vegan Station,Tofu Stir Fry,"vegetarian,vegan,gluten_free","lunch,dinner",330
+WRN-008,Warren Towers Dining,Vegan Station,Lentil Soup,"vegetarian,vegan,gluten_free","lunch,dinner",210
+WRN-009,Warren Towers Dining,Pizza,Cheese Pizza,vegetarian,"lunch,dinner",480
+WRN-010,Warren Towers Dining,Pizza,Vegan Margherita,"vegetarian,vegan","lunch,dinner",390
+WRN-011,Warren Towers Dining,Comfort,Chicken Tenders,none,"lunch,dinner",520
+WRN-012,Warren Towers Dining,Comfort,Loaded Baked Potato,"vegetarian,gluten_free","lunch,dinner",370
+WRN-013,Warren Towers Dining,Dessert,Ice Cream Bar,vegetarian,dinner,260
+WST-001,West Campus Dining,Hot Breakfast,Eggs Benedict,none,breakfast,420
+WST-002,West Campus Dining,Hot Breakfast,Veggie Frittata,"vegetarian,gluten_free",breakfast,280
+WST-003,West Campus Dining,Hot Breakfast,Halal Turkey Bacon,halal,breakfast,130
+WST-004,West Campus Dining,Bakery,Avocado Toast,"vegetarian,vegan",breakfast,310
+WST-005,West Campus Dining,Global Bowl,Falafel Bowl,"vegetarian,vegan","lunch,dinner",460
+WST-006,West Campus Dining,Global Bowl,Halal Shawarma Bowl,"halal,gluten_free","lunch,dinner",530
+WST-007,West Campus Dining,Global Bowl,Brown Rice Buddha Bowl,"vegetarian,vegan,gluten_free","lunch,dinner",340
+WST-008,West Campus Dining,Grill,Classic Burger,none,lunch,590
+WST-009,West Campus Dining,Soup,Tomato Bisque,"vegetarian,vegan,gluten_free","lunch,dinner",160
+WST-010,West Campus Dining,Grill,Grilled Salmon,gluten_free,dinner,400
+WST-011,West Campus Dining,Sides,Sweet Potato Fries,"vegetarian,vegan,gluten_free","lunch,dinner",230
+WST-012,West Campus Dining,Dessert,Fruit Crumble,vegetarian,dinner,290
+STU-001,Stuvi2 / towers,Express,Breakfast Sandwich,none,breakfast,380
+STU-002,Stuvi2 / towers,Express,Vegan Breakfast Wrap,"vegetarian,vegan",breakfast,320
+STU-003,Stuvi2 / towers,Express,Halal Omelette,halal,breakfast,250
+STU-004,Stuvi2 / towers,Grab & Go,Greek Salad,"vegetarian,gluten_free",lunch,220
+STU-005,Stuvi2 / towers,Grab & Go,Halal Chicken Wrap,halal,lunch,490
+STU-006,Stuvi2 / towers,Grab & Go,Hummus & Veggie Wrap,"vegetarian,vegan",lunch,370
+STU-007,Stuvi2 / towers,Hot Line,Pasta Primavera,"vegetarian,vegan","lunch,dinner",410
+STU-008,Stuvi2 / towers,Hot Line,Halal Beef Stew,"halal,gluten_free",dinner,470
+STU-009,Stuvi2 / towers,Hot Line,Roasted Chicken Thigh,"halal,gluten_free",dinner,400
+STU-010,Stuvi2 / towers,Sides,Steamed Broccoli,"vegetarian,vegan,gluten_free","lunch,dinner",60
+STU-011,Stuvi2 / towers,Dessert,Brownie,vegetarian,"lunch,dinner",310
+SAR-001,Sargent Choice Café,Wellness,Acai Bowl,"vegetarian,vegan,gluten_free",breakfast,340
+SAR-002,Sargent Choice Café,Wellness,Green Smoothie,"vegetarian,vegan,gluten_free",breakfast,180
+SAR-003,Sargent Choice Café,Wellness,Chia Pudding,"vegetarian,vegan,gluten_free",breakfast,210
+SAR-004,Sargent Choice Café,Café,Quinoa Power Bowl,"vegetarian,vegan,gluten_free",lunch,430
+SAR-005,Sargent Choice Café,Café,Grilled Chicken Salad,"halal,gluten_free",lunch,380
+SAR-006,Sargent Choice Café,Café,Lentil & Kale Soup,"vegetarian,vegan,gluten_free","lunch,dinner",190
+SAR-007,Sargent Choice Café,Café,Turkey Avocado Wrap,none,lunch,460
+SAR-008,Sargent Choice Café,Wellness,Salmon & Quinoa Bowl,gluten_free,dinner,490
+SAR-009,Sargent Choice Café,Wellness,Vegan Buddha Bowl,"vegetarian,vegan,gluten_free",dinner,360
+SAR-010,Sargent Choice Café,Café,Halal Grilled Chicken Bowl,"halal,gluten_free",dinner,440
