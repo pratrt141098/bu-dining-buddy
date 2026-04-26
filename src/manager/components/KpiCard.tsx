@@ -5,9 +5,13 @@ interface KpiCardProps {
   value: string | number;
   trend?: string;
   trendDir?: "up" | "down";
+  /** Optional secondary line rendered below the value in xs muted text */
+  subLabel?: string;
+  /** When true, renders value at 18px instead of 36px (for name strings) */
+  compact?: boolean;
 }
 
-export function KpiCard({ label, value, trend, trendDir = "up" }: KpiCardProps) {
+export function KpiCard({ label, value, trend, trendDir = "up", subLabel, compact }: KpiCardProps) {
   const trendColor = trendDir === "up" ? "#00A896" : "#EF4444";
   const TrendIcon = trendDir === "up" ? TrendingUp : TrendingDown;
 
@@ -25,16 +29,34 @@ export function KpiCard({ label, value, trend, trendDir = "up" }: KpiCardProps) 
       <div
         style={{
           fontFamily: "var(--font-display)",
-          fontSize: 36,
+          fontSize: compact ? 18 : 36,
           fontWeight: 700,
           color: "white",
           lineHeight: 1,
           letterSpacing: "-0.02em",
-          marginBottom: 8,
+          marginBottom: subLabel ? 4 : 8,
+          whiteSpace: "nowrap",
+          overflow: "hidden",
+          textOverflow: "ellipsis",
         }}
       >
         {value}
       </div>
+      {subLabel && (
+        <div
+          style={{
+            fontSize: 11,
+            color: "var(--color-text-muted)",
+            fontFamily: "var(--font-body)",
+            marginBottom: 8,
+            whiteSpace: "nowrap",
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+          }}
+        >
+          {subLabel}
+        </div>
+      )}
       <div
         style={{
           display: "flex",

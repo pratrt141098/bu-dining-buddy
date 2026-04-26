@@ -12,7 +12,6 @@ import {
   Scatter,
   ZAxis,
 } from "recharts";
-import { Download } from "lucide-react";
 import { loadInventory } from "../data/loaders";
 import type { InventoryRow } from "../data/types";
 import {
@@ -20,7 +19,6 @@ import {
   HALL_DISPLAY,
   MEAL_ORDER,
   MEAL_COLORS,
-  DIETARY_COLORS,
   CHART_GRID_STROKE,
   CHART_AXIS_STYLE,
   TOOLTIP_STYLE,
@@ -35,44 +33,34 @@ import { ScatterTooltip } from "../components/DarkTooltip";
 
 const PAGE_SIZE = 15;
 
-function parseDietaryTags(raw: string): string[] {
-  return raw.replace(/['"]/g, "").split(",").map((t) => t.trim()).filter(Boolean);
+// surface-1 = #1e293b = rgb(30, 41, 59)
+function heatmapColor(pct: number): string {
+  const t = Math.min(1, Math.max(0, pct / 100));
+  if (t <= 0.5) {
+    const u = t / 0.5;
+    const r = Math.round(30 + (245 - 30) * u);
+    const g = Math.round(41 + (158 - 41) * u);
+    const b = Math.round(59 + (11 - 59) * u);
+    const a = (1 - u) + 0.35 * u;
+    return `rgba(${r},${g},${b},${a.toFixed(2)})`;
+  } else {
+    const u = (t - 0.5) / 0.5;
+    const r = Math.round(245 + (239 - 245) * u);
+    const g = Math.round(158 + (68 - 158) * u);
+    const b = Math.round(11 + (68 - 11) * u);
+    const a = 0.35 + (0.60 - 0.35) * u;
+    return `rgba(${r},${g},${b},${a.toFixed(2)})`;
+  }
 }
 
-function DietaryPill({ tag }: { tag: string }) {
-  const color = DIETARY_COLORS[tag] ?? "#475569";
-  return (
-    <span style={{ background: `${color}22`, color, border: `1px solid ${color}44`, borderRadius: 4, padding: "1px 6px", fontSize: 10, fontWeight: 600, marginRight: 4, display: "inline-block" }}>
-      {tag}
-    </span>
-  );
-}
-
-function downloadCsv(data: InventoryRow[]) {
-  const headers = ["Date", "Hall", "Meal Period", "Item Name", "Dietary Tags", "Depletion Time", "Units Served", "Starting Units"];
-  const rows = data.map((r) => [
-    r.date, r.hall, r.meal_period, r.item_name,
-    String(r.dietary_tags).replace(/['"]/g, ""),
-    r.depletion_time ?? "",
-    r.units_served, r.starting_units,
-  ]);
-  const csv = [headers, ...rows]
-    .map((row) => row.map((c) => `"${String(c).replace(/"/g, '""')}"`).join(","))
-    .join("\n");
-  const blob = new Blob([csv], { type: "text/csv" });
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = "depletion-log-week.csv";
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
+function heatmapTextStyle(pct: number): React.CSSProperties {
+  if (pct >= 70) return { color: "white", fontWeight: 700 };
+  if (pct >= 40) return { color: "white", fontWeight: 400 };
+  return { color: "var(--color-text-muted)", fontWeight: 400 };
 }
 
 export default function Inventory() {
   const [inventory, setInventory] = useState<InventoryRow[] | null>(null);
-  const [depPage, setDepPage] = useState(1);
   const [restPage, setRestPage] = useState(1);
   const { selectedHall, selectedDay } = useFilter();
   const { showRestockRecommendations } = useSettings();
@@ -83,7 +71,7 @@ export default function Inventory() {
     return () => { cancelled = true; };
   }, []);
 
-  useEffect(() => { setDepPage(1); setRestPage(1); }, [selectedHall, selectedDay]);
+  useEffect(() => { setRestPage(1); }, [selectedHall, selectedDay]);
 
   const filtered = useMemo(() => {
     if (!inventory) return [];
@@ -96,13 +84,25 @@ export default function Inventory() {
 
   const kpis = useMemo(() => {
     if (!inventory) return null;
-    const depleted = filtered.filter((r) => r.depleted === true);
+
     const avgDepletion = filtered.length
       ? (filtered.reduce((s, r) => s + r.depletion_pct, 0) / filtered.length * 100).toFixed(1)
       : "0";
-    const hallCounts = HALLS.map((h) => ({ hall: h, count: depleted.filter((r) => r.hall === h).length }));
-    const highestRisk = [...hallCounts].sort((a, b) => b.count - a.count)[0];
-    return { depletedCount: depleted.length, avgDepletion, highestRisk: HALL_DISPLAY[highestRisk?.hall] ?? "—" };
+
+    const totalUnitsServed = filtered.reduce((s, r) => s + r.units_served, 0);
+
+    const topRow = filtered.length
+      ? filtered.reduce((best, r) => r.depletion_pct > best.depletion_pct ? r : best, filtered[0])
+      : null;
+
+    const mostConsumedName = topRow
+      ? (topRow.item_name.length > 20 ? topRow.item_name.slice(0, 20) + "…" : topRow.item_name)
+      : "—";
+    const mostConsumedSub = topRow
+      ? `${(topRow.depletion_pct * 100).toFixed(0)}% consumed · ${HALL_DISPLAY[topRow.hall] ?? topRow.hall} · ${topRow.meal_period}`
+      : null;
+
+    return { avgDepletion, totalUnitsServed, mostConsumedName, mostConsumedSub };
   }, [filtered, inventory]);
 
   const depletionBarData = useMemo(() => {
@@ -125,15 +125,25 @@ export default function Inventory() {
     };
   }, [filtered]);
 
-  const depletionLog = useMemo(() => {
-    if (!filtered.length) return [];
-    return filtered
-      .filter((r) => r.depleted === true)
-      .sort((a, b) => {
-        const d = b.date.localeCompare(a.date);
-        return d !== 0 ? d : (a.depletion_time ?? "").localeCompare(b.depletion_time ?? "");
-      });
-  }, [filtered]);
+  // Heatmap: mean depletion_pct per (hall × meal_period) from filtered rows
+  const heatmapHalls = useMemo(
+    () => (selectedHall === "All Halls" ? [...HALLS] : [selectedHall as typeof HALLS[number]]),
+    [selectedHall]
+  );
+
+  const heatmapCells = useMemo(() => {
+    const result: Record<string, Record<string, number>> = {};
+    for (const hall of heatmapHalls) {
+      result[hall] = {};
+      for (const meal of MEAL_ORDER) {
+        const rows = filtered.filter((r) => r.hall === hall && r.meal_period === meal);
+        result[hall][meal] = rows.length
+          ? rows.reduce((s, r) => s + r.depletion_pct, 0) / rows.length * 100
+          : 0;
+      }
+    }
+    return result;
+  }, [filtered, heatmapHalls]);
 
   // Restock recommendations — uses full inventory (not filtered by day)
   const restockData = useMemo(() => {
@@ -163,8 +173,6 @@ export default function Inventory() {
       .sort((a, b) => b.suggested - a.suggested);
   }, [inventory, selectedHall]);
 
-  const depTotalPages = Math.ceil(depletionLog.length / PAGE_SIZE);
-  const depPageRows = depletionLog.slice((depPage - 1) * PAGE_SIZE, depPage * PAGE_SIZE);
   const restTotalPages = Math.ceil(restockData.length / PAGE_SIZE);
   const restPageRows = restockData.slice((restPage - 1) * PAGE_SIZE, restPage * PAGE_SIZE);
 
@@ -185,15 +193,25 @@ export default function Inventory() {
     <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
       {/* KPIs */}
       <div style={{ display: "flex", gap: 16 }}>
-        <KpiCard label="Items Depleted This Week" value={kpis!.depletedCount.toLocaleString()} />
         <KpiCard label="Avg Depletion Rate" value={kpis!.avgDepletion + "%"} />
-        <KpiCard label="Highest Risk Hall" value={kpis!.highestRisk} />
+        <KpiCard
+          label="Total Units Served This Week"
+          value={kpis!.totalUnitsServed.toLocaleString()}
+          trend="+6%"
+          trendDir="up"
+        />
+        <KpiCard
+          label="Highest Depletion Rate Item"
+          value={kpis!.mostConsumedName}
+          subLabel={kpis!.mostConsumedSub ?? undefined}
+          compact
+        />
       </div>
 
       {/* Charts row */}
       <div style={{ display: "flex", gap: 16 }}>
         <div style={{ flex: 1, minWidth: 0 }}>
-          <ChartContainer title="Where Food Runs Out Most" subtitle="Source: bu_dining_inventory.csv · avg depletion % by hall and meal" style={{ height: "100%" }}>
+          <ChartContainer title="Depletion Rate by Hall and Meal Period" subtitle="Source: bu_dining_inventory.csv · avg depletion % by hall and meal" style={{ height: "100%" }}>
             <ResponsiveContainer width="100%" height={280}>
               <BarChart data={depletionBarData} barGap={2} barCategoryGap="32%">
                 <CartesianGrid strokeDasharray="3 3" stroke={CHART_GRID_STROKE} vertical={false} />
@@ -230,55 +248,107 @@ export default function Inventory() {
         </div>
       </div>
 
-      {/* Depletion Log */}
-      <TableCard
-        title="Depletion Log"
-        subtitle="Source: bu_dining_inventory.csv · rows where depleted = true · sorted by date desc"
-        count={`${depletionLog.length} depletion incidents`}
-        headerRight={
-          depletionLog.length > 0 && (
-            <button
-              onClick={() => downloadCsv(depletionLog)}
-              className="mgr-no-print"
-              style={{ display: "flex", alignItems: "center", gap: 6, background: "transparent", border: "1px solid rgba(255,255,255,0.15)", borderRadius: "var(--radius-md)", color: "white", fontFamily: "var(--font-body)", fontSize: 12, padding: "5px 10px", cursor: "pointer" }}
-            >
-              <Download size={14} />
-              Download CSV
-            </button>
-          )
-        }
+      {/* Consumption Pressure Heatmap */}
+      <div
+        style={{
+          background: "var(--color-surface-1)",
+          border: "1px solid rgba(255,255,255,0.10)",
+          borderRadius: "var(--radius-xl)",
+          padding: 24,
+        }}
       >
-        {depletionLog.length === 0 ? (
-          <EmptyState message="No depletion incidents for this selection" />
-        ) : (
-          <>
-            <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 12, fontFamily: "var(--font-body)" }}>
-              <thead>
-                <tr style={{ borderBottom: "1px solid rgba(255,255,255,0.08)" }}>
-                  {["Date", "Hall", "Meal", "Item Name", "Dietary Tags", "Depletion Time", "Units Served", "Starting Units"].map((h) => (
-                    <th key={h} style={{ textAlign: "left", padding: "8px 12px", color: "var(--color-text-muted)", fontWeight: 500, whiteSpace: "nowrap" }}>{h}</th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {depPageRows.map((row, i) => (
-                  <HoverRow key={`${row.date}-${row.hall}-${row.item_id}`} even={i % 2 === 0}>
-                    <td style={{ padding: "10px 12px", color: "var(--color-text-muted)", whiteSpace: "nowrap" }}>{row.date}</td>
-                    <td style={{ padding: "10px 12px", color: "white", whiteSpace: "nowrap" }}>{HALL_DISPLAY[row.hall] ?? row.hall}</td>
-                    <td style={{ padding: "10px 12px", color: "var(--color-text-muted)", textTransform: "capitalize" }}>{row.meal_period}</td>
-                    <td style={{ padding: "10px 12px", color: "white" }}>{row.item_name}</td>
-                    <td style={{ padding: "10px 12px" }}>{parseDietaryTags(row.dietary_tags).map((tag) => <DietaryPill key={tag} tag={tag} />)}</td>
-                    <td style={{ padding: "10px 12px", color: "var(--color-text-muted)", whiteSpace: "nowrap" }}>{row.depletion_time || "—"}</td>
-                    <td style={{ padding: "10px 12px", color: "white", textAlign: "right" }}>{row.units_served.toLocaleString()}</td>
-                    <td style={{ padding: "10px 12px", color: "white", textAlign: "right" }}>{row.starting_units.toLocaleString()}</td>
-                  </HoverRow>
+        <div style={{ fontFamily: "var(--font-display)", fontSize: 15, fontWeight: 700, color: "white", marginBottom: 4 }}>
+          Consumption Pressure by Hall and Meal
+        </div>
+        <div style={{ fontSize: 11, color: "var(--color-text-faint)", marginBottom: 20 }}>
+          Source: bu_dining_inventory.csv · avg depletion % per cell · filtered by selected hall + day
+        </div>
+
+        <div style={{ overflowX: "auto" }}>
+          <table style={{ borderCollapse: "separate", borderSpacing: 4, width: "100%" }}>
+            <thead>
+              <tr>
+                <th style={{ width: 160, minWidth: 160 }} />
+                {MEAL_ORDER.map((meal) => (
+                  <th
+                    key={meal}
+                    style={{
+                      textAlign: "center",
+                      fontSize: 11,
+                      fontWeight: 600,
+                      letterSpacing: "0.07em",
+                      textTransform: "uppercase",
+                      color: "var(--color-text-muted)",
+                      padding: "0 0 8px 0",
+                    }}
+                  >
+                    {meal.charAt(0).toUpperCase() + meal.slice(1)}
+                  </th>
                 ))}
-              </tbody>
-            </table>
-            <Paginator page={depPage} total={depTotalPages} onChange={setDepPage} />
-          </>
-        )}
-      </TableCard>
+              </tr>
+            </thead>
+            <tbody>
+              {heatmapHalls.map((hall) => (
+                <tr key={hall}>
+                  <td
+                    style={{
+                      fontSize: 13,
+                      color: "white",
+                      width: 160,
+                      minWidth: 160,
+                      paddingRight: 12,
+                      paddingTop: 4,
+                      paddingBottom: 4,
+                      whiteSpace: "nowrap",
+                    }}
+                  >
+                    {HALL_DISPLAY[hall] ?? hall}
+                  </td>
+                  {MEAL_ORDER.map((meal) => {
+                    const val = heatmapCells[hall]?.[meal] ?? 0;
+                    const valInt = Math.round(val);
+                    return (
+                      <td
+                        key={meal}
+                        style={{
+                          background: heatmapColor(val),
+                          borderRadius: 6,
+                          textAlign: "center",
+                          padding: "10px 8px",
+                          fontSize: 13,
+                          fontFamily: "var(--font-body)",
+                          minWidth: 72,
+                          transition: "background 200ms",
+                          ...heatmapTextStyle(val),
+                        }}
+                      >
+                        {valInt}%
+                      </td>
+                    );
+                  })}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        {/* Color scale legend */}
+        <div style={{ marginTop: 20 }}>
+          <div style={{ fontSize: 11, color: "var(--color-text-muted)", marginBottom: 6 }}>Depletion Rate</div>
+          <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+            <span style={{ fontSize: 11, color: "var(--color-text-muted)" }}>0%</span>
+            <div
+              style={{
+                width: 200,
+                height: 10,
+                borderRadius: 4,
+                background: "linear-gradient(to right, #1e293b, rgba(245,158,11,0.35), rgba(239,68,68,0.60))",
+              }}
+            />
+            <span style={{ fontSize: 11, color: "var(--color-text-muted)" }}>100%</span>
+          </div>
+        </div>
+      </div>
 
       {/* Restock Recommendations */}
       {showRestockRecommendations && restockData.length > 0 && (
