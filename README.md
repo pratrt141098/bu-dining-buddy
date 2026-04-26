@@ -5,8 +5,8 @@ Built for DS719 Product Management · Spring 2026 · Boston University
 A mobile-first web app that helps Boston University students find the best dining hall to eat at right now — showing predicted wait times, real menu options with live inventory levels, and dietary preference matching across all five BU dining halls.
 
 **Live apps:**
-- Student app: https://bu-dining-buddy-lm7no6lcb-pratrt141098s-projects.vercel.app
-- Manager dashboard: https://bu-dining-buddy-j6ncpoyjg-pratrt141098s-projects.vercel.app/manager
+- Student app: https://bu-dining-buddy.vercel.app/
+- Manager dashboard: https://bu-dining-buddy.vercel.app/manager
 
 ---
 
