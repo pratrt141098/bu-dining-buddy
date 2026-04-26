@@ -1,6 +1,12 @@
+Built for DS719 Product Management · Spring 2026 · Boston University
+
 # BU Dining Buddy
 
 A mobile-first web app that helps Boston University students find the best dining hall to eat at right now — showing predicted wait times, real menu options with live inventory levels, and dietary preference matching across all five BU dining halls.
+
+**Live apps:**
+- Student app: https://bu-dining-buddy-lm7no6lcb-pratrt141098s-projects.vercel.app
+- Manager dashboard: https://bu-dining-buddy-j6ncpoyjg-pratrt141098s-projects.vercel.app/manager
 
 ---
 
@@ -12,8 +18,9 @@ A mobile-first web app that helps Boston University students find the best dinin
 - **Dietary preference filtering** — set Vegetarian, Vegan, Halal, or Gluten-Free preferences in the Profile tab; all counts and highlights update throughout the app.
 - **All Halls tab** — a 2-column grid of all five halls with occupancy %, wait time, and a visual highlight on the recommended hall (no sticker — a glowing primary ring).
 - **Hall Detail** — occupancy ring, wait trend sparkline (hour-by-hour GBM forecast), and the full menu grouped by station with depletion times for sold-out items.
-- **Feedback tab** — a 5-question single-screen-per-question feedback flow (star rating → wait time → food availability → influence → open text). Responses are stored in `localStorage` under `feedbackLog`.
+- **Feedback tab** — a 5-question single-screen-per-question feedback flow (star rating → wait time → food availability → influence → open text). Responses are stored in `localStorage` under `feedbackLog`. Responses feed into the North Star event log alongside `lastAdoptedHall` and `lastAdoptedMeal`.
 - **Meal plan strip** — swipes remaining and dining dollar balance shown on the Home tab; low-swipe alert triggers at ≤ 3 remaining.
+- **Manager dashboard** — a separate B2B analytics app at `/manager` for BU Dining staff, showing live traffic heatmaps, inventory depletion analysis, menu performance, hall comparison, and demand forecasting. Built on the same CSV and model pipeline as the student app.
 
 ---
 
@@ -97,7 +104,7 @@ bu-dining-buddy/
 
 ```bash
 # 1. Clone the repository
-git clone <repo-url>
+git clone https://github.com/pratrt141098/bu-dining-buddy  
 cd bu-dining-buddy
 
 # 2. Install JavaScript dependencies
@@ -124,6 +131,8 @@ npm run test:watch  # Watch mode
 ---
 
 ## Python model API setup (optional)
+
+**Model accuracy:** 84% MAE on the holdout validation week (Gradient Boosting Regressor, scikit-learn).
 
 The frontend proxies `/model-api` to `https://bu-dining.onrender.com` by default. If you want to run the prediction API locally:
 
@@ -182,6 +191,27 @@ python 02_evaluate.py      # Generates evaluation plots
 
 ---
 
+## Manager dashboard
+
+A separate analytics interface for BU Dining staff, accessible at `/manager` on the same Vercel deployment.
+
+**URL:** https://bu-dining-buddy-j6ncpoyjg-pratrt141098s-projects.vercel.app/manager
+
+**Pages:**
+
+| Route | Page | Description |
+|---|---|---|
+| `/manager` | Overview | Weekly swipe totals, peak occupancy, avg wait, depletion incidents; weekly traffic by hall; meal period split |
+| `/manager#/traffic` | Traffic | Swipe volume by hour (all halls), occupancy by meal period, avg wait by day, user persona breakdown, wait time distribution |
+| `/manager#/inventory` | Inventory | Items depleted, avg depletion rate, highest-risk hall, depletion by hall and meal, starting vs remaining inventory scatter |
+| `/manager#/menu` | Menu Performance | Top 10 most-served items, dietary coverage breakdown, calorie range by station |
+| `/manager#/halls` | Hall Comparison | Per-hall weekly metrics cards, hourly traffic heatmap (all halls × all hours) |
+| `/manager#/settings` | Settings | Alert thresholds (occupancy warning, depletion warning, high demand badge), display preferences |
+
+The manager app reads from the same CSV pipeline as the student app (`bu_dining_swipes_week.csv`, `bu_dining_inventory.csv`, `bu_dining_menu_items.csv`) with the same 15-minute Aramark stagger applied.
+
+---
+
 ## Meal period windows
 
 | Period | Hours |
@@ -199,7 +229,7 @@ The app persists the following keys in the browser's `localStorage`:
 
 | Key | Type | Description |
 |---|---|---|
-| `lastAdoptedHall` | `string` | Display name of the last hall the user tapped "Go Here →" on |
+| `lastAdoptedHall` | `string` | North Star event log — records which hall the user tapped "Go Here →" on; used to measure the core adoption metric (app_open → recommendation_viewed → go_here_tapped → hall_visited) |
 | `lastAdoptedMeal` | `string` | Meal period active when "Go Here →" was tapped |
 | `feedbackLog` | `JSON array` | All submitted feedback entries |
 | Preferences | Various | Dietary tags, meal plan data (managed by `PreferencesContext`) |
@@ -211,3 +241,12 @@ The app persists the following keys in the browser's `localStorage`:
 - **Menu and inventory data** covers the week of April 6–12 2026 (synthetic). Dates outside this window fall back to April 7 2026.
 - **Swipe count data** has an inherent 15-minute stagger built into the model training.
 - **No real-time data feed** is active in the current build; the live API on Render serves predictions on demand but the CSV pipeline is the primary data source for menus and inventory.
+
+---
+
+## Submission notes
+
+- Data covers the week of April 6–12 2026 (synthetic swipe events and menu/inventory data).
+- The live prediction API is hosted on Render at `https://bu-dining.onrender.com`. Cold starts may take 30–60 seconds on the free tier.
+- GitHub repository: [TODO — insert before submission]
+- Team: Aastha Gidwani · Astika Tyagi · Pratik Tribhuwan · Riya Bharamaraddi · Shravani Maskar
