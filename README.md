@@ -248,5 +248,5 @@ The app persists the following keys in the browser's `localStorage`:
 
 - Data covers the week of April 6–12 2026 (synthetic swipe events and menu/inventory data).
 - The live prediction API is hosted on Render at `https://bu-dining.onrender.com`. Cold starts may take 30–60 seconds on the free tier.
-- GitHub repository: [TODO — insert before submission]
-- Team: Aastha Gidwani · Astika Tyagi · Pratik Tribhuwan · Riya Bharamaraddi · Shravani Maskar
+- GitHub repository: https://github.com/pratrt141098/bu-dining-buddy
+- Team: Pratik Tribhuwan · Aastha Gidwani · Astika Tyagi ·  Riya Bharamaraddi · Shravani Maskar
