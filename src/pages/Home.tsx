@@ -180,9 +180,8 @@ export default function Home() {
     <MobileShell>
       {/* Top bar */}
       <header className="px-space-4 pt-[max(1rem,env(safe-area-inset-top))] pb-space-3 flex items-center justify-between">
-        <div className="flex items-center gap-space-3">
-          <div className="w-11 h-11 rounded-lg-token bg-primary text-primary-foreground flex items-center justify-center font-display font-bold text-sm">BU</div>
-          <h1 className="font-display text-2xl font-bold leading-tight tracking-tight text-foreground">BU Dining</h1>
+        <div className="flex items-center">
+          <img src="/bu_dining_buddy_logo.svg" alt="BU Dining Buddy" className="h-11 w-auto" />
         </div>
         <Link to="/profile" aria-label="Profile" className="w-11 h-11 rounded-lg-token border border-white/10 bg-card text-foreground flex items-center justify-center font-body font-medium text-sm no-tap-highlight">
           {name.charAt(0)}
