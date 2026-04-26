@@ -181,7 +181,7 @@ export default function Home() {
       {/* Top bar */}
       <header className="px-space-4 pt-[max(1rem,env(safe-area-inset-top))] pb-space-3 flex items-center justify-between">
         <div className="flex items-center">
-          <img src="/bu_dining_buddy_logo.svg" alt="BU Dining Buddy" className="h-11 w-auto" />
+          <img src="/bu_dining_buddy_logo.svg" alt="BU Dining Buddy" className="h-14 w-auto" />
         </div>
         <Link to="/profile" aria-label="Profile" className="w-11 h-11 rounded-lg-token border border-white/10 bg-card text-foreground flex items-center justify-center font-body font-medium text-sm no-tap-highlight">
           {name.charAt(0)}

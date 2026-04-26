@@ -37,7 +37,7 @@ export function Sidebar() {
           borderBottom: "1px solid rgba(255,255,255,0.06)",
         }}
       >
-        <img src="/bu_dining_buddy_logo.svg" alt="BU Dining Buddy" style={{ height: 36, width: "auto" }} />
+        <img src="/bu_dining_buddy_logo.svg" alt="BU Dining Buddy" style={{ height: 48, width: "auto" }} />
         <div
           style={{
             fontSize: 11,
