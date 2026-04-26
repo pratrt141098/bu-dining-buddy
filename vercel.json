@@ -1,0 +1,6 @@
+{
+  "rewrites": [
+    { "source": "/manager", "destination": "/manager.html" },
+    { "source": "/manager/", "destination": "/manager.html" }
+  ]
+}
