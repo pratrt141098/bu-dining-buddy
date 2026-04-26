@@ -1,0 +1,168 @@
+@tailwind utilities;
+
+html,
+body,
+#manager-root {
+  background: var(--color-bg);
+  color: var(--color-text-primary);
+  font-family: var(--font-body);
+  min-height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+button {
+  cursor: pointer;
+}
+
+/* Native select dark styling */
+select {
+  background: var(--color-surface-2);
+  color: var(--color-text-primary);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-md);
+  padding: 6px 32px 6px 10px;
+  font-family: var(--font-body);
+  font-size: 13px;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%239fb0c7' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  cursor: pointer;
+}
+
+select:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.section-label {
+  font-family: var(--font-display);
+  font-size: 13px;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+@keyframes skeleton-pulse {
+  0%,
+  100% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+.skeleton-pulse {
+  animation: skeleton-pulse 1.6s ease-in-out infinite;
+  background: var(--color-surface-2);
+  border-radius: var(--radius-md);
+}
+
+/* Recharts overrides */
+.recharts-surface {
+  overflow: visible;
+}
+
+/* ─── Print styles ─────────────────────────────────────────── */
+.mgr-print-header {
+  display: none;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@media print {
+  .mgr-sidebar,
+  .mgr-topbar,
+  .mgr-no-print {
+    display: none !important;
+  }
+
+  .mgr-print-header {
+    display: block !important;
+    color: black;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #333;
+  }
+
+  .mgr-print-header .print-title {
+    font-size: 20px;
+    font-weight: 700;
+    font-family: Georgia, serif;
+  }
+
+  .mgr-print-header .print-subtitle {
+    font-size: 12px;
+    color: #555;
+    margin-top: 4px;
+  }
+
+  .mgr-content {
+    margin-left: 0 !important;
+  }
+
+  .mgr-main {
+    padding: 24px !important;
+    background: white !important;
+    color: black !important;
+    max-width: 100% !important;
+  }
+
+  html,
+  body,
+  #manager-root {
+    background: white !important;
+    color: black !important;
+  }
+
+  /* Force readable text on white background */
+  * {
+    color: black !important;
+    border-color: #ddd !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
+  /* Restore card borders */
+  [style*="border-radius"] {
+    border: 1px solid #ddd !important;
+    padding: 12px !important;
+  }
+
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+}
